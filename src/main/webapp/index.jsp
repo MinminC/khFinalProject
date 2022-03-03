@@ -8,10 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<h1>테스트</h1>
-	
-	<!-- git에 올기2 -->
-	
 </body>
 </html>
