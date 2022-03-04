@@ -9,5 +9,6 @@
 </head>
 <body>
 	<h1>테스트</h1>
+	<h2>test</h2>
 </body>
 </html>
