@@ -1,0 +1,135 @@
+@charset "UTF-8";
+div{
+		border:1px solid red;
+		box-sizing:border-box;
+	}
+	#wrap{
+		width:1200px;
+		position:relative;
+	}
+	#search-main{
+		width:900px;
+		display:inline-block;
+		padding:0;
+		margin:0;
+	}
+	#search-option, #area-option{
+		width:auto;
+		display:inline-block;
+		position:absolute;
+		top:80px;
+		background:rgb(230,230,230);
+		width:300px;
+		height:500px;
+		padding:20px;
+	}
+	#search-tab ul, #area-option ul{
+		list-style: none;
+		padding:0;
+	}
+	#search-tab li, #area-option li{
+		display:inline-block;
+		padding:10px;
+		margin:3px;
+	}
+	#search-tab a{
+		font-size:20px;
+		font-weight: 800;
+		text-decoration: none;
+		color:gray;
+		padding: 0px 20px;
+	}
+	/*지역코드 검색*/
+	#area-option li{
+		background:gray;
+		color:white;
+		border-radius: 30px;
+	}
+	#tags{
+		padding:20px;
+	}
+	#tags>span{
+		background:rgb(170, 170, 170);
+		color:white;
+		border-radius: 50px;
+		padding:10px;
+		font-size:14px;
+	}
+	#search-option ul{
+		list-style:none;
+		padding:0px;
+		font-size:16px;
+	}
+	#search-option span{
+		border-radius: 5px;
+		background:gray;
+		color:white;
+		width:20px;
+		height:20px;
+		margin:10px;
+		display: inline-block;
+		text-align: center;
+	}
+	#place{
+		height:500px;
+	}
+	#course-summary>div{
+		display:inline-block;
+		height:300px;
+		width:200px;
+		border:1px solid gray;
+		border-radius: 20px;
+		padding: 5px;
+		margin:5px;
+	}
+	#course-summary img{
+		width:180px;
+		height:200px;
+	}
+/*추천 코스*/
+#align-bar>div, #align-bar li{
+	display:inline-block;
+}
+#align-bar li{
+	display:inline-block;
+}
+#align-bar ul{
+	float:right;
+	font-size: 16px;
+	list-style: none;
+	width:240px;
+}
+.course-one{
+	height:200px;
+	position:relative;
+}
+h4{
+	padding:0;
+	margin:0;
+}
+#course-list img, .course-text{
+	height:100%;
+	margin:0;
+	padding:0;
+	display:inline-block;
+	position:absolute;
+}
+.course-text{
+	top:0;
+	left:240px;
+	width:660px;
+	padding:10px;
+}
+#course-list img{
+	width:240px;
+	height:180px;
+	top:8px;
+	/*외곽에 line-height 속성을 주고 내부를 vertical-align 속성 주면 가운데 위치->p태그까지 영향받음. 사용X*/
+}
+
+.selected{
+	background:green !important;
+}
+.pagination{
+	justify-content: center; 
+}
