@@ -96,9 +96,11 @@
     color: yellowgreen;
     font-weight: bold;
 }
-.mpLogin {
+.mpLogin{
 
-    color: grey;
+    color: grey !important;/*왜 안먹어*/
+    
+    
     
 }
 
@@ -121,7 +123,7 @@
         <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i></div>
         <div class="mpLogin">
             <div style="margin-top: 50px;"><a href="" style="font-size: 15px; text-decoration: none;">logout</a></div>
-            <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none;"s>mypage</a></div>
+            <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none;">mypage</a></div>
         </div>
     </div>
 
