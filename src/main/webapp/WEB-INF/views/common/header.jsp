@@ -96,6 +96,10 @@
     
 }
 
+.headerOuter{
+/*position:fixed;*/
+}
+
 
 
 </style>
