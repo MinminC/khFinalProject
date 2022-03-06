@@ -36,8 +36,12 @@
     }
   
     p{
-        font-size: 10px;
+        font-size: 12px;
     }
+    
+   .footerOuter1>a{
+   		color:black;
+   }
 
 </style>
 </head>
