@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="resources/css/admin-place.css">
+<link rel="stylesheet" type="text/css" href="resources/css/search.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
@@ -14,14 +14,13 @@
 	<div id="wrap">
 		<div id="search-tab">
 			<ul>
-				<li><a onclick="location.reload();">전체</a> |</li>
+				<li class="now"><a onclick="location.reload();">전체</a> |</li>
 				<li><a href="?where=Place&keyword=${keyword}">여행지</a> |</li>
-				<li><a href="?where=Course&keyword=${keyword}">추천코스</a></li>
+				<li><a href="?where=Course&keyword=${keyword}">리뷰</a></li>
 			</ul>
 		</div>
 		<hr>
 		<div id="search-main">
-			${keyword eq ''}
 			<c:choose>
 				<c:when test="${keyword eq ''}">
 					<!-- 키워드가 없이 검색된 경우 : 키워드를 입력해주세요 -> 이거 하나만 뜸 -->
@@ -61,7 +60,6 @@
 						<!-- 카카오맵 -->
 					</div>
 					<hr>
-					<h3 class="title">코스</h3>
 					<div id="course-summary">
 						<div>
 							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">

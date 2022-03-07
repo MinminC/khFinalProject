@@ -1,8 +1,5 @@
 @charset "UTF-8";
-div{
-		border:1px solid red;
-		box-sizing:border-box;
-	}
+
 	#wrap{
 		width:1200px;
 		position:relative;
@@ -54,6 +51,7 @@ div{
 		border-radius: 50px;
 		padding:10px;
 		font-size:14px;
+		cursor:pointer;
 	}
 	#search-option ul{
 		list-style:none;
@@ -132,4 +130,8 @@ h4{
 }
 .pagination{
 	justify-content: center; 
+}
+.now a{
+	color:black;
+	font-weight: 800 !important;
 }

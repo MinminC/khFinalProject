@@ -15,82 +15,99 @@
 			<ul>
 				<li><a href="?where=Main&keyword=${keyword}">전체</a> |</li>
 				<li><a href="?where=Place&keyword=${keyword}">여행지</a> |</li>
-				<li><a onclick="location.reload();">추천코스</a></li>
+				<li class="now"><a onclick="location.reload();">리뷰</a></li>
 			</ul>
 		</div>
 		<hr>
 		<div id="search-main">
-			<div id="align-bar">
-				<i>총 <span>10</span>건</i>
-				<ul>
-					<li><a onclick="">하트 순</a></li>
-					<li><a onclick="">조회 순</a></li>
-					<li><a onclick="">최신 순</a></li>
-				</ul>
-			</div>
-			<div id="course-list">
-				<div class="course-one">
-					<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-					<div class="course-text">
-						<h4>여행을 떠나자</h4>
-						<h5>
-							하트 : <span></span>
-							조회수 : <span></span>
-							작성일 : <span></span>
-						</h5>
-						<p>
-							별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-						</p>
+			<c:choose>
+				<c:when test="${keyword eq ''}">
+					<!-- 키워드가 없이 검색된 경우 : 키워드를 입력해주세요 -> 이거 하나만 뜸 -->
+					<!-- 다른 경우는 있을까? 오류의 경우? -->
+					<h3>검색어를 입력해주세요.</h3>
+				</c:when>
+				<c:otherwise>
+					<!--검색 내용 존재-->
+					<div id="align-bar">
+						<i>총 <span>10</span>건</i>
+						<ul>
+							<li><a onclick="">하트 순</a></li>
+							<li><a onclick="">조회 순</a></li>
+							<li><a onclick="">최신 순</a></li>
+						</ul>
 					</div>
-				</div>
-				<div class="course-one">
-					<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-					<div class="course-text">
-						<h4>여행을 떠나자</h4>
-						<p>
-							별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-						</p>
-					</div>
-				</div>
-				<div class="course-one">
-					<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-					<div class="course-text">
-						<h4>여행을 떠나자</h4>
-						<p>
-							별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-						</p>
-					</div>
-				</div>
-				<div class="course-one">
-					<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-					<div class="course-text">
-						<h4>여행을 떠나자</h4>
-						<p>
-							별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-						</p>
-					</div>
-				</div>
-				<div class="course-one">
-					<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-					<div class="course-text">
-						<h4>여행을 떠나자</h4>
-						<p>
-							별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-						</p>
-					</div>
-				</div>
-				
-				<br>
+					<div id="course-list">
+						<div class="course-one">
+							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
+							<div class="course-text">
+								<h4>여행을 떠나자</h4>
+								<h5>
+									하트 : <span></span>
+									조회수 : <span></span>
+									작성일 : <span></span>
+									작성자 : <span></span>
+								</h5>
+								<p>
+									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
+								</p>
+							</div>
+						</div>
+						<div class="course-one">
+							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
+							<div class="course-text">
+								<h4>여행을 떠나자</h4>
+								<h5>
+									하트 : <span></span>
+									조회수 : <span></span>
+									작성일 : <span></span>
+									작성자 : <span></span>
+								</h5>
+								<p>
+									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
+								</p>
+							</div>
+						</div>
+						<div class="course-one">
+							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
+							<div class="course-text">
+								<h4>여행을 떠나자</h4>
+								<p>
+									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
+								</p>
+							</div>
+						</div>
+						<div class="course-one">
+							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
+							<div class="course-text">
+								<h4>여행을 떠나자</h4>
+								<p>
+									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
+								</p>
+							</div>
+						</div>
+						<div class="course-one">
+							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
+							<div class="course-text">
+								<h4>여행을 떠나자</h4>
+								<p>
+									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
+								</p>
+							</div>
+						</div>
+						
+						<br>
 
-				<!--pagination-->
-				<ul class="pagination">
-					<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item active"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">Next</a></li>
-				</ul>
-			</div>
+						<!--pagination-->
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item active"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</ul>
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div id="area-option">
 			<ul>

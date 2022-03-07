@@ -50,13 +50,11 @@ body{
 #center-btns{
 	text-align: center;
 }
-#tags>ul, #tags li{
-	display:inline-block;
-}
 #tags>ul{
 	list-style: none;
 }
 #tags li{
+	display:inline-block;
 	padding:5px;
 	margin:5px;
 	background:gray;
