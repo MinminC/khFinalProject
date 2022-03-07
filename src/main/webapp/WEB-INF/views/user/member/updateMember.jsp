@@ -20,6 +20,7 @@
    #top{
         border-bottom: 1px solid black;
         width: 1200px;
+        margin-top:200px;
     }
     #top>h1{
         margin-left: 30px;
@@ -27,6 +28,7 @@
     #main{
     	width:1200px;
     	margin:auto;
+    	
     }
 </style>
 </head>
