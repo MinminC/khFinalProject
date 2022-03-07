@@ -1,0 +1,71 @@
+@charset "UTF-8";
+
+div{
+	padding:0;
+	box-sizing: border-box;
+}
+body{
+	width:1200px;
+	margin:0;
+	padding:0;
+	position:relative;
+}
+#menubar, #wrap{
+	margin:0;
+	padding:0;
+	float:left
+}
+#menubar{
+	width:200px;
+	height:100vh;
+}
+#wrap{
+	width:1000px;
+}
+
+/*본문*/
+#tab>div{
+	display: inline-block;
+}
+#btns{
+	justify-content: left; 
+}
+#search-bar{
+	float:right; 
+}
+
+.pagination{
+	justify-content: center; 
+}
+#place-detail *{
+	text-align: center;
+}
+#place-detail img{
+	width:500px;
+	height:auto;
+}
+#place-detail td{
+	width:300px;
+}
+#center-btns{
+	text-align: center;
+}
+#tags>ul{
+	list-style: none;
+}
+#tags li{
+	display:inline-block;
+	padding:5px;
+	margin:5px;
+	background:gray;
+	border-radius: 50px;
+	color:white;
+	font-size:14px;
+}
+#tags i{
+	display: inline-block;
+	border-radius: 50%;
+	background:rgb(161, 161, 161);
+	height:20px;
+	width:20px;
+}
