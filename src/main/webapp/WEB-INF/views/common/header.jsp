@@ -85,27 +85,20 @@
         height: 50%;
     }
 
-.bottom>div{
-    width: 30%;
-    height: 100%;
-   
-}
+
 
 .mpLogin a:hover {
 
-    color: yellowgreen;
+    color: yellowgreen !important;
     font-weight: bold;
 }
-.mpLogin{
 
-    color: grey !important;/*왜 안먹어*/
-    
-    
-    
-}
 
 .headerOuter{
-/*position:fixed;*/
+position:fixed;
+background-color: white;
+width: 100%;
+
 }
 
 
@@ -122,18 +115,17 @@
         <div class="inviteAlert"><i class="fa-solid fa-envelope fa-2xl"><span style="font-size: 10px; color: red;">3</span></i></div>
         <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i></div>
         <div class="mpLogin">
-            <div style="margin-top: 50px;"><a href="" style="font-size: 15px; text-decoration: none;">logout</a></div>
-            <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none;">mypage</a></div>
+            <div style="margin-top: 50px;"><a href="" style="font-size: 15px; text-decoration: none; color: gray;">logout</a></div>
+            <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a></div>
         </div>
     </div>
 
     <div class="bottom w3-bar w3-border w3-light-grey" align="center">
       
-        <div>
+        
             <a href="#" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">홈</a> 
             <a href="#" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">일정</a>
             <a href="#" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">여행지</a>  
-        </div>
         
     </div>
 

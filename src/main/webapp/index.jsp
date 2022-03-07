@@ -79,6 +79,10 @@
       85% {margin-left:-300%;}
       100% {margin-left:0;}
     }
+
+	.slide{
+		margin-top: 200px;
+	}
 	
 </style>
 </head>
