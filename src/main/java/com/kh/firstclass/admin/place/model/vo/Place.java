@@ -18,8 +18,8 @@ public class Place {
 	private int placeLat;
 	private String placeDes;
 	private String placeTags;
-	private int areaNo;
-	private int typeCode;
+	private String area;
+	private String typeCode;
 	private String filePath;
 	private String picOrigin;
 	private String picChange;

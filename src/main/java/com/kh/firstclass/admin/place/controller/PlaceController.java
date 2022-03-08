@@ -1,5 +1,8 @@
 package com.kh.firstclass.admin.place.controller;
 
+import static com.kh.firstclass.common.model.vo.PageInfo.getPageInfo;
+import static com.kh.firstclass.common.model.vo.SaveFile.changeName;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,8 +25,7 @@ import com.kh.firstclass.admin.place.model.service.PlaceService;
 import com.kh.firstclass.admin.place.model.vo.AreaCode;
 import com.kh.firstclass.admin.place.model.vo.Place;
 import com.kh.firstclass.admin.place.model.vo.PlaceType;
-
-import static com.kh.firstclass.common.model.vo.SaveFile.*;
+import com.kh.firstclass.common.model.vo.PageInfo;
 
 @Controller
 public class PlaceController {
@@ -34,7 +36,20 @@ public class PlaceController {
 	private static final String SERVICE_KEY = "m%2BXQ6JZ8nOxT0%2B2ewkBZu5xzdEDAqebDxTFvI5yk%2BUl%2BNBdExNfOCji4u6PJkpZcGcujkx%2FLd26XQiHfFtraLw%3D%3D";
 	
 	@RequestMapping("list.pl")
-	public String selectPlaceList() {
+	public String selectPlaceList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model) {
+		
+		int listCount = placeService.countPlaceAll();
+		int currentPage = pageNo;
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		System.out.println(pi);
+		
+		ArrayList<Place> list = placeService.selectPlaceList(pi);
+		System.out.println(list);
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
 		return "admin/place/placeListView";
 	}
 	

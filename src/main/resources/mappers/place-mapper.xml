@@ -21,9 +21,42 @@
     			, #{placeLon}
     			, #{placeDes}
     			, #{placeTags}
-    			, #{areaNo}
+    			, #{area}
     			, #{typeCode}
     			, #{picOrigin}
     			, #{picChange})
 	</insert>
+	<resultMap type="place" id="placeResultMap">
+		<result column="PLACE_NO" property="placeNo" />
+		<result column="PLACE_NAME" property="placeName" />
+		<result column="PLACE_ADDRESS" property="placeAddress" />
+		<result column="PLACE_LON" property="placeLon" />
+		<result column="PLACE_LAT" property="placeLat" />
+		<result column="PLACE_DES" property="placeDes" />
+		<result column="PLACE_TAGS" property="placeTags" />
+		<result column="AREA" property="area" />
+		<result column="TYPE" property="typeCode" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="PIC_ORIGIN" property="picOrigin" />
+		<result column="PIC_CHANGE" property="picChange" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="ModifyDate" />
+		<result column="PLACE_STATUS" property="placeStatus" />
+	</resultMap>
+	<select id="countPlaceAll" resultType="_int">
+		SELECT COUNT(PLACE_NO)
+		FROM PLACE
+		WHERE PLACE_STATUS = 'Y'
+	</select>
+	<select id="selectPlaceList" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS
+		FROM VW_PLACE
+	</select>
+	<select id="selectPlaceOne" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_LON, PLACE_LAT, PLACE_DES, PLACE_TAGS
+			, AREA_NO, TYPE_CODE, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
+		FROM PLACE
+		WHERE PLACE_STATUS = 'Y'
+	</select>
 </mapper>

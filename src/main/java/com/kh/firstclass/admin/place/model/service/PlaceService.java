@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.firstclass.admin.place.model.vo.AreaCode;
 import com.kh.firstclass.admin.place.model.vo.Place;
 import com.kh.firstclass.admin.place.model.vo.PlaceType;
+import com.kh.firstclass.common.model.vo.PageInfo;
 
 public interface PlaceService {
 
@@ -21,9 +22,11 @@ public interface PlaceService {
 	//여행지 삭제
 	int deletePlace(Place p);
 	
+	//등록된 여행지 수
+	int countPlaceAll();
 	//등록된 여행지 조회
-	ArrayList<Place> selectPlaceList();
+	ArrayList<Place> selectPlaceList(PageInfo pi);
 	
 	//등록된 여행지 검색
-	ArrayList<Place> searchPlaceList(String keyword);
+	ArrayList<Place> searchPlaceList(String keyword, PageInfo pi);
 }

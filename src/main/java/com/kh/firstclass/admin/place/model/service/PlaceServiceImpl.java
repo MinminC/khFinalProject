@@ -10,6 +10,7 @@ import com.kh.firstclass.admin.place.model.dao.PlaceDao;
 import com.kh.firstclass.admin.place.model.vo.AreaCode;
 import com.kh.firstclass.admin.place.model.vo.Place;
 import com.kh.firstclass.admin.place.model.vo.PlaceType;
+import com.kh.firstclass.common.model.vo.PageInfo;
 
 @Service
 public class PlaceServiceImpl implements PlaceService{
@@ -46,13 +47,18 @@ public class PlaceServiceImpl implements PlaceService{
 	}
 
 	@Override
-	public ArrayList<Place> selectPlaceList() {
+	public ArrayList<Place> selectPlaceList(PageInfo pi) {
+		return placeDao.selectPlaceList(sqlSession, pi);
+	}
+
+	@Override
+	public ArrayList<Place> searchPlaceList(String keyword, PageInfo pi) {
 		return null;
 	}
 
 	@Override
-	public ArrayList<Place> searchPlaceList(String keyword) {
-		return null;
+	public int countPlaceAll() {
+		return placeDao.countPlaceAll(sqlSession);
 	}
 
 }
