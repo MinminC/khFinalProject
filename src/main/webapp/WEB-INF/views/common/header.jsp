@@ -11,7 +11,7 @@
 <script src="https://kit.fontawesome.com/44732af7e3.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -112,13 +112,20 @@ width: 100%;
         <div class="logo"><img src="resources/img/logo4.png" height="330px" style="margin-top: 150px;"></div>
         <div class="search"><input class="w3-input w3-border w3-light-grey" style="height: 40px; margin: auto;"></div>
         <div class="searchBtn"><img src="resources/img/searchBtn.PNG" width="50px" height="40px" style="margin-top: 0px; border: 2px solid grey;" ></div>
+    <c:choose>
+        <c:when test="${not empty loginUser}">
         <div class="inviteAlert"><i class="fa-solid fa-envelope fa-2xl"><span style="font-size: 10px; color: red;">3</span></i></div>
         <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i></div>
         <div class="mpLogin">
             <div style="margin-top: 50px;"><a href="" style="font-size: 15px; text-decoration: none; color: gray;">logout</a></div>
             <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a></div>
         </div>
-    </div>
+        </c:when>
+        <c:otherwise>
+            <a href="" class="btn btn-info" style="height:50px; margin-top:50px; background-color: #12887A;" >로그인화면으로</a>
+        </c:otherwise>
+    </c:choose>            
+        </div>
 
     <div class="bottom w3-bar w3-border w3-light-grey" align="center">
       

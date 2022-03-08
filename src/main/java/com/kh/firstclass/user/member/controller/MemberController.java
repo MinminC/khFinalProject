@@ -12,6 +12,12 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	//로그인 화면으로 이동
+	@RequestMapping("login.me")
+	public String loginMember() {
+		return "user/member/loginMember";
+	} 
+	
 	// 메인 페이지로 이동
 	@RequestMapping("myPage.me")
 	public String myPage() {
