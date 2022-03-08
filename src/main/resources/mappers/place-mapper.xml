@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="placeMapper">
+	<insert id="insertPlace" parameterType="place">
+		INSERT INTO PLACE(PLACE_NO
+						, PLACE_NAME
+						, PLACE_ADDRESS
+						, PLACE_LON
+						, PLACE_LAT
+						, PLACE_DES
+						, PLACE_TAGS
+						, AREA_NO
+						, TYPE_CODE
+						, PIC_ORIGIN
+						, PIC_CHANGE)
+		VALUES(SEQ_PLACE_NO.NEXTVAL
+				, #{placeName}
+				, #{placeAddress}
+    			, #{placeLat}
+    			, #{placeLon}
+    			, #{placeDes}
+    			, #{placeTags}
+    			, #{areaNo}
+    			, #{typeCode}
+    			, #{picOrigin}
+    			, #{picChange})
+	</insert>
+</mapper>

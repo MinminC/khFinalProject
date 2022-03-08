@@ -92,10 +92,10 @@
 		<br>
 	    <div class="slide">
 	        <ul>
-	            <li align="center"><img src="resources/img/jeju.png" style="height:500px;"></li>
-	            <li align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>
-	          <li align="center"><img src="resources/img/jeju.png" style="height: 500px;"></li>
-	          <li align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>          
+	           <li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height:500px;"></li>
+	           <li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>
+	           <li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height: 500px;"></li>
+	           <li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>          
 	        </ul>
 	      </div>
 	</div>
@@ -151,14 +151,7 @@
 			</div>
 		</div>
 	</div>
-		
-	
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-	
 	<script>
-	
-	
-		
 		// 슬라이드쇼
         window.onload = function(){
 
@@ -170,29 +163,22 @@
            }
 
            function showDivs(n) {
-           var i;
-           var x = document.getElementsByClassName("mySlides");
-           if (n > x.length) {slideIndex = 1} //슬라이드길이가 n보다 크면(다지나갔으면)1번 슬라이드로 
-           if (n < 1) {slideIndex = x.length} ;  
-           for (i = 0; i < x.length; i++) {
-               x[i].style.display = "none";
+	           var i;
+	           //var x = document.getElementsByClassName("slide").children.children;
+	           var x = $('.slide').find('li');
+	           if (n > x.length) {slideIndex = 1} //슬라이드길이가 n보다 크면(다지나갔으면)1번 슬라이드로 
+	           if (n < 1) {slideIndex = x.length} ;  
+	           for (i = 0; i < x.length; i++) {
+	               x[i].style.display = "none";
+	           }
+	           x[slideIndex-1].style.display = "block";
            }
-           x[slideIndex-1].style.display = "block";
-           }
-
        }
-		
-	window.onload = function(){
-		
-		var slideIndex = 1;
-		showDivs(slideIndex);
-	}
-		
-		
+	</script>	
+	
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 	
-	
-	</script>
 
 </body>
 </html>

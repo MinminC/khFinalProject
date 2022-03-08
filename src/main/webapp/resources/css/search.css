@@ -3,6 +3,8 @@
 	#wrap{
 		width:1200px;
 		position:relative;
+		top:200px;
+		margin: auto;
 	}
 	#search-main{
 		width:900px;

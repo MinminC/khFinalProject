@@ -11,7 +11,7 @@
 <script src="https://kit.fontawesome.com/44732af7e3.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -119,7 +119,13 @@ width: 100%;
             <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a></div>
         </div>
     </div>
-
+	<script>
+		$(function(){
+			$('.searchBtn>img').click(function(){
+				location.href='search?where=Main&keyword='+$('.search>input').val();
+			})
+		})
+	</script>
     <div class="bottom w3-bar w3-border w3-light-grey" align="center">
       
         

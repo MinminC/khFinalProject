@@ -69,18 +69,7 @@
 							</li>
 						</ul>
 						<input type="text" id="tagNow">
-						<script>
-							$(function(){
-								$('#tagNow').blur(function(){
-									$(this).siblings('ul').append('<li><span>'+$(this).val()+'</span><i>X</i></li>');
-									$(this).val('');
-								})
-								$('#tags').on('click','i', function(){
-									$(this).parent().remove();
-								})
-							})
 
-						</script>
 					</td>
 				</tr>
 				<tr>
@@ -95,5 +84,6 @@
 			<button type="button" onclick="location.href='list.pl'" class="btn btn-secondary">목록 이동</button>
 		</div>
 	</div>
+	<script type="text/javascript" src="resources/js/place.js"></script>
 </body>
 </html>

@@ -13,13 +13,14 @@
 	<div id="wrap">
 		<div id="tab">
 			<div id="btns">
-				<button onclick="location.href='insertForm.pl'">등록</button>
+				<button class="btn btn-primary" onclick="location.href='insertForm.pl'">등록</button>
 			</div>
 			<div id="search-bar">
 				<input type="text" name="keyword">
-				<button>검색</button>
+				<button class="btn btn-secondary">검색</button>
 			</div>
 		</div>
+		<br>
 		<table class="table" id="placeList">
 			<thead>
 				<tr>
@@ -94,5 +95,6 @@
 		})
 
 	</script>
+<script type="text/javascript" src="../../../../resources/js/place.js"></script>
 </body>
 </html>
