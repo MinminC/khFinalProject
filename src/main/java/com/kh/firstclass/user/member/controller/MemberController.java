@@ -43,8 +43,16 @@ public class MemberController {
 	}
 	
 	// 나의 리뷰 페이지로 이동
-		@RequestMapping("myReview.me")
-		public String myReview() {
-			return "user/member/myReview";
-		}
+	@RequestMapping("myReview.me")
+	public String myReview() {
+		return "user/member/myReview";
+	}
+		
+	// 나의 리뷰 페이지로 이동
+	@RequestMapping("myInquiry.me")
+	public String myInquiry() {
+		return "user/member/myInquiry";
+	}	
+	
+	
 }
