@@ -105,7 +105,7 @@
                     <div class="rb2"><img src="resources/img/kyeongju.png"></div>    <!-- 슬라이드 -->
                     <div class="rb3">                        <!-- 여행지 이름, 별점 -->
                         <div class="rb3_1">제주도</div>
-                        <div class="rb3_2">★★★★★</div> 
+                        <div class="rb3_2">★★</div> 
                     </div>
                     <div class="rb4">가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가</div> <!-- 내용 : 길이가 길어지면 슬라이드로-->
                 </div>
@@ -115,7 +115,7 @@
                     <div class="rb2"><img src="resources/img/logo2.png"></div>    <!-- 슬라이드 -->
                     <div class="rb3">                        <!-- 여행지 이름, 별점 -->
                         <div class="rb3_1">제주도</div>
-                        <div class="rb3_2">★★★★★</div> 
+                        <div class="rb3_2">★★★★</div> 
                     </div>
                     <div class="rb4">가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가</div> <!-- 내용 : 길이가 길어지면 슬라이드로-->
                 </div>
@@ -125,7 +125,7 @@
                     <div class="rb2">사진들어가는부분</div>    <!-- 슬라이드 -->
                     <div class="rb3">                        <!-- 여행지 이름, 별점 -->
                         <div class="rb3_1">제주도</div>
-                        <div class="rb3_2">★★★★★</div> 
+                        <div class="rb3_2">★</div> 
                     </div>
                     <div class="rb4">가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가나다라마가</div> <!-- 내용 : 길이가 길어지면 슬라이드로-->
                 </div>

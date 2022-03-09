@@ -45,13 +45,7 @@ public class MemberController {
 	public String mySchedule() {
 		return "user/member/mySchedule";
 	}
-	
-	// 나의 리뷰 페이지로 이동
-		@RequestMapping("myReview.me")
-		public String myReview() {
-			return "user/member/myReview";
-		}
-		
+
 		//로그인
 		@RequestMapping("login.me")
 		public ModelAndView loginMember(Member m, ModelAndView mv,HttpSession session) {
@@ -81,4 +75,19 @@ public class MemberController {
 			
 			return "redirect:/";
 		}
+	
+ 
+	// 나의 리뷰 페이지로 이동
+  @RequestMapping("myReview.me")
+	public String myReview() {
+		return "user/member/myReview";
+	}
+		
+	// 나의 리뷰 페이지로 이동
+	@RequestMapping("myInquiry.me")
+	public String myInquiry() {
+		return "user/member/myInquiry";
+	}	
+	
+
 }

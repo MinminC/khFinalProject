@@ -77,7 +77,7 @@
 	    <div class="main">
 	        <div class="first" onclick="location.href='mySchedule.me'"><div style="height: 15px;"></div><div><b>나의 일정</b></div><div style="padding-top: 20px; font-size: 16px;">참여한 일정을 확인할 수 있습니다.</div></div>
 	        <div class="second" onclick="location.href='myReview.me'"><div style="height: 15px;"></div><div><b>나의 리뷰</b></div><div style="padding-top: 20px; font-size: 16px;">작성한 리뷰를 확인할 수 있습니다.</div></div>
-	        <div class="third"><div style="height: 15px;"></div><div><b>1:1문의</b></div><div style="padding-top: 20px; font-size: 16px;">관리자에게 문의할 수 있습니다.</div></div>
+	        <div class="third" onclick="location.href='myInquiry.me'"><div style="height: 15px;"></div><div><b>1:1문의</b></div><div style="padding-top: 20px; font-size: 16px;">관리자에게 문의할 수 있습니다.</div></div>
 	    </div>
 	</div>
     

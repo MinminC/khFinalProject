@@ -13,7 +13,7 @@
         }
     .innerOuter {
           border:1px solid lightgray;
-          width:60%;
+          width:100%;
           margin:auto;
           padding:5% 10%;
    }
@@ -45,7 +45,7 @@
 	        <br><br>
 	        <div class="innerOuter">
 	            
-                
+
 
 
 	        </div>
