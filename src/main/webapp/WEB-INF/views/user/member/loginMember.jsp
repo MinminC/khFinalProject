@@ -56,7 +56,7 @@ div{
                 <input class="w3-input w3-border w3-light-grey" type="text" name="userId">
                 <br>
                 <label><b>비밀번호</b></label>
-                <input class="w3-input w3-border w3-light-grey" type="text" name="userPwd">
+                <input class="w3-input w3-border w3-light-grey" type="password" name="userPwd">
             <br><br>
             <button class="w3-bar-item w3-button w3-teal" style="width:600px">로그인</button>
         </form>

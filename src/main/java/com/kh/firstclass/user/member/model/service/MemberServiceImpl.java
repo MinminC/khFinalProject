@@ -2,10 +2,12 @@ package com.kh.firstclass.user.member.model.service;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.kh.firstclass.user.member.model.dao.MemberDao;
 import com.kh.firstclass.user.member.model.vo.Member;
 
+@Service
 public class MemberServiceImpl implements MemberService{
 
 	@Autowired
@@ -17,8 +19,8 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member loginMember(Member m) {
 		
-		memberDao.loginMember(sqlSession,m);
-		
+		//memberDao.loginMember(sqlSession,m);
+		System.out.println(memberDao.loginMember(sqlSession,m));
 		return memberDao.loginMember(sqlSession,m);
 	}
 

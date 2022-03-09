@@ -5,12 +5,7 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
-	<typeAliases>
-		<!-- &lt; typeAlias type="com.kh.spring.member.model.vo.Member" alias="member"/ &gt; -->
-	</typeAliases>
-	 <mappers>
-	 	<!-- &lt; mapper resource="/mappers/member-mapper.xml"/ &gt; -->
-	 </mappers>
+	
 	 
 	 	<!--유의사항: 미리 등록해두려면 해당 클래스가 진짜 존재하고 있는 상태여야함  -->
 	<typeAliases>
@@ -24,6 +19,6 @@
 	 -->
 	 
 	 <mappers>
-		 <mapper resource="/mappers/member-mapper.xml"/>
+		 <mapper resource="mappers/member-mapper.xml"/>
 	 </mappers>
 </configuration>

@@ -22,7 +22,6 @@ public class Member {
 	private String userPwd; //USER_PWD
 	private String userName; //USER_NAME
 	private String birth;
-	private String age; //AGE
 	private String gender; //GENDER
 	private String phone; //PHONE
 	private String email; //EMAIL 

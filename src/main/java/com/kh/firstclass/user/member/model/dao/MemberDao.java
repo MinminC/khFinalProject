@@ -9,6 +9,7 @@ import com.kh.firstclass.user.member.model.vo.Member;
 public class MemberDao {
 
 	public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
+		
 		return sqlSession.selectOne("memberMapper.loginMember",m);//loginUser는 한행오니까
 	}
 	

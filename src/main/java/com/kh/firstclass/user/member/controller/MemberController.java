@@ -57,7 +57,7 @@ public class MemberController {
 		public ModelAndView loginMember(Member m, ModelAndView mv,HttpSession session) {
 			
 			Member loginUser = memberService.loginMember(m);
-			
+			System.out.println(loginUser);
 			if(loginUser==null) { //로그인실패 =>에러문구를 requestScope에 담고 에러페이지로 포워딩
 				
 				mv.addObject("errorMsg","에러발생");
