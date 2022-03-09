@@ -5,10 +5,20 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
+	
+	 
+	 	<!--유의사항: 미리 등록해두려면 해당 클래스가 진짜 존재하고 있는 상태여야함  -->
 	<typeAliases>
-		<!-- &lt; typeAlias type="com.kh.spring.member.model.vo.Member" alias="member"/ &gt; -->
+		<typeAlias type="com.kh.firstclass.user.member.model.vo.Member" alias="member"/>
 	</typeAliases>
+
+	<!-- 
+		environment, dataSource에 기술했던 DB연결정보 -> 이번에는 root-context.xml
+		=>DB등록정보는 서버연동과 동시에 이루워져아 되기 때문에 
+	 	서버켜짐과 동시에 바로 읽혀지는 파일인 root-context.xml 문서에 기술할 예정
+	 -->
+	 
 	 <mappers>
-	 	<!-- &lt; mapper resource="/mappers/member-mapper.xml"/ &gt; -->
+		 <mapper resource="mappers/member-mapper.xml"/>
 	 </mappers>
 </configuration>

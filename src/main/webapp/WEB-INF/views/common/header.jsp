@@ -25,7 +25,7 @@
 
     .headerOuter{
         width: 1200px;
-        height: 200px;
+        height: 180px;
         margin: auto;
     }
 
@@ -115,14 +115,14 @@ width: 100%;
     <c:choose>
         <c:when test="${not empty loginUser}">
         <div class="inviteAlert"><i class="fa-solid fa-envelope fa-2xl"><span style="font-size: 10px; color: red;">3</span></i></div>
-        <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i></div>
+        <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i><label>${loginUser.userName}님 환영합니다</label></div>
         <div class="mpLogin">
-            <div style="margin-top: 50px;"><a href="" style="font-size: 15px; text-decoration: none; color: gray;">logout</a></div>
+            <div style="margin-top: 50px;"><a href="logout.me" style="font-size: 15px; text-decoration: none; color: gray;">logout</a></div>
             <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a></div>
         </div>
         </c:when>
         <c:otherwise>
-            <a href="" class="btn btn-info" style="height:50px; margin-top:50px; background-color: #12887A;" >로그인화면으로</a>
+            <a href="loginForm.me" class="btn btn-info" style="height:50px; margin-top:50px; background-color: #12887A;" >로그인화면으로</a>
         </c:otherwise>
     </c:choose>            
         </div>
