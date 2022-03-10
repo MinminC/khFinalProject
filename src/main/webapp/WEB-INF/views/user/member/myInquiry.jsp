@@ -49,6 +49,12 @@
         width: 100%;
         height: 40px;
     }
+    .pagination{
+    	text-align: center;
+    	margin: auto;
+    	width: 250px;
+    	margin-bottom:12px;
+    }
 </style>
 </head>
 <body>
@@ -61,6 +67,8 @@
 		        <h3>나의 문의내역</h3>
 		</div>
 	    <div class="content">
+            <br>
+            <a class="btn btn-secondary" style="float:right;" href="enrollForm.bo">글쓰기</a>
 	        <br><br>
 	        <div class="innerOuter">
                 <table>
@@ -72,37 +80,73 @@
                             <th style="width: 10%;">처리</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>                        
 
-                        <tr>
-                            <td>3</td>
-                            <td>이상해씨이상해풀이상해꽃꼬부기어니부기거북왕</td>
-                            <td>2022-03-09</td>
-                            <td>처리중</td> <!-- 댓글이 있으면 처리완료로 수정, 관리자만 댓글 가능 -->
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>이상해씨</td>
-                            <td>2022-03-09</td>
-                            <td>처리중</td>
-                        </tr>
-
-                        <tr>
-                            <td>1</td>
-                            <td>이상해요</td>
-                            <td>2022-03-08</td>
-                            <td>처리완료</td>
-                        </tr>
+                        <c:forEach var="b" items="${ list }">
+		                    <tr>
+		                        <td class="no">${ b.inqNo }</td>
+		                        <td>${ b.inqTitle }</td>
+		                        <td>${ b.createDate }</td>
+		                        <td>
+		                       		<c:if test="${ 'N' eq b.inqStatus }">
+		                       			처리중
+		                       		</c:if>
+		                       		<c:if test="${ 'Y' eq b.inqStatus }">
+		                       			처리완료
+		                       		</c:if>
+		                        </td>
+		                    </tr>
+                    	</c:forEach>
+                    
                     </tbody>
                 </table>
+				<hr>
+				
+                <!-- 페이징처리(5개) -->
+				<div id="pagingArea">
+                	<ul class="pagination">
+                
+	            	<c:choose>
+		            	<c:when test="${ pi.currentPage eq 1 }">
+		                    <li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a class="page-link" href="myInquiry.me?cpage=${pi.currentPage - 1}">&lt;</a>
+						</c:otherwise>
+	            	</c:choose>
 
-                <!-- 페이징처리(10개) -->
+					<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+                    	<li class="page-item"><a class="page-link" href="myInquiry.me?cpage=${p}">${ p }</a></li>
+					</c:forEach>
+					
+					
+					<c:choose>
+						<c:when test="${ pi.currentPage eq pi.maxPage }">
+                    		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item"><a class="page-link" href="myInquiry.me?cpage=${pi.currentPage + 1}">&gt;</a></li>
+                		</c:otherwise>
+					</c:choose>
+                
+                	</ul>
+                                
+            	</div>
+
 
 	        </div>
 	        <br><br>
 	    </div>
 	</div>
+	
+	<script>
+			$(function(){
+				$('tbody>tr').click(function(){
+					location.href="detail.inq?no="+$(this).children('.no').text();
+				})
+			})
+	</script>
+	
 	<jsp:include page="../../common/footer.jsp" />
 </body>
 </html>
