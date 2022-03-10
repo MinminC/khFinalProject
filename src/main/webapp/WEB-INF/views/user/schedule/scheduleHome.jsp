@@ -29,7 +29,8 @@
 <body>
 
   <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-  <div class="container">
+  
+  <div class="container" style="margin-top:200px">
     <div class="row">
       <div class="col">
         <p>모임 일정 Page</p>
@@ -85,6 +86,7 @@
             }
             socket.onmessage = function (e) {
               console.log("메세지가 도착했습니다.");
+              console.log(e);
               $("#exampleFormControlTextarea1").val(e.data);
             }
           }
