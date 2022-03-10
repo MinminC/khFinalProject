@@ -55,7 +55,7 @@
 	</select>
 	<select id="selectPlaceDetail" parameterType="_int" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_LON, PLACE_LAT, PLACE_DES, PLACE_TAGS
-			, AREA_NO, TYPE_CODE, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
+			, AREA_NO AS AREA, TYPE_CODE AS TYPE, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
 		FROM PLACE
 		WHERE PLACE_STATUS = 'Y'
 			AND PLACE_NO = #{placeNo}
@@ -96,17 +96,32 @@
 		UPDATE PLACE 
 		SET 
 			PLACE_NAME = #{placeName}
-			PLACE_ADDRESS = #{placeAddress}
-			PLACE_DES = #{placeDes}
-			PLACE_TAGS = #{placeTags}
-			PLACE_LAT = #{placeLat}
-			PLACE_LON = #{placeLon}
-			AREA_NO = #{area}
-			TYPE_CODE = #{typeCode}
-			FILE_PATH = #{filePath}
-			PIC_ORIGIN = #{picOrigin}
-			PIC_CHANGE = #{picChange}
-			MODIFY_DATE = SYSDATE
+			,PLACE_ADDRESS = #{placeAddress}
+			,PLACE_DES = #{placeDes}
+			,PLACE_TAGS = #{placeTags}
+			,PLACE_LAT = #{placeLat}
+			,PLACE_LON = #{placeLon}
+			,AREA_NO = #{area}
+			,TYPE_CODE = #{typeCode}
+			,PIC_ORIGIN = #{picOrigin}
+			,PIC_CHANGE = #{picChange}
+			,MODIFY_DATE = SYSDATE
 		WHERE PLACE_NO = #{placeNo}
 	</update>
+	<resultMap type="com.kh.firstclass.admin.place.model.vo.AreaCode" id="areaResultMap">
+		<result column="AREA_NO" property="areaNo" />
+		<result column="SIDO" property="sido" />
+	</resultMap>
+	<select id="selectAreaCode" resultMap="areaResultMap">
+		SELECT AREA_NO, SIDO
+		FROM AREA_CODE
+	</select>
+	<resultMap type="com.kh.firstclass.admin.place.model.vo.PlaceType" id="typeResultMap">
+		<result column="TYPE_CODE" property="typeCode" />
+		<result column="TYPE_CONTENT" property="typeContent" />
+	</resultMap>
+	<select id="selectPlaceType" resultMap="typeResultMap">
+		SELECT TYPE_CODE, TYPE_CONTENT
+		FROM PLACE_TYPE
+	</select>
 </mapper>

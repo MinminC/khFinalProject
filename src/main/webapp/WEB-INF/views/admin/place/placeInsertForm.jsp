@@ -25,13 +25,7 @@
                         <th>주소</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>산림박물관</td>
-                        <td>강원도</td>
-                    </tr>
-                    
-                </tbody>
+                <tbody></tbody>
             </table>
             <!--pagination-->
             <ul class="pagination">
@@ -46,37 +40,32 @@
         <form action="insert.pl" method="post" enctype="multipart/form-data">
             <div id="selectResult">
                 <input type="text" name="placeName" required><br>
-                    <img class="image" src="" alt="사진없음" width="500" height="363">
-                    <input type="file" name="upfile" required>
-                    <p>
-                        위도 : <input type="text" min="0" size="3" name="placeLat" required>
-                        경도 : <input type="text" min="0" size="3" name="placeLon" required><br>
-                        주소 : <input type="text" size="50" name="placeAddress" required>
-                    </p>
-                    <p>
-                        지역 코드 : 
-                        <select name="area">
-                            <c:forEach var="i" items="${areaCode}">
-                                <option value="${i.areaNo}">${i.sido}</option>
-                            </c:forEach>
-                        </select>
-                        여행지 타입 : 
-                        <select name="typeCode">
-                            <c:forEach var="i" items="${placeType}">
-                                <option value="${i.areaNo}">${i.sido}</option>
-                            </c:forEach>
-                        </select>
-                    </p>
+                <img id="placeImg" class="image" src="" alt="사진없음" width="500" height="363">
+                <input type="file" onchange="changeImg(this);" name="upfile" required>
+                <p>
+                    위도 : <input type="text" min="0" size="3" name="placeLat" required>
+                    경도 : <input type="text" min="0" size="3" name="placeLon" required><br>
+                    주소 : <input type="text" size="50" name="placeAddress" required>
+                </p>
+                <p>
+                    지역 코드 : 
+                    <select name="area">
+                        <c:forEach var="i" items="${areaCode}">
+                            <option value="${i.areaNo}">${i.sido}</option>
+                        </c:forEach>
+                    </select>
+                    여행지 타입 : 
+                    <select name="typeCode">
+                        <c:forEach var="i" items="${placeType}">
+                            <option value="${i.typeCode}">${i.typeContent}</option>
+                        </c:forEach>
+                    </select>
+                </p>
             </div>
             <br clear="both" />
             <div id="tags">
                 <button class="btn btn-danger" onclick="$(this).next().empty()">초기화</button>
-                <ul>
-                    <li>
-                        <span>제주도</span>
-                        <i>X</i>    
-                    </li>
-                </ul>
+                <ul></ul>
                 <input type="text" id="tagNow">
                 <input type="hidden" name="placeTags">
             </div>

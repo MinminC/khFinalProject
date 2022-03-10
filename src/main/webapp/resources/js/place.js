@@ -29,27 +29,19 @@ $(function(){
     
     //테이블의 행을 클릭하면 selectPlace 영역에 뜸
     $('#placeList tbody').on('click', 'tr', function(){
-        console.log(this);
-        console.log($(this).find('.areacode').text()+":"+$(this).find('.contenttype').text());
-        var value='';
-        value = '<input type="text" name="placeName" value="'+$(this).find('.title').text()+'"><br>'
-                +'<img class="image" src="'+$(this).find('.firstimage').val()+'" alt="사진없음">'
-                +'<input type="file" name="upfile">'
-                +'<p>위도 : <input type="text" min="0" size="3" name="placeLat" value="'+$(this).find('.mapx').val()+'">, '
-                +'경도 : <input type="text" min="0" size="3" name="placeLon" value="'+$(this).find('.mapy').val()+'"><br>'
-                +'주소 : <input type="text" size="50" name="placeAddress" value="'+$(this).find('.address').text()+'"></p>'
-                +'<p>지역 코드 : <input type="text" size="3" name="area" value="'+$(this).find('.areacode').val()+'">'
-                +'여행지 타입 : <input type="text" size="3" name="typeCode" value="'+$(this).find('.contenttype').val()+'"></p>'
-                ;
-                console.log(value);
-        $('#selectResult').html(value);
+        $('input[name=placeName]').val($(this).find('.title').text());
+        $('input[name=placeLat]').val($(this).find('.mapx').val());
+        $('input[name=placeLon]').val($(this).find('.mapy').val());
+        $('#selectResult>img').attr('src', $(this).find('.firstimage').val());
+        $('input[name=placeAddress]').val($(this).find('.address').text());
+        $('select[name=area]>option[value='+$(this).find('.areacode').val()+']').attr('selected', true);
+        $('select[name=typeCode]>option[value='+$(this).find('.contenttype').val()+']').attr('selected', true);
     })
 
     //여행지 등록-이미지 초기화
     $('#selectResult').on('click','img',function(){
         //파일을 넣을 수 있게. 초기화 누르면 원래 이미지로 다시 변경
     })
-    //여행지 등록-클릭하면 이미지 삽입
 
     //위도, 경도에 숫자와 점 이외의 값이 들어가면 화냄
     $('input[name=placeLat]').keyup(function(){
@@ -125,4 +117,15 @@ function checkIntegrity(){
         return false
     }
     return true;
+}
+
+function changeImg(picture){
+    if(picture.files.length == 1){
+        var reader = new FileReader();
+        reader.readAsDataURL(picture.files[0]);
+        reader.onload = function(e){
+            $('#placeImg').attr('src', e.target.result);
+        }
+    }else
+        $('#placeImg').attr('src', null);
 }

@@ -44,10 +44,9 @@ public class PlaceController {
 		int pageLimit = 5;
 		int boardLimit = 8;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-		System.out.println(pi);
 		
 		ArrayList<Place> list = placeService.selectPlaceList(pi);
-		System.out.println(list);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		
@@ -62,6 +61,11 @@ public class PlaceController {
 		for(String str: p.getPlaceTags().split(","))
 			tags.add(str);
 
+		ArrayList<AreaCode> areaCode = placeService.selectAreaCode();
+		ArrayList<PlaceType> placeType = placeService.selectPlaceType();
+		
+		model.addAttribute("areaCode", areaCode);
+		model.addAttribute("placeType", placeType);
 		model.addAttribute("tags", tags);
 		model.addAttribute("p", p);
 		model.addAttribute("placeNo", placeNo);
@@ -70,8 +74,15 @@ public class PlaceController {
 	}
 
 	@RequestMapping("update.pl")
-	public String updatePlace(Place p, Model model){
+	public String updatePlace(Place p, MultipartFile upfile, Model model, HttpSession session){
+		
+		if(upfile != null && !upfile.getOriginalFilename().equals("")) {
+			p.setPicOrigin(upfile.getOriginalFilename());
+			p.setPicChange(changeName("place", upfile, session));
+		}
+		
 		int result = placeService.updatePlace(p);
+		
 		if(result>0) {
 			model.addAttribute("alertMsg", "수정성공");
 			return "redirect:detail.pl?placeNo="+p.getPlaceNo();
@@ -95,14 +106,12 @@ public class PlaceController {
 	@RequestMapping("insert.pl")
 	public String insertPlace(Place p, MultipartFile upfile, HttpSession session, Model model) {
 		//파일이 존재한다면(존재함)
-		System.out.println(p);
-		System.out.println(upfile);
 		
-		if(!upfile.getOriginalFilename().contentEquals("")) {
+		if(!upfile.getOriginalFilename().equals("")) {
 			p.setPicOrigin(upfile.getOriginalFilename());
 			p.setPicChange(changeName("place", upfile, session));
 		}
-		System.out.println(p);
+		
 		//이미지를 서버에 저장 -> 링크 임베드 방식?
 
 		return placeService.insertPlace(p) > 0?"redirect:list.pl":"common/errorPage";
@@ -147,7 +156,7 @@ public class PlaceController {
 		
 		br.close();
 		urlConnection.disconnect();
-		System.out.println(responseText);
+		
 		return responseText;
 	}
 	
@@ -168,9 +177,7 @@ public class PlaceController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
-		System.out.println(keyword);
-		System.out.println(pi);
-		System.out.println(list);
+
 		return "admin/place/placeListView";
 	}
 	
@@ -189,7 +196,7 @@ public class PlaceController {
 
 		model.addAttribute("tags", tags);
 		model.addAttribute("p", p);
-		System.out.println(p);
+		
 		return p != null?"admin/place/placeDetailView":"common/errorPage";
 	}
 }

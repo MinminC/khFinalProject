@@ -34,6 +34,12 @@
 					<td>${p.placeLat}</td>
 				</tr>
 				<tr>
+					<th>지역</th>
+					<td>${p.area}</td>
+					<th>여행지 타입</th>
+					<td>${p.typeCode}</td>
+				</tr>
+				<tr>
 					<td colspan="4" id="tags">
 						<c:forEach var="i" items="${tags}">
 							<span>${i}</span>
