@@ -65,7 +65,7 @@ div{
         <div class="login2" align="center">
             <br><br>
             <!--onclick속성으로 클릭하면 id01 모달 뜰 수 있게 해라 -->
-                <button class="w3-bar-item w3-button"><a href="" style="color: black;">회원가입</a></button> 
+                <button class="w3-bar-item w3-button"><a href="enrollForm.me" style="color: black;">회원가입</a></button> 
                 <button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button">아이디찾기</button>
                 <button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button">비밀번호찾기</button>
             
