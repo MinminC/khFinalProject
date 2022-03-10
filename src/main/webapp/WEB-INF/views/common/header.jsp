@@ -150,13 +150,9 @@ div {
 		<div class="bottom w3-bar w3-border w3-light-grey" align="center">
 
 
-			<a href="<%=request.getContextPath()%>"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">홈</a> <a href="admin.me"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">일정</a> <a href="#"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">여행지</a>
+			<a href="<%=request.getContextPath()%>"class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">홈</a> 
+			<a href="admin.me" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">일정</a>
+			<a href="#"	class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">여행지</a>
 
 		</div>
 
