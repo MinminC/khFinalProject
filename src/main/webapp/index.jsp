@@ -94,10 +94,10 @@
 		<br>
 	    <div class="slide">
 	        <ul>
-	            <li align="center"><img src="resources/img/jeju.png" style="height:500px;"></li>
-	            <li align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>
-	          <li align="center"><img src="resources/img/jeju.png" style="height: 500px;"></li>
-	          <li align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>          
+	           <li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height:500px;"></li>
+	           <li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>
+	           <li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height: 500px;"></li>
+	           <li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>          
 	        </ul>
 	      </div>
 	</div>
@@ -205,7 +205,6 @@
 			}
 			x[slideIndex-1].style.display = "block";
            }
-
        }
 		
 	
@@ -217,9 +216,9 @@
 	
 		
 	
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	
 	
-	</script>
 
 </body>
 </html>
