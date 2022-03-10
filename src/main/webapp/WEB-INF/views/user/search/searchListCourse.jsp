@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/search.css">
 </head>
 <body>
-	<jsp:include page="/index.jsp" />
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<div id="wrap">
 		<div id="search-tab">
 			<ul>

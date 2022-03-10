@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="placeMapper">
+	<insert id="insertPlace" parameterType="place">
+		INSERT INTO PLACE(PLACE_NO
+						, PLACE_NAME
+						, PLACE_ADDRESS
+						, PLACE_LON
+						, PLACE_LAT
+						, PLACE_DES
+						, PLACE_TAGS
+						, AREA_NO
+						, TYPE_CODE
+						, PIC_ORIGIN
+						, PIC_CHANGE)
+		VALUES(SEQ_PLACE_NO.NEXTVAL
+				, #{placeName}
+				, #{placeAddress}
+    			, #{placeLat}
+    			, #{placeLon}
+    			, #{placeDes}
+    			, #{placeTags}
+    			, #{area}
+    			, #{typeCode}
+    			, #{picOrigin}
+    			, #{picChange})
+	</insert>
+	<resultMap type="place" id="placeResultMap">
+		<result column="PLACE_NO" property="placeNo" />
+		<result column="PLACE_NAME" property="placeName" />
+		<result column="PLACE_ADDRESS" property="placeAddress" />
+		<result column="PLACE_LON" property="placeLon" />
+		<result column="PLACE_LAT" property="placeLat" />
+		<result column="PLACE_DES" property="placeDes" />
+		<result column="PLACE_TAGS" property="placeTags" />
+		<result column="AREA" property="area" />
+		<result column="TYPE" property="typeCode" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="PIC_ORIGIN" property="picOrigin" />
+		<result column="PIC_CHANGE" property="picChange" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="ModifyDate" />
+		<result column="PLACE_STATUS" property="placeStatus" />
+	</resultMap>
+	<select id="countPlaceAll" resultType="_int">
+		SELECT COUNT(PLACE_NO)
+		FROM PLACE
+		WHERE PLACE_STATUS = 'Y'
+	</select>
+	<select id="selectPlaceList" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS
+		FROM VW_PLACE
+	</select>
+	<select id="selectPlaceDetail" parameterType="_int" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_LON, PLACE_LAT, PLACE_DES, PLACE_TAGS
+			, AREA_NO AS AREA, TYPE_CODE AS TYPE, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
+		FROM PLACE
+		WHERE PLACE_STATUS = 'Y'
+			AND PLACE_NO = #{placeNo}
+	</select>
+	<select id="countPlaceByKeyword" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(PLACE_NO)
+		FROM VW_PLACE
+		WHERE  
+			<choose>
+				<when test="type == 'name'">
+					PLACE_NAME
+				</when>
+				<otherwise>
+					PLACE_TAGS
+				</otherwise>
+			</choose>
+			LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="searchPlaceList" parameterType="hashmap" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS
+		FROM VW_PLACE
+		WHERE  
+			<choose>
+				<when test="type == 'name'">
+					PLACE_NAME
+				</when>
+				<otherwise>
+					PLACE_TAGS
+				</otherwise>
+			</choose>
+			LIKE '%'||#{keyword}||'%'
+	</select>
+	<update id="deletePlace" parameterType="_int">
+		UPDATE PLACE SET PLACE_STATUS = 'N' WHERE PLACE_NO = #{placeNo}
+	</update>
+	<update id="updatePlace" parameterType="place">
+		UPDATE PLACE 
+		SET 
+			PLACE_NAME = #{placeName}
+			,PLACE_ADDRESS = #{placeAddress}
+			,PLACE_DES = #{placeDes}
+			,PLACE_TAGS = #{placeTags}
+			,PLACE_LAT = #{placeLat}
+			,PLACE_LON = #{placeLon}
+			,AREA_NO = #{area}
+			,TYPE_CODE = #{typeCode}
+			,PIC_ORIGIN = #{picOrigin}
+			,PIC_CHANGE = #{picChange}
+			,MODIFY_DATE = SYSDATE
+		WHERE PLACE_NO = #{placeNo}
+	</update>
+	<resultMap type="com.kh.firstclass.admin.place.model.vo.AreaCode" id="areaResultMap">
+		<result column="AREA_NO" property="areaNo" />
+		<result column="SIDO" property="sido" />
+	</resultMap>
+	<select id="selectAreaCode" resultMap="areaResultMap">
+		SELECT AREA_NO, SIDO
+		FROM AREA_CODE
+	</select>
+	<resultMap type="com.kh.firstclass.admin.place.model.vo.PlaceType" id="typeResultMap">
+		<result column="TYPE_CODE" property="typeCode" />
+		<result column="TYPE_CONTENT" property="typeContent" />
+	</resultMap>
+	<select id="selectPlaceType" resultMap="typeResultMap">
+		SELECT TYPE_CODE, TYPE_CONTENT
+		FROM PLACE_TYPE
+	</select>
+</mapper>
