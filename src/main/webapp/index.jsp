@@ -8,6 +8,8 @@
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="resources/css/search.css">
+
 <style>
 	div{
 		/*border: solid pink 1px;*/
@@ -21,7 +23,7 @@
 		margin: auto;
 	}
 
-	.TravleTag{
+	#tags{
 		width: 100%;
 		height: 10%;
 	}
@@ -101,9 +103,22 @@
 	</div>
 	
 	<div class="outer">
-		<div class="TravleTag">
-		<h3>여긴 태그자리야~</h3>
+		<br>
+		<div id="tags"><!-- 여행지 태그 10개, 코스 태그 10개 -->
+			<span class="selected">#제주도</span>
+			<span>#감귤농장</span>
+			<span>#제주도</span>
+			<span>#감귤농장</span>
+			<span>#제주도</span>
+			<span>#감귤농장</span>
+			<span>#제주도</span>
+			<span>#감귤농장</span>
+			<span>#제주도</span>
+			<span>#감귤농장</span>
+			<span>#제주도</span>
+			<span>#감귤농장</span>
 		</div>
+
 
 		<div class="best5Title"><h4>Best5</h4></div>
 		<div class="best5">
@@ -151,7 +166,24 @@
 			</div>
 		</div>
 	</div>
+		
+	
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+
 	<script>
+		$(function(){
+			$('#tags').on('click','span',function(){ //tags의 하위요소가 클릭이 되면 
+				if($(this).hasClass('selected')) //클릭한 클래스가 select 클래스면 한번 더 선택되면 선택이 해제될 수 있게 select는 지워준다 
+					$(this).removeClass('selected'); 
+				else
+					$(this).addClass('selected');
+			})
+		})
+	</script>
+
+	
+	<script>
+
 		// 슬라이드쇼
         window.onload = function(){
 
@@ -159,22 +191,30 @@
            showDivs(slideIndex);
 
            function plusDivs(n) {
-           showDivs(slideIndex += n);
+           	showDivs(slideIndex += n);
            }
 
            function showDivs(n) {
-	           var i;
-	           //var x = document.getElementsByClassName("slide").children.children;
-	           var x = $('.slide').find('li');
-	           if (n > x.length) {slideIndex = 1} //슬라이드길이가 n보다 크면(다지나갔으면)1번 슬라이드로 
-	           if (n < 1) {slideIndex = x.length} ;  
-	           for (i = 0; i < x.length; i++) {
-	               x[i].style.display = "none";
-	           }
-	           x[slideIndex-1].style.display = "block";
+			var i;
+			//var x = document.getElementsByClassName("slides");
+			var x = $('.slide').find('li');
+			if (n > x.length) {slideIndex = 1} //슬라이드길이가 n보다 크면(다지나갔으면)1번 슬라이드로 
+			if (n < 1) {slideIndex = x.length} ;  
+			for (i = 0; i < x.length; i++) {
+				x[i].style.display = "none";
+			}
+			x[slideIndex-1].style.display = "block";
            }
        }
-	</script>	
+		
+	
+	window.onload = function(){
+		
+		var slideIndex = 1;
+		showDivs(slideIndex);
+	}
+	
+		
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 	

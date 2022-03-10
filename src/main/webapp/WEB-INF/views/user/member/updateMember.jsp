@@ -20,6 +20,7 @@
    #top{
         border-bottom: 1px solid black;
         width: 1200px;
+        margin-top:200px;
     }
     #top>h1{
         margin-left: 30px;
@@ -27,6 +28,7 @@
     #main{
     	width:1200px;
     	margin:auto;
+    	
     }
 </style>
 </head>
@@ -53,11 +55,11 @@
 						<label for="birth"> 생년월일  </label>
 	                    <input type="text" class="form-control" id="birth" value="${loginUser.birth}" name="birth" readonly> <br>
 	
-	                    <label for="age"> &nbsp; 성별  </label>
-	                    <input type="number" class="form-control" id="gender" value="${loginUser.age}" name="gender" readonly> <br>
+	                    <label for="gender"> &nbsp; 성별  </label>
+	                    <input type="text" class="form-control" id="gender" value="${loginUser.gender}" name="gender" readonly> <br>
 	
 	                    <label for="phone"> &nbsp; 연락처  </label>
-	                    <input type="tel" class="form-control" id="phone" value="${loginUser.phone}" name="phone"> <br>
+	                    <input type="text" class="form-control" id="phone" value="${loginUser.phone}" name="phone"> <br>
 	                    
 	                    <label for="email"> &nbsp; 이메일  </label>
 	                    <input type="text" class="form-control" id="email" value="${loginUser.email}" name="email"> <br>
