@@ -135,7 +135,7 @@ public class MemberController {
 		int pageLimit = 10;
 		int boardLimit = 5;
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		PageInfo pi = PageInfo.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 				
 		ArrayList<Inquiry> list = memberService.selectList(pi);
 		

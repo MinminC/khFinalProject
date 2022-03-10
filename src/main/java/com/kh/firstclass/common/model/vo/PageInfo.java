@@ -1,9 +1,5 @@
 package com.kh.firstclass.common.model.vo;
 
-
-
-public class PageInfo {
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
