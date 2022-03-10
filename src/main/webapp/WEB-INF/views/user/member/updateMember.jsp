@@ -44,7 +44,7 @@
 	    <div class="content">
 	        <br><br>
 	        <div class="innerOuter">
-	            <form action="" method="post">
+	            <form action="updateEnrollForm.me" method="post">
 	                <div class="form-group">
 	                    <label for="userId"> 아이디  </label>
 	                    <input type="text" class="form-control" id="userId" value="${loginUser.userId}" name="userId" readonly> <br>

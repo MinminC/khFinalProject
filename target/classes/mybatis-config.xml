@@ -11,6 +11,7 @@
 	<typeAliases>
 		<typeAlias type="com.kh.firstclass.admin.place.model.vo.Place" alias="place" />
 		<typeAlias type="com.kh.firstclass.user.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.firstclass.user.member.model.vo.Inquiry" alias="Inquiry"/>
 	</typeAliases>
 
 	<!-- 

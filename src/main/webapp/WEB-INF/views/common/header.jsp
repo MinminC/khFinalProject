@@ -104,6 +104,13 @@ div {
 </head>
 <body>
 
+	<c:if test="${not empty alertMsg }">
+		<script>
+		alert("${alertMsg}");
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
+
 	<div class="headerOuter">
 		<div class="top">
 			<div class="logo">
