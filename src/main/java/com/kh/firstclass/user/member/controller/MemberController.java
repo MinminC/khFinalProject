@@ -52,6 +52,7 @@ public class MemberController {
 			
 			Member loginUser = memberService.loginMember(m);
 			System.out.println(loginUser);
+			
 			if(loginUser==null) { //로그인실패 =>에러문구를 requestScope에 담고 에러페이지로 포워딩
 				
 				mv.addObject("errorMsg","에러발생");
@@ -66,6 +67,12 @@ public class MemberController {
 			}
 			
 			return mv;
+		}
+		
+		//회원가입화면으로 이동
+		@RequestMapping("enrollForm.me")
+		public String memberEnrollForm() {
+			return "user/member/memberEnrollForm";
 		}
 		
 		@RequestMapping("logout.me")

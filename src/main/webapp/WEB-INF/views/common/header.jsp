@@ -27,6 +27,7 @@
         width: 1200px;
         height: 180px;
         margin: auto;
+        top: 0px;
     }
 
     .top{
@@ -51,7 +52,9 @@
     .logo{
         width: 30%;
         height: 100%;
-    }
+        margin-top: 0px;
+}
+    
 
     .search{
         width: 30%;
@@ -103,22 +106,26 @@ width: 100%;
 
 
 
+
+
 </style>
 </head>
 <body>
 
 <div class="headerOuter">
     <div class="top">
-        <div class="logo"><img src="resources/img/logo4.png" height="330px" style="margin-top: 150px;"></div>
+        <div class="logo"><img src="resources/img/reallogo.png" height="330px"></div>
         <div class="search"><input class="w3-input w3-border w3-light-grey" style="height: 40px; margin: auto;"></div>
         <div class="searchBtn"><img src="resources/img/searchBtn.PNG" width="50px" height="40px" style="margin-top: 0px; border: 2px solid grey;" ></div>
     <c:choose>
         <c:when test="${not empty loginUser}">
         <div class="inviteAlert"><i class="fa-solid fa-envelope fa-2xl"><span style="font-size: 10px; color: red;">3</span></i></div>
-        <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i><label>${loginUser.userName}님 환영합니다</label></div>
+        <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i></div>
         <div class="mpLogin">
-            <div style="margin-top: 50px;"><a href="logout.me" style="font-size: 15px; text-decoration: none; color: gray;">logout</a></div>
-            <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a></div>
+            <label style="margin-top:  70px; "><p>${loginUser.userName}님 환영합니다</p></label>
+            
+            <div><a href="logout.me" style="font-size: 15px; text-decoration: none; color: gray;">logout</a></div>
+            <div style="margin-bottom: 100px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a></div>
         </div>
         </c:when>
         <c:otherwise>
@@ -130,12 +137,11 @@ width: 100%;
     <div class="bottom w3-bar w3-border w3-light-grey" align="center">
       
         
-            <a href="#" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">홈</a> 
-            <a href="#" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">일정</a>
+            <a href="<%=request.getContextPath()%>" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">홈</a> 
+            <a href="admin.me" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">일정</a>
             <a href="#" class="w3-bar-item w3-button w3-text-teal" style="font-weight: bold;">여행지</a>  
         
     </div>
-
 
 
 </div>
