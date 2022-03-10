@@ -122,6 +122,7 @@ width: 100%;
         <div class="inviteAlert"><i class="fa-solid fa-envelope fa-2xl"><span style="font-size: 10px; color: red;">3</span></i></div>
         <div class="userImg"><i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i></div>
         <div class="mpLogin">
+<<<<<<< Updated upstream
             <label style="margin-top:  70px; "><p>${loginUser.userName}님 환영합니다</p></label>
             
             <div><a href="logout.me" style="font-size: 15px; text-decoration: none; color: gray;">logout</a></div>
@@ -132,6 +133,10 @@ width: 100%;
             <a href="loginForm.me" class="btn btn-info" style="height:50px; margin-top:50px; background-color: #12887A;" >로그인화면으로</a>
         </c:otherwise>
     </c:choose>            
+=======
+            <div style="margin-top: 50px;"><a href="" style="font-size: 15px; text-decoration: none;">logout</a></div>
+            <div style="margin-bottom: 50px;"><a href="myPage.me" style="font-size: 15px; text-decoration: none;">mypage</a></div>
+>>>>>>> Stashed changes
         </div>
 
     <div class="bottom w3-bar w3-border w3-light-grey" align="center">
