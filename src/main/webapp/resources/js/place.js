@@ -38,7 +38,7 @@ $(function(){
                 +'<p>위도 : <input type="text" min="0" size="3" name="placeLat" value="'+$(this).find('.mapx').val()+'">, '
                 +'경도 : <input type="text" min="0" size="3" name="placeLon" value="'+$(this).find('.mapy').val()+'"><br>'
                 +'주소 : <input type="text" size="50" name="placeAddress" value="'+$(this).find('.address').text()+'"></p>'
-                +'<p>지역 코드 : <input type="text" size="3" name="areaNo" value="'+$(this).find('.areacode').val()+'">'
+                +'<p>지역 코드 : <input type="text" size="3" name="area" value="'+$(this).find('.areacode').val()+'">'
                 +'여행지 타입 : <input type="text" size="3" name="typeCode" value="'+$(this).find('.contenttype').val()+'"></p>'
                 ;
                 console.log(value);
@@ -67,13 +67,15 @@ $(function(){
         }
     })
 })
+
 function regExpNumber(keyword){
     var regExp = /^[\d.]{1,}$/;
     return regExp.test(keyword);
 }
+
 function ajaxSearchPlace(keyword, pageNo){
     $.ajax({
-        url:'search.pl',
+        url:'searchOpenData.pl',
         data:{
             'keyword' : keyword,
             'pageNo' : pageNo
@@ -107,27 +109,8 @@ function ajaxSearchPlace(keyword, pageNo){
         }
     })
 }
-// function ajaxInsertPlace(){//비동기방식
-//     $.ajax({
-//         url:'insert.pl',
-//         type:'post',
-//         enctype:'multipart/form-data',
-//         data:{
-//             title:$('#selectResult .title')
-            
-//         },
-//         success:function(){
-//             console.log('성공');
-//             location.href='list.pl';
-//         },
-//         error:function(){
-//             console.log('실패');
-//         }
 
-//     })
-// }
-
-function insertPlace(){
+function checkIntegrity(){
     //태그를 하나로 묶기
     var tagArr = [];
     var $tags = $('#tags span');

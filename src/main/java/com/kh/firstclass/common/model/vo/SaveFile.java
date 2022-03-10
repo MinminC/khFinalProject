@@ -32,7 +32,7 @@ public class SaveFile {
 		String changeName = currentTime + ranNum + ext;
 		
 		//업로드할 폴더의 물리적인 경로
-		String savePath = session.getServletContext().getRealPath("/resources/upfiles/"+folder);
+		String savePath = session.getServletContext().getRealPath("/resources/upfiles/"+folder+"/");
 		
 		try {
 			upFile.transferTo(new File(savePath + changeName));

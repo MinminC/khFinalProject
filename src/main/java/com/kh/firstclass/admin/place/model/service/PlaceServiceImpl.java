@@ -1,6 +1,7 @@
 package com.kh.firstclass.admin.place.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ public class PlaceServiceImpl implements PlaceService{
 	
 	@Override
 	public ArrayList<AreaCode> selectAreaCode() {
-		return null;
+		return placeDao.selectAreaCode(sqlSession);
 	}
 
 	@Override
 	public ArrayList<PlaceType> selectPlaceType() {
-		return null;
+		return placeDao.selectPlaceType(sqlSession);
 	}
 
 	@Override
@@ -38,12 +39,12 @@ public class PlaceServiceImpl implements PlaceService{
 
 	@Override
 	public int updatePlace(Place p) {
-		return 0;
+		return placeDao.updatePlace(sqlSession, p);
 	}
 
 	@Override
-	public int deletePlace(Place p) {
-		return 0;
+	public int deletePlace(int placeNo) {
+		return placeDao.deletePlace(sqlSession, placeNo);
 	}
 
 	@Override
@@ -52,13 +53,23 @@ public class PlaceServiceImpl implements PlaceService{
 	}
 
 	@Override
-	public ArrayList<Place> searchPlaceList(String keyword, PageInfo pi) {
-		return null;
+	public ArrayList<Place> searchPlaceList(HashMap<String, String> map, PageInfo pi) {
+		return placeDao.searchPlaceList(sqlSession, map, pi);
 	}
 
 	@Override
 	public int countPlaceAll() {
 		return placeDao.countPlaceAll(sqlSession);
+	}
+
+	@Override
+	public int countPlaceByKeyword(HashMap<String, String> map) {
+		return placeDao.countPlaceByKeyword(sqlSession, map);
+	}
+
+	@Override
+	public Place selectPlaceDetail(int placeNo) {
+		return placeDao.selectPlaceDetail(sqlSession, placeNo);
 	}
 
 }

@@ -53,10 +53,60 @@
 			, PLACE_TYPE AS TYPE, PLACE_TAGS
 		FROM VW_PLACE
 	</select>
-	<select id="selectPlaceOne" resultMap="placeResultMap">
+	<select id="selectPlaceDetail" parameterType="_int" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_LON, PLACE_LAT, PLACE_DES, PLACE_TAGS
 			, AREA_NO, TYPE_CODE, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
 		FROM PLACE
 		WHERE PLACE_STATUS = 'Y'
+			AND PLACE_NO = #{placeNo}
 	</select>
+	<select id="countPlaceByKeyword" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(PLACE_NO)
+		FROM VW_PLACE
+		WHERE  
+			<choose>
+				<when test="type == 'name'">
+					PLACE_NAME
+				</when>
+				<otherwise>
+					PLACE_TAGS
+				</otherwise>
+			</choose>
+			LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="searchPlaceList" parameterType="hashmap" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS
+		FROM VW_PLACE
+		WHERE  
+			<choose>
+				<when test="type == 'name'">
+					PLACE_NAME
+				</when>
+				<otherwise>
+					PLACE_TAGS
+				</otherwise>
+			</choose>
+			LIKE '%'||#{keyword}||'%'
+	</select>
+	<update id="deletePlace" parameterType="_int">
+		UPDATE PLACE SET PLACE_STATUS = 'N' WHERE PLACE_NO = #{placeNo}
+	</update>
+	<update id="updatePlace" parameterType="place">
+		UPDATE PLACE 
+		SET 
+			PLACE_NAME = #{placeName}
+			PLACE_ADDRESS = #{placeAddress}
+			PLACE_DES = #{placeDes}
+			PLACE_TAGS = #{placeTags}
+			PLACE_LAT = #{placeLat}
+			PLACE_LON = #{placeLon}
+			AREA_NO = #{area}
+			TYPE_CODE = #{typeCode}
+			FILE_PATH = #{filePath}
+			PIC_ORIGIN = #{picOrigin}
+			PIC_CHANGE = #{picChange}
+			MODIFY_DATE = SYSDATE
+		WHERE PLACE_NO = #{placeNo}
+	</update>
 </mapper>

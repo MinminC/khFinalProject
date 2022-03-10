@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -52,21 +53,32 @@ public class PlaceController {
 		
 		return "admin/place/placeListView";
 	}
-	
-	@RequestMapping("detail.pl")
-	public String selectPlaceDetail(){
-		return "admin/place/placeDetailView";
-	}
 
 	@RequestMapping("updateForm.pl")
-	public String updatePlaceForm(int pno, Model model){
-		model.addAttribute("pno", pno);
+	public String updatePlaceForm(int placeNo, Model model){
+		Place p = placeService.selectPlaceDetail(placeNo);
+		ArrayList<String> tags = new ArrayList<>();
+		
+		for(String str: p.getPlaceTags().split(","))
+			tags.add(str);
+
+		model.addAttribute("tags", tags);
+		model.addAttribute("p", p);
+		model.addAttribute("placeNo", placeNo);
+		
 		return "admin/place/placeUpdateForm";
 	}
 
 	@RequestMapping("update.pl")
-	public String updatePlace(){
-		return "";
+	public String updatePlace(Place p, Model model){
+		int result = placeService.updatePlace(p);
+		if(result>0) {
+			model.addAttribute("alertMsg", "수정성공");
+			return "redirect:detail.pl?placeNo="+p.getPlaceNo();
+		}else {
+			model.addAttribute("alertMsg", "수정실패");
+			return "common/errorPage";
+		}
 	}
 
 	@RequestMapping("insertForm.pl")
@@ -96,10 +108,16 @@ public class PlaceController {
 		return placeService.insertPlace(p) > 0?"redirect:list.pl":"common/errorPage";
 	}
 	
-	//AJAX
+	/**
+	 * 여행지 등록에서 키워드로 검색하여 오픈데이터를 추가하는 AJAX 처리 부분
+	 * @param keyword 검색할 단어
+	 * @param pageNo pagination의 페이지 번호
+	 * @return
+	 * @throws IOException
+	 */
 	@ResponseBody
-	@RequestMapping(value="search.pl", produces="text/xml; charset=UTF-8")
-	public String searchPlace(String keyword, @RequestParam(value="pageNo", defaultValue="1") int pageNo) throws IOException{
+	@RequestMapping(value="searchOpenData.pl", produces="text/xml; charset=UTF-8")
+	public String searchOpenData(String keyword, @RequestParam(value="pageNo", defaultValue="1") int pageNo) throws IOException{
 		
 		//url 완성
 		String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword";
@@ -131,5 +149,47 @@ public class PlaceController {
 		urlConnection.disconnect();
 		System.out.println(responseText);
 		return responseText;
+	}
+	
+	@RequestMapping("search.pl")
+	public String searchPlaceList(String keyword, String type, @RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("type", type);
+		map.put("keyword", keyword);
+		
+		int listCount = placeService.countPlaceByKeyword(map);
+		int currentPage = pageNo;
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Place> list = placeService.searchPlaceList(map, pi);
+		
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		System.out.println(keyword);
+		System.out.println(pi);
+		System.out.println(list);
+		return "admin/place/placeListView";
+	}
+	
+	@RequestMapping("delete.pl")
+	public String deletePlace(int placeNo){
+		return placeService.deletePlace(placeNo) > 0?"redirect:list.pl":"common/errorPage";
+	}
+	
+	@RequestMapping("detail.pl")
+	public String selectPlaceDetail(int placeNo, Model model) {
+		Place p = placeService.selectPlaceDetail(placeNo);
+		ArrayList<String> tags = new ArrayList<>();
+		
+		for(String str: p.getPlaceTags().split(","))
+			tags.add(str);
+
+		model.addAttribute("tags", tags);
+		model.addAttribute("p", p);
+		System.out.println(p);
+		return p != null?"admin/place/placeDetailView":"common/errorPage";
 	}
 }

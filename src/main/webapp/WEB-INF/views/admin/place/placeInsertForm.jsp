@@ -53,6 +53,20 @@
                         경도 : <input type="text" min="0" size="3" name="placeLon" required><br>
                         주소 : <input type="text" size="50" name="placeAddress" required>
                     </p>
+                    <p>
+                        지역 코드 : 
+                        <select name="area">
+                            <c:forEach var="i" items="${areaCode}">
+                                <option value="${i.areaNo}">${i.sido}</option>
+                            </c:forEach>
+                        </select>
+                        여행지 타입 : 
+                        <select name="typeCode">
+                            <c:forEach var="i" items="${placeType}">
+                                <option value="${i.areaNo}">${i.sido}</option>
+                            </c:forEach>
+                        </select>
+                    </p>
             </div>
             <br clear="both" />
             <div id="tags">
@@ -71,7 +85,7 @@
             </div>
             <div id="btns-center">
                 <button onclick="location.href='list.pl';" class="btn btn-secondary">목록으로</button>
-                <button type="submit" onclick="return insertPlace();" class="btn btn-primary">등록하기</button>
+                <button type="submit" onclick="return checkIntegrity();" class="btn btn-primary">등록하기</button>
             </div>
         </form>
     </div>

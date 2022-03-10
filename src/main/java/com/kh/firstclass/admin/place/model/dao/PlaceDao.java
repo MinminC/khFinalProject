@@ -1,12 +1,15 @@
 package com.kh.firstclass.admin.place.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.firstclass.admin.place.model.vo.AreaCode;
 import com.kh.firstclass.admin.place.model.vo.Place;
+import com.kh.firstclass.admin.place.model.vo.PlaceType;
 import com.kh.firstclass.common.model.vo.PageInfo;
 
 @Repository
@@ -29,4 +32,37 @@ public class PlaceDao {
 		return (ArrayList)sqlSession.selectList("placeMapper.selectPlaceList", null, rowBounds);
 	}
 
+	public int countPlaceByKeyword(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.selectOne("placeMapper.countPlaceByKeyword", map);
+	}
+
+	public ArrayList<Place> searchPlaceList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() -1)*limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);		
+		
+		return (ArrayList)sqlSession.selectList("placeMapper.searchPlaceList", map, rowBounds);
+	}
+
+	public int deletePlace(SqlSessionTemplate sqlSession, int placeNo) {
+		return sqlSession.update("placeMapper.deletePlace", placeNo);
+	}
+
+	public Place selectPlaceDetail(SqlSessionTemplate sqlSession, int placeNo) {
+		return sqlSession.selectOne("placeMapper.selectPlaceDetail", placeNo);
+	}
+
+	public int updatePlace(SqlSessionTemplate sqlSession, Place p) {
+		return sqlSession.update("placeMapper.updatePlace", p);
+	}
+
+	public ArrayList<AreaCode> selectAreaCode(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("placeMapper.selectAreaCode");
+	}
+
+	public ArrayList<PlaceType> selectPlaceType(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("placeMapper.selectPlaceType");
+	}
+	
 }
