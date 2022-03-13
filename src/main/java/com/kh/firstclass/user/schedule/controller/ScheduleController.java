@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-public class scheduleController {
+public class ScheduleController {
 	
 	@RequestMapping("detail.sc")
 	public String detail() {
