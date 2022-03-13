@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.firstclass.user.schedule.model.vo.AddSchedule;
+
 
 @Controller
 public class ScheduleController {
@@ -27,19 +29,24 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping(value="add.sc" ,method =RequestMethod.POST)
-	public String add(HttpServletRequest request) throws ParseException {
+	public String add(AddSchedule addschedule) throws ParseException {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-		String scheduleTitle = request.getParameter("scheduleTitle");
-		Date departureDate = simpleDateFormat.parse(request.getParameter("departureDate"));
-		Date arrivalDate = simpleDateFormat.parse(request.getParameter("arrivalDate"));
+		
+		Date departureDate = simpleDateFormat.parse(addschedule.getDepartureDate());
+		Date arrivalDate = simpleDateFormat.parse(addschedule.getArrivalDate());
 		
 		
 		String newdepartureDate = simpleDateFormat.format(departureDate);
 		String newarrivalDate = simpleDateFormat.format(arrivalDate);
 		
+		addschedule.setArrivalDate(newarrivalDate);
+		addschedule.setDepartureDate(newdepartureDate);
 		
-		System.out.println(scheduleTitle + newdepartureDate + newarrivalDate);
+		System.out.println(addschedule);
+		
+		
+	
 		return "user/schedule/scheduleHome";
 	}
 	
