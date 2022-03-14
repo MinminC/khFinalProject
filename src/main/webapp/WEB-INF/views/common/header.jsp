@@ -154,7 +154,7 @@ div {
 				class="w3-bar-item w3-button w3-text-teal"
 				style="font-weight: bold;">홈</a> <a href="admin.me"
 				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">일정</a> <a href="#"
+				style="font-weight: bold;">일정</a> <a href="main.pl"
 				class="w3-bar-item w3-button w3-text-teal"
 				style="font-weight: bold;">여행지</a>
 

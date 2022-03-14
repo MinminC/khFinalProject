@@ -199,4 +199,43 @@ public class PlaceController {
 		
 		return p != null?"admin/place/placeDetailView":"common/errorPage";
 	}
+	
+	@RequestMapping("top5.pl")
+	public String selectPlace(String type, @RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model) {
+		
+		int listCount = placeService.countPlaceAll();
+		int currentPage = pageNo;
+		int pageLimit = 3;
+		int boardLimit = 5;
+		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Place> list = placeService.selectPlaceList(pi);
+		ArrayList<AreaCode> areaCode = placeService.selectAreaCode();
+		ArrayList<PlaceType> placeType = placeService.selectPlaceType();
+		
+		model.addAttribute("list", list);
+		model.addAttribute("areaCode", areaCode);
+		model.addAttribute("placeType", placeType);
+		
+		return "user/place/placeListView";
+	}
+	
+	@RequestMapping("main.pl")
+	public String selectUserPlace(@RequestParam(value="pageNo", defaultValue="1") int pageNo, ArrayList<String> keywords, Model model) {
+		ArrayList<Place> list = placeService.selectUserPlaceList(keywords);
+		ArrayList<AreaCode> areaCode = placeService.selectAreaCode();
+		model.addAttribute("list", list);
+		model.addAttribute("area", areaCode);
+		
+		return "user/place/placeListView";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="select.pl", produces="application/json; charset=UTF-8")
+	public ArrayList<Place> selectUserPlaceList(ArrayList<String> keywords, Model model) {
+		System.out.println(keywords);
+		ArrayList<Place> list = placeService.selectUserPlaceList(keywords);
+		System.out.println(list);
+		return list;
+	}
 }

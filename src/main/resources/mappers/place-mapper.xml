@@ -124,4 +124,22 @@
 		SELECT TYPE_CODE, TYPE_CONTENT
 		FROM PLACE_TYPE
 	</select>
+	<select id="selectUserPlaceList" parameterType="arrayList" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
+		FROM VW_PLACE
+		WHERE ROWNUM &lt; 5
+		<if test="!list.isEmpty()">
+			AND (
+				PLACE_AREA IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			      #{item}
+			</foreach>
+			OR
+			<foreach item="item" index="index" collection="list" separator="OR">
+			      PLACE_TAGS LIKE '%'||#{item}||'%'
+			</foreach>
+			)
+		</if>
+	</select>
 </mapper>

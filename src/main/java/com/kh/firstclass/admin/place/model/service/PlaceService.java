@@ -38,4 +38,7 @@ public interface PlaceService {
 	//여행지 상세조회
 	Place selectPlaceDetail(int placeNo);
 	
+	//사용자 여행지 리스트 조회
+	ArrayList<Place> selectUserPlaceList(ArrayList<String> keywords);
+	
 }
