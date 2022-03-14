@@ -31,7 +31,7 @@
 	 	</interceptor>
 	 </interceptors>
 	 <context:component-scan base-package="com.kh.firstclass" />
-	<beans:bean id="groupServer" class="com.kh.firstclass.user.schedule.controller.webSocketServer"/>
+	<beans:bean id="groupServer" class="com.kh.firstclass.user.schedule.controller.WebSocketServer"/>
 	<websocket:handlers>
 		<!-- 접속주소는 ws://localhost:8008/common/webSocketServer -->
 		

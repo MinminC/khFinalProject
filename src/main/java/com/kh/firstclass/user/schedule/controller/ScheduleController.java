@@ -43,6 +43,8 @@ public class ScheduleController {
 		addschedule.setArrivalDate(newarrivalDate);
 		addschedule.setDepartureDate(newdepartureDate);
 		
+		
+		
 		System.out.println(addschedule);
 		
 		

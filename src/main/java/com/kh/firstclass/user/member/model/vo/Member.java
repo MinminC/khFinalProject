@@ -41,6 +41,11 @@ public class Member {
 		this.status = status;
 		this.moNo = moNo;
 	}
+	public Member(String userId,String userPwd) {
+		super();
+		this.userId = userId;
+		this.userPwd = userPwd;
+	}
 
 
 	public Member(int userNo, String userId, String userPwd, String userName, String birth, String gender, String phone,

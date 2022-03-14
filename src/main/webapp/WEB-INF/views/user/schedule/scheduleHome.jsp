@@ -60,24 +60,32 @@ textarea {
 					<!--채팅 탭 구역-->
 
 					<div class="tab-pane fade" id="chat">
-						<p>채팅 구역</p>
+
 
 						<label for="exampleFormControlTextarea1" class="form-label">모임명
 							받아올 자린데 어찌 받아오지?</label>
-						<textarea class="form-control h-25"
-							id="exampleFormControlTextarea1" rows="10" readonly></textarea>
-
+						<div class="container-xl" style="height: 600px" id="exampleFormControlTextarea1"></div>
 						<div class="input-group mb-3">
-							<input type="text" class="form-control"
-								placeholder="Recipient's username"
+							<input type="text" class="form-control" placeholder="메세지를 입력하세요"
 								aria-label="Recipient's username"
-								aria-describedby="button-addon2" id="textarea">
+								aria-describedby="button-addon2" id="textarea"
+								onkeyup="keyevent(this);">
 							<button class="btn btn-outline-secondary" type="button"
 								id="button-addon2" onclick="sendmsg();">입력</button>
 						</div>
 					</div>
 					<!--채팅 접속 스크립트-->
 					<script>
+					function formatAMPM(date) {
+		                var hours = date.getHours();
+		                var minutes = date.getMinutes();
+		                var ampm = hours >= 12 ? 'PM' : 'AM';
+		                hours = hours % 12;
+		                hours = hours ? hours : 12; // the hour '0' should be '12'
+		                minutes = minutes < 10 ? '0' + minutes : minutes;
+		                var strTime = hours + ':' + minutes + ' ' + ampm;
+		                return strTime;
+		              }
 						var socket;
 						function connect() {
 
@@ -98,7 +106,15 @@ textarea {
 							socket.onmessage = function(e) {
 								console.log("메세지가 도착했습니다.");
 								console.log(e);
-								$("#exampleFormControlTextarea1").val(e.data);
+								var date = formatAMPM(new Date());
+								var node = document.createElement("div");
+								var textnode = document.createTextNode("${loginUser.userName}"+":"+ e.data +" "+ date);
+								
+								node.appendChild(textnode);
+								
+								document.getElementById("exampleFormControlTextarea1").appendChild(node);
+
+							
 							}
 						}
 						function disconnect() {
@@ -114,6 +130,19 @@ textarea {
 							socket.send(text);
 							$("#textarea").val("");
 						}
+						function keyevent() {
+							var keycode = event.keyCode;
+							if (keycode === 13) {
+								var text = $("#textarea").val();
+								console.log(text);
+								if (!text) {
+									return;
+								}
+								socket.send(text);
+								$("#textarea").val("");
+							}
+						}
+					
 					</script>
 
 
