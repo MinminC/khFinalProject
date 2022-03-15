@@ -222,20 +222,26 @@ public class PlaceController {
 	
 	@RequestMapping("main.pl")
 	public String selectUserPlace(@RequestParam(value="pageNo", defaultValue="1") int pageNo, ArrayList<String> keywords, Model model) {
-		ArrayList<Place> list = placeService.selectUserPlaceList(keywords);
+		
 		ArrayList<AreaCode> areaCode = placeService.selectAreaCode();
-		model.addAttribute("list", list);
+		
 		model.addAttribute("area", areaCode);
 		
 		return "user/place/placeListView";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="select.pl", produces="application/json; charset=UTF-8")
-	public ArrayList<Place> selectUserPlaceList(ArrayList<String> keywords, Model model) {
-		System.out.println(keywords);
-		ArrayList<Place> list = placeService.selectUserPlaceList(keywords);
+	@RequestMapping(value="select.pl"/*, produces="application/json; charset=UTF-8"*/)
+	//produces는 json배열로 넘길때는 오류 안나는데 json배열아닌 걸로 넘기면 오류남. 추후에 여러 태그 받게 되는 경우에는 남기기
+	public ArrayList<Place> selectUserPlaceList(@RequestParam(value="tag", defaultValue="") String tag
+			, @RequestParam(value="area", defaultValue="전체") String area, Model model) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("area", area);
+		map.put("tag", tag);
+		System.out.println(area+":"+tag);
+		ArrayList<Place> list = placeService.selectUserPlaceList(map);
 		System.out.println(list);
+		
 		return list;
 	}
 }

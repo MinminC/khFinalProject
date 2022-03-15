@@ -73,8 +73,8 @@ public class PlaceServiceImpl implements PlaceService{
 	}
 
 	@Override
-	public ArrayList<Place> selectUserPlaceList(ArrayList<String> keywords) {
-		return placeDao.selectUserPlaceList(sqlSession, keywords);
+	public ArrayList<Place> selectUserPlaceList(HashMap<String, String> map) {
+		return placeDao.selectUserPlaceList(sqlSession, map);
 	}
 
 }

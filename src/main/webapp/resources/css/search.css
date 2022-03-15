@@ -81,15 +81,14 @@
 	#course-summary>div{
 		display:inline-block;
 		height:300px;
-		width:200px;
+		width:300px;
 		border:1px solid gray;
-		border-radius: 20px;
 		padding: 5px;
 		margin:5px;
 	}
 	#course-summary img{
-		width:180px;
-		height:200px;
+		width:280px;
+		height:auto;
 	}
 /*추천 코스*/
 #align-bar>div, #align-bar li{

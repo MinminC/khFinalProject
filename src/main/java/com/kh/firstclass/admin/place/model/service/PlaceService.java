@@ -39,6 +39,6 @@ public interface PlaceService {
 	Place selectPlaceDetail(int placeNo);
 	
 	//사용자 여행지 리스트 조회
-	ArrayList<Place> selectUserPlaceList(ArrayList<String> keywords);
+	ArrayList<Place> selectUserPlaceList(HashMap<String, String> map);
 	
 }

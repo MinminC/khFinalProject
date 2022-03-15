@@ -104,7 +104,7 @@ div {
 </head>
 <body>
 
-	<div class="headerOuter">
+	<div class="headerOuter"  style="z-index:100">
 		<div class="top">
 			<div class="logo">
 				<img src="resources/img/reallogo.png" height="330px">
