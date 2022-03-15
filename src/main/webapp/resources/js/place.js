@@ -7,58 +7,8 @@ $(function(){
     $('#tags').on('click','i', function(){
         $(this).parent().remove();
     })
-
-    //여행지 등록
-    //여행지 검색을 하면 테이블에 띄움
-    $('#searchPlace>div').on('click','button', function(){
-        console.log('들어옴');
-        var keyword = $(this).siblings('input[type=search]').val();
-        
-        //xml로 오는 객체를 AJAX
-        if(keyword == ''){
-            alert('검색어를 입력하세요');
-        }
-        else{
-            ajaxSearchPlace(keyword, 1);
-        }
-
-        $('#selectResult').blur(function(){
-
-        })
-    })
-    
-    //테이블의 행을 클릭하면 selectPlace 영역에 뜸
-    $('#placeList tbody').on('click', 'tr', function(){
-        $('input[name=placeName]').val($(this).find('.title').text());
-        $('input[name=placeLat]').val($(this).find('.mapx').val());
-        $('input[name=placeLon]').val($(this).find('.mapy').val());
-        $('#selectResult>img').attr('src', $(this).find('.firstimage').val());
-        $('input[name=placeAddress]').val($(this).find('.address').text());
-        $('select[name=area]>option[value='+$(this).find('.areacode').val()+']').attr('selected', true);
-        $('select[name=typeCode]>option[value='+$(this).find('.contenttype').val()+']').attr('selected', true);
-    })
-
-    //여행지 등록-이미지 초기화
-    $('#selectResult').on('click','img',function(){
-        //파일을 넣을 수 있게. 초기화 누르면 원래 이미지로 다시 변경
-    })
-
-    //위도, 경도에 숫자와 점 이외의 값이 들어가면 화냄
-    $('input[name=placeLat]').keyup(function(){
-        if(!regExpNumber($(this).val())){
-            alert('위도를 입력하세요.');
-            $(this).val('');
-            $(this).focus();
-        }
-    })
-    $('input[name=placeLon]').keyup(function(){
-        if(!regExpNumber($(this).val())){
-            alert('경도를 입력하세요.');
-            $(this).val('');
-            $(this).focus();
-        }
-    })
 })
+
 
 function regExpNumber(keyword){
     var regExp = /^[\d.]{1,}$/;

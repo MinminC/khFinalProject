@@ -64,5 +64,9 @@ public class PlaceDao {
 	public ArrayList<PlaceType> selectPlaceType(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("placeMapper.selectPlaceType");
 	}
+
+	public ArrayList<Place> selectUserPlaceList(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return (ArrayList)sqlSession.selectList("placeMapper.selectUserPlaceList", map);
+	}
 	
 }
