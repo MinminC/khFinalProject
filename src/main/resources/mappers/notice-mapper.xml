@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="noticeMapper">
+<resultMap type="notice" id="noticeResultMap">
+	<result column="NOTICE_NO" property="noticeNo" />
+	<result column="CATEGORY" property="category" />
+	<result column="NOTICE_TITLE" property="noticeTitle" />
+	<result column="NOTICE_CONTENT" property="noticeContent" />
+	<result column="CREATE_DATE" property="createDate" />
+	<result column="VIEWS" property="views" />
+	<result column="STATUS" property="status" />
+	<result column="PREV_NO" property="prevNoticeNo" />
+	<result column="PREV_TITLE" property="prevNoticeTitle" />
+	<result column="NEXT_NO" property="nextNoticeNo" />
+	<result column="NEXT_TITLE" property="nextNoticeTitle" />
+</resultMap>
+	<select id="countNoticeAll" resultType="_int">
+		SELECT COUNT(NOTICE_NO)
+		FROM NOTICE
+		WHERE STATUS='Y'
+	</select>
+	<select id="selectImportantNotice" resultMap="noticeResultMap">
+		<!-- 정렬은 NOTICE_NO으로만 해서 중요 공지는 JSP단에서 분리해서 THEAD 영역에 뿌리기 -->
+		SELECT NOTICE_NO, CATEGORY, NOTICE_TITLE, CREATE_DATE, VIEWS
+		FROM VW_NOTICE
+		WHERE CATEGORY = '중요'
+		ORDER BY NOTICE_NO DESC
+	</select>
+	<select id="selectNoticeList" resultMap="noticeResultMap">
+        SELECT NOTICE_NO, CATEGORY, NOTICE_TITLE, CREATE_DATE, VIEWS
+        FROM VW_NOTICE
+        WHERE CATEGORY != '중요'
+        ORDER BY NOTICE_NO DESC
+	</select>
+	<select id="selectNoticeOne" parameterType="_int" resultMap="noticeResultMap">
+        SELECT A.* 
+		FROM (SELECT NOTICE_NO,  CATEGORY, NOTICE_TITLE, NOTICE_CONTENT, VIEWS, CREATE_DATE,
+					LEAD(NOTICE_NO, 1) OVER (ORDER BY NOTICE_NO DESC) PREV_NO, 
+					LEAD(NOTICE_TITLE, 1) OVER (ORDER BY NOTICE_NO DESC) PREV_TITLE,
+					LAG(NOTICE_NO, 1) OVER (ORDER BY NOTICE_NO DESC) NEXT_NO, 
+					LAG(NOTICE_TITLE, 1) OVER (ORDER BY NOTICE_NO DESC) NEXT_TITLE
+				FROM (SELECT NOTICE_NO,  CATEGORY, NOTICE_TITLE, NOTICE_CONTENT, VIEWS, CREATE_DATE
+						FROM VW_NOTICE
+				)
+		) A
+		WHERE A.NOTICE_NO = #{noticeNo}
+	</select>
+	<update id="increaseCount" parameterType="_int">
+		UPDATE NOTICE
+			SET VIEWS = VIEWS + 1
+		WHERE NOTICE_NO = #{noticeNo}
+	</update>
+	<select id="countSearchNotice" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(NOTICE_NO)
+		FROM VW_NOTICE
+		WHERE CATEGORY != '중요'
+			AND 
+				<choose>
+					<when test="type eq 'title'">
+						NOTICE_TITLE 
+					</when>
+					<otherwise>
+						NOTICE_CONTENT
+					</otherwise>
+				</choose>
+				LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="searchNoticeList" parameterType="hashmap" resultMap="noticeResultMap">
+		SELECT NOTICE_NO, CATEGORY, NOTICE_TITLE, CREATE_DATE
+		FROM VW_NOTICE
+		WHERE CATEGORY != '공지'
+		    AND 
+				<choose>
+					<when test="type eq 'title'">
+						NOTICE_TITLE 
+					</when>
+					<otherwise>
+						NOTICE_CONTENT
+					</otherwise>
+				</choose>
+		    	LIKE '%'||#{keyword}||'%'
+		ORDER BY NOTICE_NO DESC
+	</select>
+</mapper>

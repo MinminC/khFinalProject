@@ -3,6 +3,7 @@ package com.kh.firstclass.user.notice.controller;
 import static com.kh.firstclass.common.model.vo.PageInfo.getPageInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,18 +32,48 @@ public class NoticeController {
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
-		return "user/notice/noticeListView";
-	}
-	
-	@RequestMapping("search.no")
-	public String searchNoticeList(String keyword) {
-		
+		System.out.println(list+"K"+pi);
 		return "user/notice/noticeListView";
 	}
 	
 	@RequestMapping("detail.no")
-	public String selectNoticeOne(int noticeNo) {
-		//가져오기
-		return "user/notice/noticeDetailView";
+	public String selectNoticeOne(int noticeNo, Model model) {
+		
+		int result = noticeService.increaseCount(noticeNo);
+		
+		if(result>0) {
+			Notice n = null;
+			n = noticeService.selectNoticeOne(noticeNo);
+			model.addAttribute("n", n);
+			return "user/notice/noticeDetailView";
+		}else {
+			model.addAttribute("errorMsg", "조회에 실패했습니다");
+			return "common/errorPage";
+		}
 	}
+	
+	@RequestMapping("search.no")
+	public String searchNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, String type, String keyword, Model model) {
+		HashMap<String, String> map = new HashMap();
+		map.put("type", type);
+		map.put("keyword", keyword);
+		
+		int listCount = noticeService.countSearchNotice(map);
+		int currentPage = pageNo;
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Notice> list = noticeService.searchNoticeList(map, pi);
+		
+		if(list != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("list", list);
+			return "user/notice/noticeListView";
+		}else {
+			model.addAttribute("errorMsg", "검색에 실패했습니다.");
+			return "common/errorPage";
+		}
+	}
+	
 }

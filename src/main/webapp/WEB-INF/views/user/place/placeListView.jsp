@@ -48,7 +48,7 @@
 								//객체로 만들어서 해당하는 것들만 뽑아오기
 								avgLat /= total;
 								avgLon /= total;
-								
+								console.log(avgLat+"L"+avgLon);
 								var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 								    mapOption = { 
 								        center: new kakao.maps.LatLng(avgLon, avgLat), // 지도의 중심좌표
@@ -152,24 +152,29 @@
 						'area': area
 					},
 					success:function(list){
-						var result = '';
-						var tags = '';
-						
-						for(var i=0; i<list.length; i++){
-							result += '<div><img src="'+list[i].filePath+list[i].picChange+'">'
-										+'<h4>'+list[i].placeName+'</h4>'
-										+'<p>별점 : ★★☆</p></div>';
-										
-							
-							var tagArr = list[i].placeTags.split(',');
-							
-							for(var j = 0; j<tagArr.length; j++){
-								tags +='<li>'+tagArr[j]+'</li>';
-							}
+						if(list == null){
+							존재하지 않습니다.
 						}
-						$('#course-summary').html(result);
-						$('#tags-option>ul').html(tags);
-						makeMarker(list);
+						else{
+							var result = '';
+							var tags = '';
+							
+							for(var i=0; i<list.length; i++){
+								result += '<div><img src="'+list[i].filePath+list[i].picChange+'">'
+											+'<h4>'+list[i].placeName+'</h4>'
+											+'<p>별점 : ★★☆</p></div>';
+											
+								
+								var tagArr = list[i].placeTags.split(',');
+								
+								for(var j = 0; j<tagArr.length; j++){
+									tags +='<li>'+tagArr[j]+'</li>';
+								}
+							}
+							$('#course-summary').html(result);
+							$('#tags-option>ul').html(tags);
+							makeMarker(list);
+						}
 					},
 					error:function(){
 						alert('실패');
