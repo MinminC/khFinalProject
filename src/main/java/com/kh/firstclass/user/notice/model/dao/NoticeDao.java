@@ -2,6 +2,8 @@ package com.kh.firstclass.user.notice.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -14,6 +16,7 @@ import com.kh.firstclass.user.notice.model.vo.Notice;
 public class NoticeDao {
 
 	public int countNoticeAll(SqlSessionTemplate sqlSession) {
+		System.out.println("잘들어옴?");
 		return sqlSession.selectOne("noticeMapper.countNoticeAll");
 	}
 
@@ -22,15 +25,9 @@ public class NoticeDao {
 		int offset = (pi.getCurrentPage() -1)*limit;
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);	
-		
-		ArrayList<Notice> list = (ArrayList)sqlSession.selectList("noticeMapper.selectImportantNotice");
-		ArrayList<Notice> commons = (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", null, rowBounds);
-		System.out.println("전 : "+list);
-		System.out.println("전 : "+commons);
-		
-		list.addAll(commons);
-		System.out.println("후 : "+list);
-		return list;
+
+
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", null, rowBounds);
 	}
 
 	public Notice selectNoticeOne(SqlSessionTemplate sqlSession, int noticeNo) {
@@ -51,14 +48,27 @@ public class NoticeDao {
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);	
 		
-		ArrayList<Notice> list = (ArrayList)sqlSession.selectList("noticeMapper.selectImportantNotice");
-		ArrayList<Notice> commons = (ArrayList)sqlSession.selectList("noticeMapper.searchNoticeList", map, rowBounds);
-		System.out.println("전 : "+list);
-		System.out.println("전 : "+commons);
-		
-		list.addAll(commons);
-		System.out.println("후 : "+list);
-		return list;
+		return (ArrayList)sqlSession.selectList("noticeMapper.searchNoticeList", map, rowBounds);
+	}
+
+	public List<Map<Integer, String>> selectNoticeCategory(SqlSessionTemplate sqlSession) {
+		return (List)sqlSession.selectList("noticeMapper.selectNoticeCategory");
+	}
+
+	public ArrayList<Notice> selectImportantNotice(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectImportantNotice");
+	}
+
+	public int deleteNotice(SqlSessionTemplate sqlSession, int noticeNo) {
+		return sqlSession.update("noticeMapper.deleteNotice", noticeNo);
+	}
+
+	public int insertNotice(SqlSessionTemplate sqlSession, Notice n) {
+		return sqlSession.update("noticeMapper.insertNotice", n);
+	}
+
+	public int updateNotice(SqlSessionTemplate sqlSession, Notice n) {
+		return sqlSession.update("noticeMapper.updateNotice", n);
 	}
 
 }

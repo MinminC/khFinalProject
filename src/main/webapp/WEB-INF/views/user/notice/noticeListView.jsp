@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사용자-공지사항 목록</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />

@@ -5,11 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사용자-공지사항</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<div class="wrap" style="margin-top:200px;">
+		<h1>공지사항</h1>
 		<table class="table">
 			<thead>
 				<tr>
@@ -41,7 +42,7 @@
 				<!-- 이전 글이 존재할 경우 -->
 				<c:if test="${n.prevNoticeNo != 0}">
 					<tr>
-						<td><a href="detail.no?nno=${n.prevNoticeNo}">이전글 : ${n.prevNoticeNo}</a></td>
+						<td><a href="detail.no?noticeNo=${n.prevNoticeNo}">이전글 : ${n.prevNoticeTitle}</a></td>
 					</tr>
 				</c:if>
 			</tbody>

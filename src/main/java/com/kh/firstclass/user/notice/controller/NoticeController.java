@@ -4,6 +4,8 @@ import static com.kh.firstclass.common.model.vo.PageInfo.getPageInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +29,14 @@ public class NoticeController {
 		int pageLimit = 5;
 		int boardLimit = 8;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-		
-		ArrayList<Notice> list = noticeService.selectNoticeList(pi);
-		
+
+		//중요 공지
+		ArrayList<Notice> list = noticeService.selectImportantNotice();
+		//일반 공지
+		ArrayList<Notice> commons = noticeService.selectNoticeList(pi);
+		//리스트 연결
+		list.addAll(commons);
+
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		System.out.println(list+"K"+pi);
@@ -54,7 +61,65 @@ public class NoticeController {
 	
 	@RequestMapping("search.no")
 	public String searchNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, String type, String keyword, Model model) {
-		HashMap<String, String> map = new HashMap();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("type", type);
+		map.put("keyword", keyword);
+		
+		int listCount = noticeService.countSearchNotice(map);
+		int currentPage = pageNo;
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+		//중요공지
+		ArrayList<Notice> list = noticeService.selectImportantNotice();
+		//일반 공지
+		ArrayList<Notice> commons = noticeService.searchNoticeList(map, pi);
+		//리스트 연결
+		list.addAll(commons);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		
+		return "user/notice/noticeListView";
+	}
+	
+	
+	@RequestMapping("listAdmin.no")
+	public String selectAdminNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model){
+		int listCount = noticeService.countNoticeAll();
+		int currentPage = pageNo;
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Notice> list = noticeService.selectNoticeList(pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		System.out.println(list+"K"+pi);
+		return "admin/notice/noticeListView";
+	}
+	
+	@RequestMapping("detailAdmin.no")
+	public String selectAdminNoticeOne(int noticeNo, Model model) {
+		
+		int result = noticeService.increaseCount(noticeNo);
+		
+		if(result>0) {
+			Notice n = null;
+			n = noticeService.selectNoticeOne(noticeNo);
+			model.addAttribute("n", n);
+			return "admin/notice/noticeDetailView";
+		}else {
+			model.addAttribute("errorMsg", "조회에 실패했습니다");
+			return "common/errorPage";
+		}
+	}
+	
+	@RequestMapping("searchAdmin.no")
+	public String searchAdminNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, String type, String keyword, Model model) {
+		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("type", type);
 		map.put("keyword", keyword);
 		
@@ -66,14 +131,56 @@ public class NoticeController {
 		
 		ArrayList<Notice> list = noticeService.searchNoticeList(map, pi);
 		
-		if(list != null) {
-			model.addAttribute("pi", pi);
-			model.addAttribute("list", list);
-			return "user/notice/noticeListView";
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);
+		return "admin/notice/noticeListView";
+	}
+	
+	@RequestMapping("insertForm.no")
+	public String insertForm(Model model) {
+		List<Map<Integer, String>> category = noticeService.selectNoticeCategory();
+		
+		model.addAttribute("category", category);
+		
+		return "admin/notice/noticeInsertForm";
+	}
+	
+	@RequestMapping("insert.no")
+	public String insertNotice(Notice n) {
+		int result = noticeService.insertNotice(n);
+		return "redirect:listAdmin.no";
+	}
+	
+	@RequestMapping("updateForm.no")
+	public String updateForm(int noticeNo, Model model) {
+		List<Map<Integer, String>> category = noticeService.selectNoticeCategory();
+		
+		Notice n = noticeService.selectNoticeOne(noticeNo);		
+		
+		model.addAttribute("category", category);
+		model.addAttribute("n", n);
+		
+		return "admin/notice/noticeUpdateForm";
+	}
+	
+	@RequestMapping("update.no")
+	public String updateNotice(Notice n) {
+		int result = noticeService.updateNotice(n);
+		return "redirect:detailAdmin.no?noticeNo="+n.getNoticeNo();
+	}
+	
+	@RequestMapping("delete.no")
+	public String deleteNotice(int noticeNo, Model model) {
+		int result = noticeService.deleteNotice(noticeNo);
+		if(result > 0) {
+			model.addAttribute("AlertMsg", "삭제 성공");
+			return "redirect:listAdmin.no";
 		}else {
-			model.addAttribute("errorMsg", "검색에 실패했습니다.");
+			
+			model.addAttribute("errorMsg", "삭제 실패");
 			return "common/errorPage";
 		}
 	}
+	
 	
 }

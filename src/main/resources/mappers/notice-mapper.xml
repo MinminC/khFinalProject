@@ -82,4 +82,31 @@
 		    	LIKE '%'||#{keyword}||'%'
 		ORDER BY NOTICE_NO DESC
 	</select>
+	<select id="selectNoticeCategory" resultType="hashmap">
+		SELECT CATEGORY_NO, CATEGORY_CONTENT
+		FROM NOTICE_CATEGORY
+	</select>
+	<update id="deleteNotice" parameterType="_int">
+		UPDATE NOTICE SET STATUS = 'N' WHERE NOTICE_NO = #{noticeNo}
+	</update>
+	<insert id="insertNotice" parameterType="notice">
+		INSERT INTO NOTICE(NOTICE_NO
+							, CATEGORY_NO
+							, NOTICE_TITLE
+							, NOTICE_CONTENT
+							)
+		VALUES(SEQ_NOTICE_NO.NEXTVAL
+				, #{category}
+				, #{noticeTitle}
+				, #{noticeContent}
+    			)
+	</insert>
+	<update id="updateNotice" parameterType="notice">
+		UPDATE NOTICE
+		SET 
+			CATEGORY_NO = #{category}
+			,NOTICE_TITLE = #{noticeTitle}
+			,NOTICE_CONTENT = #{noticeContent}
+		WHERE NOTICE_NO = #{noticeNo}
+	</update>
 </mapper>
