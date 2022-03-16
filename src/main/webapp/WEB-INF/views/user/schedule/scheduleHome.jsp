@@ -64,7 +64,8 @@ textarea {
 
 						<label for="exampleFormControlTextarea1" class="form-label">모임명
 							받아올 자린데 어찌 받아오지?</label>
-						<div class="container-xl" style="height: 600px" id="exampleFormControlTextarea1"></div>
+						<div class="container-xl" style="height: 600px"
+							id="exampleFormControlTextarea1"></div>
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" placeholder="메세지를 입력하세요"
 								aria-label="Recipient's username"
@@ -108,7 +109,7 @@ textarea {
 								console.log(e);
 								var date = formatAMPM(new Date());
 								var node = document.createElement("div");
-								var textnode = document.createTextNode("${loginUser.userName}"+":"+ e.data +" "+ date);
+								var textnode = document.createTextNode(e.data +" "+ date);
 								
 								node.appendChild(textnode);
 								
@@ -122,25 +123,27 @@ textarea {
 						}
 						function sendmsg() {
 							console.log("여기들어오긴하니?");
+							var name = "${loginUser.userName}";
 							var text = $("#textarea").val();
-							console.log(text);
+							var newmsg = name + ":" + text
+							console.log(name + text);
 							if (!text) {
 								return;
 							}
-							socket.send(text);
+							socket.send(newmsg);
 							$("#textarea").val("");
 						}
 						function keyevent() {
-							var keycode = event.keyCode;
-							if (keycode === 13) {
-								var text = $("#textarea").val();
-								console.log(text);
-								if (!text) {
-									return;
-								}
-								socket.send(text);
-								$("#textarea").val("");
-							}
+							   var keycode = event.keyCode;
+				                if (keycode === 13) {
+				                  var name = "${loginUser.userName}";
+				                  var text = $("#textarea").val();
+				                  var newmsg = name + ":" + text
+				                  if (!newmsg) {
+				                    return;
+				                  }
+							socket.send(newmsg);
+							$("#textarea").val("");
 						}
 					
 					</script>
