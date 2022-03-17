@@ -3,6 +3,7 @@
 div{
 	padding:0;
 	box-sizing: border-box;
+	border:1px solid red;
 }
 body{
 	width:1200px;
@@ -10,17 +11,11 @@ body{
 	padding:0;
 	position:relative;
 }
-#menubar, #wrap{
-	margin:0;
-	padding:0;
-	float:left
-}
-#menubar{
-	width:200px;
-	height:100vh;
-}
 #wrap{
+	margin-top:100px;
+	margin-left:200px;
 	width:1000px;
+	padding:0;
 }
 
 /*본문*/
@@ -68,4 +63,26 @@ body{
 	background:rgb(161, 161, 161);
 	height:20px;
 	width:20px;
+}
+#searchPlace, #selectResult{
+	
+	width: 50%;
+	margin:0;
+	padding:0;
+	float:left;
+}
+#selectResult>img{
+	width:500px;
+	height:auto;
+	background:gray;
+	display:block;
+}
+#searchPlace>div, #btns-center{
+	justify-content: center;
+}
+#description>textarea{
+	resize:none;
+}
+#selectResult>input[name=title]{
+	font-size:20px;
 }

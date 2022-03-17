@@ -111,7 +111,14 @@ div {
 		<c:remove var="alertMsg" scope="session"/> <!-- session에 있는 alertMsg 삭제  -->
 	</c:if>
 
-	<div class="headerOuter">
+	<c:if test="${not empty alertMsg }">
+		<script>
+		alert("${alertMsg}");
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
+
+	<div class="headerOuter"  style="z-index:100">
 		<div class="top">
 			<div class="logo">
 				<img src="resources/img/reallogo.png" height="330px">
@@ -155,18 +162,10 @@ div {
 		</div>
 
 		<div class="bottom w3-bar w3-border w3-light-grey" align="center">
-
-
-			<a href="<%=request.getContextPath()%>"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">홈</a> <a href="admin.me"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">일정</a> <a href="#"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">여행지</a>
-
+			<a href="<%=request.getContextPath()%>"class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">홈</a> 
+			<a href="main.sc" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">일정</a>
+			<a href="main.pl"	class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">여행지</a>
 		</div>
-
 
 	</div>
 

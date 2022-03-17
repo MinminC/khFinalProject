@@ -1,16 +1,25 @@
 package com.kh.firstclass.user.member.model.service;
 
+
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.HashMap;
 import java.util.Random;
 
+import java.util.ArrayList;
+
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.kh.firstclass.common.mail.CertVo;
+
+import com.kh.firstclass.common.model.vo.PageInfo;
+
 import com.kh.firstclass.user.member.model.dao.MemberDao;
+import com.kh.firstclass.user.member.model.vo.Inquiry;
 import com.kh.firstclass.user.member.model.vo.Member;
 
 @Service
@@ -24,9 +33,6 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public Member loginMember(Member m) {//로그인
-		
-		//memberDao.loginMember(sqlSession,m);
-		//System.out.println(memberDao.loginMember(sqlSession,m));
 		return memberDao.loginMember(sqlSession,m);
 	}
 
@@ -44,6 +50,7 @@ public class MemberServiceImpl implements MemberService{
 	public int idCheck(String checkId) {//아이디중복체크
 		return memberDao.idCheck(sqlSession,checkId);
 	}
+
 
 	public String generateSecret() {//인증번호 만들기 
 		Random r = new Random();
@@ -90,4 +97,58 @@ public class MemberServiceImpl implements MemberService{
 	
 
 	
+
+	// 문의하기
+	@Override
+	public int insertInquiry(Inquiry i) {
+		return MemberDao.insertInquiry(sqlSession, i);
+	}
+
+	@Override
+	public int selectListCount() {
+		return memberDao.selectListCount(sqlSession);
+	}
+	
+
+	@Override
+	public ArrayList<Inquiry> selectList(PageInfo pi) {
+		return memberDao.selectList(sqlSession, pi);
+	}
+
+	@Override
+	public Inquiry selectInquiry(int no) {
+		return memberDao.selectInquiry(sqlSession, no);
+	}
+
+	@Override
+	public int deleteInquiry(int no) {
+		return memberDao.deleteInquiry(sqlSession, no);
+	}
+
+	@Override
+	public int updateInquiry(Inquiry i) {
+		return memberDao.updateInquiry(sqlSession, i);
+	}
+
+	@Override
+	public int updateEnrollForm(Member m) {
+		return memberDao.updateEnrollForm(sqlSession, m);
+	}
+
+	@Override
+	public int registReply(Inquiry i) {
+		return memberDao.registReply(sqlSession, i);
+	}
+
+	@Override
+	public int inquiryListCount(int userNo) {
+		return memberDao.inquiryListCount(sqlSession, userNo);
+	}
+
+	@Override
+	public ArrayList<Inquiry> inquiryList(PageInfo pi, int userNo) {
+		return memberDao.inquiryList(sqlSession, pi, userNo);
+	}
+
+
 }
