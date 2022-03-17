@@ -6,16 +6,21 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.firstclass.user.schedule.model.service.ScheduleService;
 import com.kh.firstclass.user.schedule.model.vo.AddSchedule;
 
 
 @Controller
 public class ScheduleController {
+	
+	@Autowired
+	private ScheduleService scheduleService;
 	
 	@RequestMapping("detail.sc")
 	public String detail() {
@@ -44,7 +49,7 @@ public class ScheduleController {
 		addschedule.setDepartureDate(newdepartureDate);
 		
 		
-		
+		int result = scheduleService.createSchedule(addschedule);
 		System.out.println(addschedule);
 		
 		
