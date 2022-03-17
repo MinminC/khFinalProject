@@ -1,15 +1,12 @@
 package com.kh.firstclass.user.member.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-
-import java.util.ArrayList;
-
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +16,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.firstclass.common.mail.CertVo;
+import com.kh.firstclass.common.model.vo.PageInfo;
 import com.kh.firstclass.user.member.model.service.MemberService;
 import com.kh.firstclass.user.member.model.service.MemberServiceImpl;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.kh.firstclass.common.model.vo.PageInfo;
-import com.kh.firstclass.common.template.Pagination;
-import com.kh.firstclass.user.member.model.service.MemberService;
 import com.kh.firstclass.user.member.model.vo.Inquiry;
-
 import com.kh.firstclass.user.member.model.vo.Member;
 
 @Controller
@@ -62,13 +52,17 @@ public class MemberController {
 	}
 	
 	// 개인정보 변경 페이지로 이동
+	@ResponseBody
 	@RequestMapping("update.me")
-	public String updateMember() {
-		// 암호화
-		// 지금은 로그인 유저의 정보를 가져왔지만 암호화 작업 후에는 로그인한 유저의 아이디와 입력한 비밀번호를 통해 해당 유저의 정보를 뺏어오기
+	public ModelAndView updateMember(ModelAndView mv, HttpSession session, Member m) {
 		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+			mv.setViewName("user/member/updateMember");
+		}
 		
-		return "user/member/updateMember";
+		return mv;
+		
 	}
 	
 	// 개인정보 변경
@@ -85,19 +79,24 @@ public class MemberController {
 			return "common/errorPage";
 		}
 		
-	}
-	
-	// 비밀번호 변경 페이지로 이동
-	@RequestMapping("update.pwd")
-	public String updatePassword() {
-		return "user/member/updatePassword";
-	}
+	}	
 	
 	//updateEnrollForm.pwd
 	// 비밀번호 변경
 	@RequestMapping("updateEnrollForm.pwd")
-	public String updateEnrollForm(Member m) {
-		// 암호화 해서 집어넣어야한다.
+	public String updatePassword(Member m, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd()); 
+		
+		m.setUserPwd(encPwd);
+		m.setUserNo(loginUser.getUserNo());
+		
+		int result = memberService.updatePassword(m);
+		if(result != 0) {
+			session.setAttribute("alertMsg", "수정 되었습니다.");
+		}
 		return "user/member/updatePassword";
 		
 	}
@@ -418,5 +417,31 @@ public class MemberController {
 		return result;
 	}
 	
+	// 회원 탈퇴
+	@RequestMapping("delete.mem")
+	public String deleteMember(Member m, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+			memberService.deleteMember(loginUser.getUserNo());
+			session.invalidate();
+		}
+		return "redirect:/";
+	}
+	
+
+	// 비밀번호 변경(본인확인 후 변경 페이지로 이동)
+	@ResponseBody
+	@RequestMapping("update.pwd")
+	public ModelAndView updatePassword(Member m, HttpSession session, ModelAndView mv) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+			mv.setViewName("user/member/updatePassword");
+		}
+		
+		return mv;
+	}
 	
 }

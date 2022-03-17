@@ -118,6 +118,16 @@ public class MemberDao {
 		return (ArrayList)sqlSession.selectList("memberMapper.inquiryList", userNo, rowBounds);
 	}
 
+
+	public int deleteMember(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.update("memberMapper.deleteMember", userNo);
+	}
+
+
+	public int updatePassword(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updatePassword", m);
+	}
+
 	
 	
 	

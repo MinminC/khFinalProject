@@ -60,7 +60,7 @@ public interface MemberService {
 	int updateInquiry(Inquiry i);
 
 	// 개인정보 수정(update)
-	int updateEnrollForm(Member m);
+	int updateEnrollForm(Object object);
 
 	// 문의 댓글 작성하기(insert)
 	int registReply(Inquiry i);
@@ -70,6 +70,15 @@ public interface MemberService {
 
 	//  문의 내역 조회(select)
 	ArrayList<Inquiry> inquiryList(PageInfo pi, int userNo);
+
+	// 회원탈퇴
+	int deleteMember(int userNo);
+
+	// 비밀번호 변경
+	int updatePassword(Member m);
+
+	//
+	int updateEnrollForm(Member m);
 
 	
 	
