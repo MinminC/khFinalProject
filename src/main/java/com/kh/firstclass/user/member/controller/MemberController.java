@@ -290,36 +290,66 @@ public class MemberController {
 		return "user/member/myReview";
 	}
 		
-	// 문의 페이지로 이동
+	// 나의 문의 페이지로 이동
 	@RequestMapping("myInquiry.me")
-	public ModelAndView myInquiry(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+	public ModelAndView Inquiry(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 	
-		int listCount = memberService.selectListCount();
+		Member m = (Member)session.getAttribute("loginUser");
+		int listCount = memberService.inquiryListCount(m.getUserNo());
 		
 		int pageLimit = 10;
 		int boardLimit = 5;
 		
 		PageInfo pi = PageInfo.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 				
-		ArrayList<Inquiry> list = memberService.selectList(pi);
-		
-		//model.addAttribute("list", list);
-		//model.addAttribute("pi", pi);
+		ArrayList<Inquiry> list = memberService.inquiryList(pi, m.getUserNo());
 		
 		mv.addObject("list",list);
 		mv.addObject("pi", pi);
 		
-		// 포워딩 (/WEB-INF/views/   board/boardListView    .jsp)
 		mv.setViewName("user/member/myInquiry");
 		
 		return mv;
 		
 	}	
 	
-	// 문의하기 페이지로 이동
+	// 문의 페이지로 이동(관리자)
+		@RequestMapping("inquiry.ad")
+		public ModelAndView myInquiry(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
+		
+			int listCount = memberService.selectListCount();
+			
+			int pageLimit = 10;
+			int boardLimit = 5;
+			
+			PageInfo pi = PageInfo.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+					
+			ArrayList<Inquiry> list = memberService.selectList(pi);
+			
+			mv.addObject("list",list);
+			mv.addObject("pi", pi);
+			
+			mv.setViewName("admin/member/inquiry");
+			
+			return mv;
+			
+		}	
+	
+	// 문의 상세 페이지로 이동
 	@RequestMapping("enrollForm.bo")
 	public String inquiryEnrollForm() {
 		return "user/member/inquiryEnrollForm";
+	}	
+	
+	// 관리자 문의 상세 페이지
+	@RequestMapping("inquiryDetail.ad")
+	public ModelAndView inquiryDetail(ModelAndView mv, int no) {
+			
+		Inquiry i = memberService.selectInquiry(no);
+		mv.addObject("i",i).setViewName("admin/member/inquiryDetailForm");
+				
+		return mv;
+			
 	}
 	
 	// 문의하기 
@@ -378,5 +408,15 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	}
+	
+	// 문의 댓글(관리자)
+	@ResponseBody
+	@RequestMapping("registReply.ad")
+	public int registReply(Inquiry i) {
+		int result = memberService.registReply(i);
+		
+		return result;
+	}
+	
 	
 }
