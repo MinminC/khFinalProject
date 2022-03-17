@@ -111,12 +111,6 @@ div {
 		<c:remove var="alertMsg" scope="session"/> <!-- session에 있는 alertMsg 삭제  -->
 	</c:if>
 
-	<c:if test="${not empty alertMsg }">
-		<script>
-		alert("${alertMsg}");
-		</script>
-		<c:remove var="alertMsg" scope="session" />
-	</c:if>
 
 	<div class="headerOuter"  style="z-index:100">
 		<div class="top">
@@ -143,14 +137,16 @@ div {
 					<div class="mpLogin">
 
 						<label style="margin-top: 70px;"><p>${loginUser.userName}님 환영합니다</p></label>
-
+						
 						<div>
 							<a href="logout.me"
 								style="font-size: 15px; text-decoration: none; color: gray;">logout</a>
 						</div>
 						<div style="margin-bottom: 100px;">
-							<a href="myPage.me"
-								style="font-size: 15px; text-decoration: none; color: gray;">mypage</a>
+							<a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a>
+							<c:if test="${loginUser!=null&&loginUser.userId=='admin1234'}">
+								<a href="admin.me" style="font-size: 5px; text-decoration: none;">관리자 페이지로 이동</a>
+							</c:if>
 						</div>
 					</div>
 				</c:when>
