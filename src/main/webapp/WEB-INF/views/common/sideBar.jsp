@@ -30,6 +30,8 @@
     <a href="#" class="w3-bar-item w3-button">일정관리</a>
     <a href="#" class="w3-bar-item w3-button">공지사항관리</a>
     <a href="list.pl" class="w3-bar-item w3-button">여행지관리</a>
+    <a href="" class="w3-bar-item w3-button">리뷰관리</a>
+    <a href="inquiry.ad" class="w3-bar-item w3-button">1:1문의</a>
 </div>
     
 <!-- Page Content -->

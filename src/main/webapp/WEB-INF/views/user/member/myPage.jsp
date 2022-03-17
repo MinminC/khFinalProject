@@ -62,10 +62,10 @@
 
 	<jsp:include page="../../common/header.jsp" />
 	
-		<br>
-		<div id="top">
-	        <h3>마이페이지</h3>
-	    </div>
+	<br>
+	<div id="top">
+	    <h3>마이페이지</h3>
+	</div>
 	<div id="content">
 	    <br><br>
 	    <div class="main">
@@ -80,8 +80,7 @@
 	        <div class="third" onclick="location.href='myInquiry.me'"><div style="height: 15px;"></div><div><b>1:1문의</b></div><div style="padding-top: 20px; font-size: 16px;">관리자에게 문의할 수 있습니다.</div></div>
 	    </div>
 	</div>
-    
-
+	
 	
     <!-- 모달(개인정보 비밀번호 확인) -->
     <div class="modal fade" id="Modal1">
@@ -93,7 +92,7 @@
                 <br>
                 <h6>고객의 소중한 개인정보보호를 위해서 본인 확인을 진행합니다.</h6><br>
                 <br>
-                비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="updateMember();" class="btn btn-secondary" value="확인">
+                              비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="updateMember();" class="btn btn-secondary" value="확인">
                 <br><br><br>
             </div>            
           </div>
@@ -103,7 +102,8 @@
 	 <script> // 로그인 구현 시 로직 변경
 	 	function updateMember(){
 	 		location.href = "update.me";
-	 	}
+	 	}	 
+	 	
 	 </script>
 	 
 	<!-- 모달(비밀번호 변경 비밀번호 확인) -->
@@ -116,7 +116,7 @@
                 <br>
                 <h6>고객의 소중한 개인정보보호를 위해서 본인 확인을 진행합니다.</h6><br>
                 <br>
-                비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-secondary" value="확인" onclick="updatePassword();">
+                              비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-secondary" value="확인" onclick="updatePassword();">
                 <br><br><br>
             </div>            
           </div>
@@ -139,7 +139,7 @@
                 <br>
                 <h6>고객의 소중한 개인정보보호를 위해서 본인 확인을 진행합니다.</h6><br>
                 <br>
-                비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-secondary" value="확인">
+                              비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-secondary" value="확인">
                 <br><br><br>
             </div>            
           </div>

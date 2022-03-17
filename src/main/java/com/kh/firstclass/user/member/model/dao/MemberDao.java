@@ -26,6 +26,7 @@ public class MemberDao {
 	public int selectListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("memberMapper.selectListCount");
 	}
+	
 
 	public ArrayList<Inquiry> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
@@ -50,6 +51,23 @@ public class MemberDao {
 
 	public int updateEnrollForm(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updateEnrollForm", m);
+	}
+
+	public int registReply(SqlSessionTemplate sqlSession, Inquiry i) {
+		return sqlSession.update("memberMapper.registReply", i);
+	}
+
+	public int inquiryListCount(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("memberMapper.inquiryListCount", userNo);
+	}
+
+	public ArrayList<Inquiry> inquiryList(SqlSessionTemplate sqlSession, PageInfo pi, int userNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.inquiryList", userNo, rowBounds);
 	}
 	
 	
