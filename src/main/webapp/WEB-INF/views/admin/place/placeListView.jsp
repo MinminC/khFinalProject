@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/admin-place.css">
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/sideBar.jsp"/>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp"/>
 	<div id="wrap">
 		<div id="tab">
 			<div id="btns">

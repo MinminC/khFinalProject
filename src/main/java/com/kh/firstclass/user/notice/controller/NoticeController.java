@@ -7,11 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.firstclass.common.model.vo.PageInfo;
 import com.kh.firstclass.user.notice.model.service.NoticeService;
@@ -23,22 +28,30 @@ public class NoticeController {
 	private NoticeService noticeService;
 	
 	@RequestMapping("list.no")
-	public String selectNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model){
-		int listCount = noticeService.countNoticeAll();
+	public String selectNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo
+									,@RequestParam(value="category", defaultValue="0") int selectCategory, Model model){
+		int listCount = noticeService.countNoticeAll(selectCategory);
 		int currentPage = pageNo;
 		int pageLimit = 5;
 		int boardLimit = 8;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 
+		List<Map<Integer, String>> category = noticeService.selectNoticeCategory();
+		
 		//중요 공지
 		ArrayList<Notice> list = noticeService.selectImportantNotice();
 		//일반 공지
-		ArrayList<Notice> commons = noticeService.selectNoticeList(pi);
+		ArrayList<Notice> commons = noticeService.selectNoticeList(selectCategory, pi);
 		//리스트 연결
 		list.addAll(commons);
-
+		
+		model.addAttribute("category", category);
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
+		
+		if(selectCategory != 0)
+			model.addAttribute("selectCategory", selectCategory);
+		
 		System.out.println(list+"K"+pi);
 		return "user/notice/noticeListView";
 	}
@@ -70,7 +83,9 @@ public class NoticeController {
 		int pageLimit = 5;
 		int boardLimit = 8;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-
+		
+		List<Map<Integer, String>> category = noticeService.selectNoticeCategory();
+		
 		//중요공지
 		ArrayList<Notice> list = noticeService.selectImportantNotice();
 		//일반 공지
@@ -78,6 +93,7 @@ public class NoticeController {
 		//리스트 연결
 		list.addAll(commons);
 		
+		model.addAttribute("category", category);
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
 		
@@ -86,18 +102,23 @@ public class NoticeController {
 	
 	
 	@RequestMapping("listAdmin.no")
-	public String selectAdminNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model){
-		int listCount = noticeService.countNoticeAll();
+	public String selectAdminNoticeList(@RequestParam(value="pageNo", defaultValue="1") int pageNo
+										,@RequestParam(value="selectCategory", defaultValue="0") int selectCategory, Model model){
+		int listCount = noticeService.countNoticeAll(selectCategory);
 		int currentPage = pageNo;
 		int pageLimit = 5;
 		int boardLimit = 8;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Notice> list = noticeService.selectNoticeList(pi);
+		ArrayList<Notice> list = noticeService.selectNoticeList(selectCategory, pi);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		System.out.println(list+"K"+pi);
+		
+		if(selectCategory != 0)
+			model.addAttribute("selectCategory", selectCategory);
+		
 		return "admin/notice/noticeListView";
 	}
 	
@@ -169,18 +190,36 @@ public class NoticeController {
 		return "redirect:detailAdmin.no?noticeNo="+n.getNoticeNo();
 	}
 	
-	@RequestMapping("delete.no")
+	@GetMapping("delete.no")
 	public String deleteNotice(int noticeNo, Model model) {
 		int result = noticeService.deleteNotice(noticeNo);
 		if(result > 0) {
 			model.addAttribute("AlertMsg", "삭제 성공");
 			return "redirect:listAdmin.no";
 		}else {
-			
 			model.addAttribute("errorMsg", "삭제 실패");
 			return "common/errorPage";
 		}
 	}
 	
+	@ResponseBody
+	@PostMapping(value="delete.no")
+	public int deleteNotice(@RequestParam(value="noticeNo")List<Integer> noticeNo, Model model) {
+		System.out.println(noticeNo);
+		return noticeService.deleteNoticeList(noticeNo);
+	}
 	
+	@ResponseBody
+	@RequestMapping("hideImportant")
+	public void hideImportant(HttpSession session) {
+		System.out.println("숨김");
+		session.setAttribute("important", "hide");
+	}
+	
+	@ResponseBody
+	@RequestMapping("openImportant")
+	public void openImportant(HttpSession session) {
+		System.out.println("펼침");
+		session.removeAttribute("important");
+	}
 }

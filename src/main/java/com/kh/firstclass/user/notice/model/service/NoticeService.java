@@ -10,9 +10,9 @@ import com.kh.firstclass.user.notice.model.vo.Notice;
 
 public interface NoticeService {
 
-	int countNoticeAll();
+	int countNoticeAll(int selectCategory);
 
-	ArrayList<Notice> selectNoticeList(PageInfo pi);
+	ArrayList<Notice> selectNoticeList(int selectCategory, PageInfo pi);
 
 	Notice selectNoticeOne(int noticeNo);
 
@@ -31,5 +31,7 @@ public interface NoticeService {
 	int insertNotice(Notice n);
 
 	int updateNotice(Notice n);
+
+	int deleteNoticeList(List<Integer> noticeNo);
 
 }

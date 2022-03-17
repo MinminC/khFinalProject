@@ -22,13 +22,13 @@ public class NoticeServiceImpl implements NoticeService{
 	private NoticeDao noticeDao;
 	
 	@Override
-	public int countNoticeAll() {
-		return noticeDao.countNoticeAll(sqlSession);
+	public int countNoticeAll(int selectCategory) {
+		return noticeDao.countNoticeAll(sqlSession, selectCategory);
 	}
 
 	@Override
-	public ArrayList<Notice> selectNoticeList(PageInfo pi) {
-		return noticeDao.selectNoticeList(sqlSession, pi);
+	public ArrayList<Notice> selectNoticeList(int selectCategory, PageInfo pi) {
+		return noticeDao.selectNoticeList(sqlSession, selectCategory, pi);
 	}
 
 	@Override
@@ -74,6 +74,11 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	public int updateNotice(Notice n) {
 		return noticeDao.updateNotice(sqlSession, n);
+	}
+
+	@Override
+	public int deleteNoticeList(List<Integer> noticeNo) {
+		return noticeDao.deleteNoticeList(sqlSession, noticeNo);
 	}
 	
 	

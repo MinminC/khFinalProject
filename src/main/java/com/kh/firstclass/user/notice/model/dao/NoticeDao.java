@@ -15,19 +15,19 @@ import com.kh.firstclass.user.notice.model.vo.Notice;
 @Repository
 public class NoticeDao {
 
-	public int countNoticeAll(SqlSessionTemplate sqlSession) {
+	public int countNoticeAll(SqlSessionTemplate sqlSession, int selectCategory) {
 		System.out.println("잘들어옴?");
-		return sqlSession.selectOne("noticeMapper.countNoticeAll");
+		return sqlSession.selectOne("noticeMapper.countNoticeAll", selectCategory);
 	}
 
-	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, int selectCategory, PageInfo pi) {
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() -1)*limit;
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);	
 
 
-		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", selectCategory, rowBounds);
 	}
 
 	public Notice selectNoticeOne(SqlSessionTemplate sqlSession, int noticeNo) {
@@ -69,6 +69,10 @@ public class NoticeDao {
 
 	public int updateNotice(SqlSessionTemplate sqlSession, Notice n) {
 		return sqlSession.update("noticeMapper.updateNotice", n);
+	}
+
+	public int deleteNoticeList(SqlSessionTemplate sqlSession, List<Integer> list) {
+		return sqlSession.update("noticeMapper.deleteNoticeList", list);
 	}
 
 }

@@ -124,6 +124,13 @@ div {
 				<img src="resources/img/searchBtn.PNG" width="50px" height="40px"
 					style="margin-top: 0px; border: 2px solid grey;">
 			</div>
+			<script>
+				$(function(){
+					$('searchBtn').click(function(){
+						location.href='search?keyword='+$('.search>input').val();
+					})
+				})
+			</script>
 			<c:choose>
 				<c:when test="${not empty loginUser}">
 					<div class="inviteAlert">

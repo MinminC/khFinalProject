@@ -153,7 +153,7 @@
 					},
 					success:function(list){
 						if(list == null){
-							존재하지 않습니다.
+							
 						}
 						else{
 							var result = '';
