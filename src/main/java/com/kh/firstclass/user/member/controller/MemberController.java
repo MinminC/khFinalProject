@@ -117,13 +117,7 @@ public class MemberController {
 		
 		//평문과 암호화된 구문이 일치하면 true반환
 		if(loginUser!=null&&bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {
-			
-
-			//로그인성공 
-
-			Member loginUser = memberService.loginMember(m);
-
-			
+						
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/");
 			
