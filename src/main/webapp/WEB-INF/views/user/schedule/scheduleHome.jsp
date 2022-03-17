@@ -38,8 +38,8 @@ textarea {
 				<p>모임 일정 Page</p>
 				<ul class="nav nav-tabs">
 
-					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#addSchedule" onclick="">모임생성</a></li>
+					<li class="nav-item">
+					<a class="nav-link active"data-toggle="tab" href="#addSchedule" onclick="">모임생성</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="tab"
 						href="#chat" onclick="connect();">채팅</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -77,16 +77,16 @@ textarea {
 					</div>
 					<!--채팅 접속 스크립트-->
 					<script>
-					function formatAMPM(date) {
-		                var hours = date.getHours();
-		                var minutes = date.getMinutes();
-		                var ampm = hours >= 12 ? 'PM' : 'AM';
-		                hours = hours % 12;
-		                hours = hours ? hours : 12; // the hour '0' should be '12'
-		                minutes = minutes < 10 ? '0' + minutes : minutes;
-		                var strTime = hours + ':' + minutes + ' ' + ampm;
-		                return strTime;
-		              }
+						function formatAMPM(date) {
+							var hours = date.getHours();
+							var minutes = date.getMinutes();
+							var ampm = hours >= 12 ? 'PM' : 'AM';
+							hours = hours % 12;
+							hours = hours ? hours : 12; // the hour '0' should be '12'
+							minutes = minutes < 10 ? '0' + minutes : minutes;
+							var strTime = hours + ':' + minutes + ' ' + ampm;
+							return strTime;
+						}
 						var socket;
 						function connect() {
 
@@ -109,13 +109,15 @@ textarea {
 								console.log(e);
 								var date = formatAMPM(new Date());
 								var node = document.createElement("div");
-								var textnode = document.createTextNode(e.data +" "+ date);
-								
-								node.appendChild(textnode);
-								
-								document.getElementById("exampleFormControlTextarea1").appendChild(node);
+								var textnode = document.createTextNode(e.data
+										+ " " + date);
 
-							
+								node.appendChild(textnode);
+
+								document.getElementById(
+										"exampleFormControlTextarea1")
+										.appendChild(node);
+
 							}
 						}
 						function disconnect() {
@@ -134,18 +136,15 @@ textarea {
 							$("#textarea").val("");
 						}
 						function keyevent() {
-							   var keycode = event.keyCode;
-				                if (keycode === 13) {
-				                  var name = "${loginUser.userName}";
-				                  var text = $("#textarea").val();
-				                  var newmsg = name + ":" + text
-				                  if (!newmsg) {
-				                    return;
-				                  }
-							socket.send(newmsg);
-							$("#textarea").val("");
+							var keycode = event.keyCode;
+							if (keycode === 13) {
+								var name = "${loginUser.userName}";
+								var text = $("#textarea").val();
+								var newmsg = name + ":" + text
+								socket.send(newmsg);
+								$("#textarea").val("");
+							}
 						}
-					
 					</script>
 
 

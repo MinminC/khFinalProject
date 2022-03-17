@@ -35,10 +35,10 @@ public class WebSocketServer extends TextWebSocketHandler {
 
 		for (WebSocketSession ws : users) {
 			
-			if (users.contains(session)) {
+		
 				ws.sendMessage(newMessage);
 				
-			}
+			
 		}
 
 	}
