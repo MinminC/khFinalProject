@@ -103,6 +103,13 @@ div {
 </style>
 </head>
 <body>
+	<!-- alertMsg -->
+	<c:if test="${not empty alertMsg }">
+		<script>
+			alert("${alertMsg}");
+		</script>
+		<c:remove var="alertMsg" scope="session"/> <!-- session에 있는 alertMsg 삭제  -->
+	</c:if>
 
 	<c:if test="${not empty alertMsg }">
 		<script>

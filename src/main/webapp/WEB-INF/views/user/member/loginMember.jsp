@@ -41,6 +41,15 @@ div{
 </style>
 </head>
 <body>
+
+
+<c:if test="${not empty alertMsg }">
+<script>
+	alert("${alertMsg}");
+</script>
+</c:if>
+
+
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <br>
     <div class="loginOuter" style="margin-top: 200px;">
@@ -50,7 +59,7 @@ div{
         <div class="w3-container login1" align="center">
           
             
-            <form class="w3-container" action="login.me">
+            <form class="w3-container" action="login.me" method="post">
                 <br><br>
                 <label><b>아이디</b></label>
                 <input class="w3-input w3-border w3-light-grey" type="text" name="userId">
@@ -68,8 +77,7 @@ div{
                 <button class="w3-bar-item w3-button"><a href="enrollForm.me" style="color: black;">회원가입</a></button> 
                 <button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button">아이디찾기</button>
                 <button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button">비밀번호찾기</button>
-            
-           
+
         </div>
         
         <!--아이디찾기 모달창-->
@@ -81,7 +89,7 @@ div{
               </div>
 
               <h5 align="center">아이디찾기</h5>
-              <form class="w3-container" action="/action_page.php">
+              <form class="w3-container" action="searchId.me" method="post">
                 <div class="w3-section">
                   <label><b>이름</b></label>
                   <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="이름을 입력해주세요" name="userName" required>
@@ -106,10 +114,10 @@ div{
               </div>
 
               <h5 align="center">비밀번호찾기</h5>
-              <form class="w3-container" action="/action_page.php">
+              <form class="w3-container" action="searchPwd.me" method="post">
                 <div class="w3-section">
                   <label><b>아이디</b></label>
-                  <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="아이디를 입력해주세요" name="userName" required>
+                  <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="아이디를 입력해주세요" name="userId" required>
                   <label><b>이메일</b></label>
                   <input class="w3-input w3-border" type="text" placeholder="이메일을 입력해주세요" name="email" required>
                   <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">임시비밀번호발송</button>
@@ -130,6 +138,30 @@ div{
 
    
     <script>
+   
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    		
+    	})
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    })
+    
+    
     
     </script>
 </body>
