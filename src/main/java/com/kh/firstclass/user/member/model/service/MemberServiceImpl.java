@@ -45,6 +45,7 @@ public class MemberServiceImpl implements MemberService{
 	public int selectListCount() {
 		return memberDao.selectListCount(sqlSession);
 	}
+	
 
 	@Override
 	public ArrayList<Inquiry> selectList(PageInfo pi) {
@@ -69,6 +70,21 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int updateEnrollForm(Member m) {
 		return memberDao.updateEnrollForm(sqlSession, m);
+	}
+
+	@Override
+	public int registReply(Inquiry i) {
+		return memberDao.registReply(sqlSession, i);
+	}
+
+	@Override
+	public int inquiryListCount(int userNo) {
+		return memberDao.inquiryListCount(sqlSession, userNo);
+	}
+
+	@Override
+	public ArrayList<Inquiry> inquiryList(PageInfo pi, int userNo) {
+		return memberDao.inquiryList(sqlSession, pi, userNo);
 	}
 
 }

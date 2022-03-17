@@ -58,29 +58,49 @@
  	</select>
  
     <!-- 문의하기 -->
- 	<insert id="insertInquiry" parameterType="Inquiry">
+ 	<insert id="insertInquiry" parameterType="inquiry">
  		INSERT INTO INQUIRY(INQ_NO, USER_NO, INQ_TITLE, INQ_CONTENT)
  		VALUES (SEQ_INQUIRY_NO.NEXTVAL, #{userNo}, #{inqTitle}, #{inqContent})
  	</insert>
  	
- 	<!-- 문의내역 수(1:1문의) -->
+ 	<!-- 관리자 문의내역 수(1:1문의) -->
  	<select id="selectListCount" resultType="_int">
   		SELECT COUNT(*)
   		FROM INQUIRY
   		WHERE STATUS = 'Y'
   	</select>
   	
-  	<!-- 문의내역 조회(1:1문의) -->
-  	<select id="selectList" resultMap="inquiryResultSet" parameterType="INQUIRY">
-		SELECT INQ_NO, INQ_TITLE, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE", INQ_STATUS
+  	<!-- inquiryListCount -->
+  	<!-- 문의내역 수(1:1문의) -->
+ 	<select id="inquiryListCount" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM INQUIRY
+  		WHERE STATUS = 'Y'
+  		  AND USER_NO = #{userNo}
+  	</select>
+  	
+  	<!-- 관리자 1:1 문의내역 조회 -->
+  	<select id="selectList" resultMap="inquiryResultSet" parameterType="inquiry">
+		SELECT INQ_NO, INQ_TITLE, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE", INQ_STATUS, INQ_REPLY
 		FROM INQUIRY
 		WHERE STATUS = 'Y'
 		ORDER BY INQ_NO DESC
 	</select>
 	
+	<!-- inquiryList -->
+	<!-- 1:1 문의내역 조회 -->
+  	<select id="inquiryList" resultMap="inquiryResultSet">
+		SELECT INQ_NO, INQ_TITLE, TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE", INQ_STATUS, INQ_REPLY
+		FROM INQUIRY
+		WHERE STATUS = 'Y'
+		  AND USER_NO = #{userNo}
+		ORDER BY INQ_NO DESC
+	</select>
+	
+	
 	<!-- 문의 내역 수정(조회) -->
 	<select id="selectInquiry" resultMap="inquiryResultSet">
-		SELECT INQ_TITLE, INQ_CONTENT, INQ_NO
+		SELECT INQ_TITLE, INQ_CONTENT, INQ_NO, INQ_REPLY
 		FROM INQUIRY
 		WHERE STATUS = 'Y'
 		AND INQ_NO = #{No}
@@ -110,5 +130,10 @@
 		WHERE USER_ID = #{userId}
 	</update>
 	
+	<update id="registReply" parameterType="inquiry">
+		UPDATE INQUIRY
+		 SET INQ_REPLY = #{inqReply}
+		  WHERE INQ_NO = #{inqNo}
+	</update>
 	
 </mapper>
