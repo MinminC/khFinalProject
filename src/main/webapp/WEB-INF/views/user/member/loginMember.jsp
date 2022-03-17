@@ -37,17 +37,16 @@ div{
     margin-right: 550px;
 }
 
+.w3-modal {
+    z-index: 200 !important;
+ }
+
 
 </style>
 </head>
 <body>
 
 
-<c:if test="${not empty alertMsg }">
-<script>
-	alert("${alertMsg}");
-</script>
-</c:if>
 
 
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -82,7 +81,7 @@ div{
         
         <!--아이디찾기 모달창-->
         <div id="id01" class="w3-modal">
-            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px;">
 
               <div class="w3-center"><br>
                 <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
@@ -107,7 +106,7 @@ div{
         
             <!--비밀번호찾기 모달창-->
         <div id="id02" class="w3-modal">
-            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px;">
                 
               <div class="w3-center"><br>
                 <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
@@ -137,32 +136,6 @@ div{
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
    
-    <script>
-   
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    	})
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    })
     
-    
-    
-    </script>
 </body>
 </html>

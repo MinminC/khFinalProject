@@ -84,6 +84,7 @@
  							)
  	</insert>
  
+ 	<!-- 아이디중복체크 쿼리문-->
  	<select id="idCheck" resultType="_int">
  	
  		select count(*)
@@ -92,6 +93,7 @@
  	
  	</select>
  	
+ 	<!-- 이메일 인증번호 db삽입 쿼리문-->
  	<insert id="regist" parameterType="certVo">
  			INSERT INTO CERT(
  							who, secret, when
@@ -101,6 +103,7 @@
  	
  	</insert>
  	
+ 	<!-- 이메일 인증번호 확인 쿼리문 -->
  	<select id = "validate" parameterType="certVo" resultType="certVo">
  	
  		SELECT * FROM CERT
@@ -111,12 +114,14 @@
  	
  	</select>
  	
+ 	<!-- 이메일 인증번호 db삭제 쿼리문 -->
  	<delete id="remove" parameterType="certVo">
 	
 	DELETE CERT WHERE who = #{who} and secret = #{secret}
 	
 	</delete>
 	
+	<!-- 비밀번호 찾기 쿼리문 -->
 	<select id="searchPwd" parameterType="member" resultType="_int">
 	
 	SELECT COUNT(*)
@@ -125,7 +130,7 @@
 	AND		EMAIL=#{email}
 	
 	</select>
-	
+	<!-- 비밀번호 찾기 임시비밀번호로 수정 쿼리문 -->
 	<update id="updatePwd" parameterType="hashMap">
 	
 	UPDATE  MEMBER
@@ -135,6 +140,7 @@
 
 	</update>
  
+ 	<!-- 아이디찾기 쿼리문 -->
  	<select id="searchId" parameterType="member" resultType="string">
  	
  	SELECT	SUBSTR(USER_ID,1,length(USER_ID)-3)||LPAD('*',3,'*')
