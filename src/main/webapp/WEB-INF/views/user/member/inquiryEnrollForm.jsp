@@ -73,11 +73,7 @@
                     <tr>
                         <th><label for="title">제목</label></th>
                         <td><input type="text" id="title" class="form-control" name="inqTitle" required></td>
-                    </tr>
-                    <tr>
-                        <th><label for="writer">작성자</label></th>
-                        <td><input type="text" id="writer" class="form-control" value="${ loginUser.userId }" readonly></td>
-                    </tr>                    
+                    </tr>                   
                     <tr>
                         <th><label for="content">내용</label></th>
                         <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="inqContent" required></textarea></td>

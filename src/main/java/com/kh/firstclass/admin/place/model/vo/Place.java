@@ -14,8 +14,8 @@ public class Place {
 	private int placeNo;
 	private String placeName;
 	private String placeAddress;
-	private double placeLon;
-	private double placeLat;
+	private int placeLon;
+	private int placeLat;
 	private String placeDes;
 	private String placeTags;
 	private String area;

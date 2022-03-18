@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="resources/css/admin-place.css">
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/sideBar.jsp"/>
+	<div id="menubar"><jsp:include page="/WEB-INF/views/common/sideBar.jsp"/></div>
 	<div id="wrap">
 		<table class="table" id="place-detail">
 			<thead>
@@ -31,7 +31,7 @@
 					<th>위도</th>
 					<td>${p.placeLat}</td>
 					<th>경도</th>
-					<td>${p.placeLon}</td>
+					<td>${p.placeLat}</td>
 				</tr>
 				<tr>
 					<th>지역</th>

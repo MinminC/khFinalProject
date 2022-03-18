@@ -35,8 +35,8 @@ function ajaxSearchPlace(keyword, pageNo){
                     +'</td><td>'
                     +'<input type="hidden" class="areacode" value="'+$(item).find('areacode').text()//지역코드
                     +'"><input type="hidden" class="sigungucode" value="'+$(item).find('sigungucode').text()//시군구코드
-                    +'"><input type="hidden" class="mapx" value="'+$(item).find('mapx').text()//x좌표
-                    +'"><input type="hidden" class="mapy" value="'+$(item).find('mapy').text()//u좌표
+                    +'"><input type="hidden" class="mapx" value="'+Math.round($(item).find('mapx').text())//x좌표
+                    +'"><input type="hidden" class="mapy" value="'+Math.round($(item).find('mapy').text())//u좌표
                     +'"><input type="hidden" class="firstimage" value="'+$(item).find('firstimage').text()//대표 사진
                     +'"><input type="hidden" class="contenttype" value="'+$(item).find('contenttypeid').text()//여행지타입:12==관광지
                     +'"></td></tr>'
