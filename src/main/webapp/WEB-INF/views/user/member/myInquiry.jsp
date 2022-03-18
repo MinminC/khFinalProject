@@ -88,22 +88,20 @@
 		                        <td>${ b.inqTitle }</td>
 		                        <td>${ b.createDate }</td>
 		                        <td>
-		                        	<c:choose>
-			                       		<c:when test="${ empty b.inqReply }">
-			                       			처리중
-			                       		</c:when>
-			                       		<c:otherwise>
-			                       			처리완료
-			                       		</c:otherwise>
-		                       		</c:choose>
-		                        </td>		                       	
+		                       		<c:if test="${ 'N' eq b.inqStatus }">
+		                       			처리중
+		                       		</c:if>
+		                       		<c:if test="${ 'Y' eq b.inqStatus }">
+		                       			처리완료
+		                       		</c:if>
+		                        </td>
 		                    </tr>
                     	</c:forEach>
                     
                     </tbody>
                 </table>
 				<hr>
-								
+				
                 <!-- 페이징처리(5개) -->
 				<div id="pagingArea">
                 	<ul class="pagination">

@@ -37,18 +37,10 @@ div{
     margin-right: 550px;
 }
 
-.w3-modal {
-    z-index: 200 !important;
- }
-
 
 </style>
 </head>
 <body>
-
-
-
-
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <br>
     <div class="loginOuter" style="margin-top: 200px;">
@@ -58,7 +50,7 @@ div{
         <div class="w3-container login1" align="center">
           
             
-            <form class="w3-container" action="login.me" method="post">
+            <form class="w3-container" action="login.me">
                 <br><br>
                 <label><b>아이디</b></label>
                 <input class="w3-input w3-border w3-light-grey" type="text" name="userId">
@@ -76,19 +68,20 @@ div{
                 <button class="w3-bar-item w3-button"><a href="enrollForm.me" style="color: black;">회원가입</a></button> 
                 <button onclick="document.getElementById('id01').style.display='block'" class="w3-bar-item w3-button">아이디찾기</button>
                 <button onclick="document.getElementById('id02').style.display='block'" class="w3-bar-item w3-button">비밀번호찾기</button>
-
+            
+           
         </div>
         
         <!--아이디찾기 모달창-->
         <div id="id01" class="w3-modal">
-            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px;">
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
 
               <div class="w3-center"><br>
                 <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
               </div>
 
               <h5 align="center">아이디찾기</h5>
-              <form class="w3-container" action="searchId.me" method="post">
+              <form class="w3-container" action="/action_page.php">
                 <div class="w3-section">
                   <label><b>이름</b></label>
                   <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="이름을 입력해주세요" name="userName" required>
@@ -106,17 +99,17 @@ div{
         
             <!--비밀번호찾기 모달창-->
         <div id="id02" class="w3-modal">
-            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px;">
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
                 
               <div class="w3-center"><br>
                 <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
               </div>
 
               <h5 align="center">비밀번호찾기</h5>
-              <form class="w3-container" action="searchPwd.me" method="post">
+              <form class="w3-container" action="/action_page.php">
                 <div class="w3-section">
                   <label><b>아이디</b></label>
-                  <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="아이디를 입력해주세요" name="userId" required>
+                  <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="아이디를 입력해주세요" name="userName" required>
                   <label><b>이메일</b></label>
                   <input class="w3-input w3-border" type="text" placeholder="이메일을 입력해주세요" name="email" required>
                   <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">임시비밀번호발송</button>
@@ -134,6 +127,10 @@ div{
 
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+
    
+    <script>
+    
+    </script>
 </body>
 </html>
