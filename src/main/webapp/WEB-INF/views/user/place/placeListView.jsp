@@ -36,55 +36,65 @@
 						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=01fd683c4bc8ef3abbe0ed0b33e36889"></script>
 						<script>
 							function makeMarker(list){
-								var avgLat=0;
-								var avgLon=0;
-								//전체 리스트 길이
-								var total = list.length; 
-								
-								for(var i=0;i<total;i++){
-									avgLat += list[i].placeLat;
-									avgLon += list[i].placeLon;
-								}
-								//객체로 만들어서 해당하는 것들만 뽑아오기
-								avgLat /= total;
-								avgLon /= total;
-								
-								var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+								if(list.length == 0){
+									var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 								    mapOption = { 
-								        center: new kakao.maps.LatLng(avgLon, avgLat), // 지도의 중심좌표
-								        level: 12 // 지도의 확대 레벨
+								        center: new kakao.maps.LatLng( 36.321655, 127.378953), // 지도의 중심좌표
+								        level: 13 // 지도의 확대 레벨
 								    };
 								
-								var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-								 
-								// 마커를 표시할 위치와 title 객체 배열입니다 
-								var positions = [];
-								
-								for(var i = 0; i<list.length; i++){
-								    positions.push({
-								        title: list[i].placeName, 
-								        latlng: new kakao.maps.LatLng(list[i].placeLon, list[i].placeLat)
-								    })
+									var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 								}
-								
-								// 마커 이미지의 이미지 주소입니다
-								var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-								    
-								for (var i = 0; i < positions.length; i ++) {
-								    
-								    // 마커 이미지의 이미지 크기 입니다
-								    var imageSize = new kakao.maps.Size(24, 35); 
-								    
-								    // 마커 이미지를 생성합니다    
-								    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-								    
-								    // 마커를 생성합니다
-								    var marker = new kakao.maps.Marker({
-								        map: map, // 마커를 표시할 지도
-								        position: positions[i].latlng, // 마커를 표시할 위치
-								        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-								        image : markerImage // 마커 이미지 
-								    });
+								else{
+									var avgLat=0;
+									var avgLon=0;
+									//전체 리스트 길이
+									var total = list.length; 
+									
+									for(var i=0;i<total;i++){
+										avgLat += list[i].placeLat;
+										avgLon += list[i].placeLon;
+									}
+									//객체로 만들어서 해당하는 것들만 뽑아오기
+									avgLat /= total;
+									avgLon /= total;
+									console.log(avgLat+"L"+avgLon);
+									var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+									    mapOption = { 
+									        center: new kakao.maps.LatLng(avgLon, avgLat), // 지도의 중심좌표
+									        level: 12 // 지도의 확대 레벨
+									    };
+									
+									var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+										// 마커를 표시할 위치와 title 객체 배열입니다 
+										var positions = [];
+										
+									for(var i = 0; i<list.length; i++){
+									    positions.push({
+									        title: list[i].placeName, 
+									        latlng: new kakao.maps.LatLng(list[i].placeLon, list[i].placeLat)
+									    })
+									}
+									
+									// 마커 이미지의 이미지 주소입니다
+									var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+									    
+									for (var i = 0; i < positions.length; i ++) {
+									    
+									    // 마커 이미지의 이미지 크기 입니다
+									    var imageSize = new kakao.maps.Size(24, 35); 
+									    
+									    // 마커 이미지를 생성합니다    
+									    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+									    
+									    // 마커를 생성합니다
+									    var marker = new kakao.maps.Marker({
+									        map: map, // 마커를 표시할 지도
+									        position: positions[i].latlng, // 마커를 표시할 위치
+									        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+									        image : markerImage // 마커 이미지 
+									    });
+									}
 								}
 							}
 						</script>
@@ -110,6 +120,7 @@
 				<!-- 태그를 4개 올리는 곳 -->
 			</ul>
 		</div>
+		
 		<!-- 필터 조건 1. areacode, 조건2. typecode -->
 		<script>
 			$(function(){
@@ -155,21 +166,27 @@
 						var result = '';
 						var tags = '';
 						
-						for(var i=0; i<list.length; i++){
-							result += '<div><img src="'+list[i].filePath+list[i].picChange+'">'
-										+'<h4>'+list[i].placeName+'</h4>'
-										+'<p>별점 : ★★☆</p></div>';
-										
+						if(list.length == 0){
+							result = '검색 결과가 존재하지 않습니다.';
+						}
+						else{
 							
-							var tagArr = list[i].placeTags.split(',');
-							
-							for(var j = 0; j<tagArr.length; j++){
-								tags +='<li>'+tagArr[j]+'</li>';
+							for(var i=0; i<list.length; i++){
+								result += '<div><img src="'+list[i].filePath+list[i].picChange+'">'
+											+'<h4>'+list[i].placeName+'</h4>'
+											+'<p>별점 : ★★☆</p></div>';
+											
+								
+								var tagArr = list[i].placeTags.split(',');
+								
+								for(var j = 0; j<tagArr.length; j++){
+									tags +='<li>'+tagArr[j]+'</li>';
+								}
 							}
 						}
+						makeMarker(list);
 						$('#course-summary').html(result);
 						$('#tags-option>ul').html(tags);
-						makeMarker(list);
 					},
 					error:function(){
 						alert('실패');
@@ -178,6 +195,7 @@
 			}
 		</script>
 	</div>
-	
+	<br style="clear:both;" />
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,17 +86,15 @@
                     <tr>
                         <th><label for="title">제목</label></th>
                         <td><input type="text" id="title" class="form-control" name="inqTitle" value="${ i.inqTitle }" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="writer">작성자</label></th>
+                        <td><input type="text" id="writer" class="form-control" value="${ loginUser.userId }" readonly></td>
                     </tr>                    
                     <tr>
                         <th><label for="content">내용</label></th>
                         <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="inqContent" required>${ i.inqContent }</textarea></td>
                     </tr>
-                    <c:if test="${ not empty i.inqReply }">
-				        <tr>
-	                        <th><label for="content">답글</label></th>
-	                        <td><textarea id="content" class="form-control" rows="2" style="resize:none;" name="inqReply" readonly>${ i.inqReply }</textarea></td>
-	                    </tr>          			
-			    	</c:if>
                 </table>
                 <br>
                 <div align="center">
