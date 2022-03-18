@@ -17,7 +17,7 @@ public class Member {
 	private Date enrollDate; //ENROLL_DATE
 	private Date modifyDate; //MODIFY_DATE
 	private String status; //STATUS
-	private ArrayList moNo = new ArrayList<>();
+	private ArrayList<String> moNo = new ArrayList<>();
 	
 	
 	public Member() {
@@ -175,12 +175,12 @@ public class Member {
 	}
 
 
-	public ArrayList getMoNo() {
+	public ArrayList<String> getMoNo() {
 		return moNo;
 	}
 
 	//모임 추가 add 셋터 오버로딩 = >  디폴트 빈 리스트
-	public void setMoNo(int moNo) {
+	public void setMoNo(String moNo) {
 		this.moNo.add(moNo);
 	}
 

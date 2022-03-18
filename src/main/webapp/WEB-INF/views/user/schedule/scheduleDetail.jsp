@@ -8,8 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <title>firstclass 모임일정</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <style>
 p {
 	margin: 20px 0px;
@@ -26,11 +24,19 @@ textarea {
 </style>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a43134914ba810cc56c07e82b246c2cf"></script>
+
 </head>
 
 <body>
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+
+	<script>
+		$(function() {
+			$("#tab4").trigger('click');
+			$("#tab1").trigger('click');
+		})
+	</script>
 
 	<div class="container" style="margin-top: 200px">
 		<div class="row">
@@ -38,32 +44,40 @@ textarea {
 				<p>모임 일정 Page</p>
 				<ul class="nav nav-tabs">
 
-					<li class="nav-item">
-					<a class="nav-link active"data-toggle="tab" href="#addSchedule" onclick="">모임생성</a></li>
+					<li class="nav-item active"><a class="nav-link"
+						data-toggle="tab" href="#schedule" id=tab1>일정추가</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#chat" onclick="connect();">채팅</a></li>
+						href="#chat" onclick="connect();" id=tab2>채팅</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#schedule">일정추가</a></li>
+						href="#diary" id=tab3>가계부</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#diary">가계부</a></li>
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#maps">일정코스</a></li>
-
+						href="#maps" id=tab4>일정코스</a></li>
 				</ul>
 
-				<!-- 모임생성 탭 -->
-				<div class="tab-content show active">
-					<div class="tab-pane fade show active" id="addSchedule">
-						<div>머라도 적어놓으면 바뀌겟지?</div>
+				<div class="tab-content show">
+					<!--일정 추가 탭-->
+					<div class="tab-pane fade" id="schedule">
+						<p>일정 추가하는 탭</p>
+						<div class="container-xl" style="height: 600px">
+							<a href="addmember.sc?moNo=${moNo}">멤버추가</a>
+							<form action="">
+								<button>일정추가</button>
+								<input type="datetime-local" name="" id=""> <select
+									class="form-select" aria-label="Default select example">
+									<option selected>시-도를 선택하라고할꺼임</option>
+									<option value="1">서울특별시</option>
+									<option value="2">경기도</option>
+									<option value="3">충청도</option>
+									<option value="4">경상도</option>
+									<option value="5">전라도</option>
+								</select> <input type="search" name="keyword" id="">이건뭐임
+							</form>
+						</div>
 					</div>
-
 					<!--채팅 탭 구역-->
 
 					<div class="tab-pane fade" id="chat">
 
-
-						<label for="exampleFormControlTextarea1" class="form-label">모임명
-							받아올 자린데 어찌 받아오지?</label>
 						<div class="container-xl" style="height: 600px"
 							id="exampleFormControlTextarea1"></div>
 						<div class="input-group mb-3">
@@ -75,6 +89,7 @@ textarea {
 								id="button-addon2" onclick="sendmsg();">입력</button>
 						</div>
 					</div>
+
 					<!--채팅 접속 스크립트-->
 					<script>
 						function formatAMPM(date) {
@@ -111,12 +126,14 @@ textarea {
 								var node = document.createElement("div");
 								var textnode = document.createTextNode(e.data
 										+ " " + date);
+								node.appendChild(textnode);   
 
-								node.appendChild(textnode);
+								console.log(date);
+								console.log(node);
+								console.log(textnode);
+								document.getElementById("exampleFormControlTextarea1").appendChild(node);
 
-								document.getElementById(
-										"exampleFormControlTextarea1")
-										.appendChild(node);
+								//$("#exampleFormControlTextarea1").append(node);
 
 							}
 						}
@@ -129,9 +146,7 @@ textarea {
 							var text = $("#textarea").val();
 							var newmsg = name + ":" + text
 							console.log(name + text);
-							if (!text) {
-								return;
-							}
+
 							socket.send(newmsg);
 							$("#textarea").val("");
 						}
@@ -146,25 +161,6 @@ textarea {
 							}
 						}
 					</script>
-
-
-					<!--일정 추가 탭-->
-					<div class="tab-pane fade" id="schedule">
-						<p>일정 추가하는 탭</p>
-						<form action="">
-							<button>일정추가</button>
-							<input type="datetime-local" name="" id=""> <select
-								class="form-select" aria-label="Default select example">
-								<option selected>시-도를 선택하라고할꺼임</option>
-								<option value="1">서울특별시</option>
-								<option value="2">경기도</option>
-								<option value="3">충청도</option>
-								<option value="4">경상도</option>
-								<option value="5">전라도</option>
-							</select> <input type="search" name="keyword" id="">이건뭐임
-						</form>
-					</div>
-
 
 					<!--가계부 탭 구역-->
 					<div class="tab-pane fade" id="diary">

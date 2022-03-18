@@ -34,11 +34,7 @@ public class WebSocketServer extends TextWebSocketHandler {
 		TextMessage newMessage = new TextMessage(message.getPayload());
 
 		for (WebSocketSession ws : users) {
-			
-		
 				ws.sendMessage(newMessage);
-				
-			
 		}
 
 	}

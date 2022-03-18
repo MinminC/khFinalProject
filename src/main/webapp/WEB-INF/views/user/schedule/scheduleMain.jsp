@@ -17,32 +17,38 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
+
+	<div class="w3-container w3-teal">
+		<h1>My Car</h1>
+	</div>
 	<div class="w3-container" style="margin-top: 200px">
 		<button
 			onclick="document.getElementById('id01').style.display='block'"
 			class="w3-button w3-black">모임만들기</button>
+	</div>
+	<!-- 모달창 -->
+	<div id="id01" class="w3-modal">
+		<div class="w3-modal-content">
+			<div class="w3-container">
+				<span onclick="document.getElementById('id01').style.display='none'"
+					class="w3-button w3-display-topright">&times;</span>
 
-		<div id="id01" class="w3-modal">
-			<div class="w3-modal-content">
-				<div class="w3-container">
-					<span
-						onclick="document.getElementById('id01').style.display='none'"
-						class="w3-button w3-display-topright">&times;</span>
-					
-						<form action="add.sc" accept-charset="UTF-8" name="addSchedule"
-							method="post">
-							<fieldset style="width: 150">
-								<legend>모임 생성</legend>
-								모임명<input type="text" name="scheduleTitle" required /><br><br>
-								출발<input type="date" name="departureDate" required /> <br><br>
-								도착<input type="date" name="arrivalDate" required /> <br><br>
-								생성하기<input type="submit" value="submit" />
-								초기화<input type="reset" value="reset" /><br><br>							</fieldset>
-						</form>
-				</div>
+				<form action="add.sc" accept-charset="UTF-8" name="addSchedule"
+					method="post">
+					<fieldset style="width: 150">
+						<legend>모임 생성</legend>
+						모임명<input type="text" name="scheduleTitle" required /><br>
+						<br> 출발<input type="date" name="departureDate" required /> <br>
+						<br> 도착<input type="date" name="arrivalDate" required /> <br>
+						<br> 생성하기<input type="submit" value="submit" /> 초기화<input
+							type="reset" value="reset" /><br>
+						<br>
+					</fieldset>
+				</form>
 			</div>
 		</div>
 	</div>
+
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
