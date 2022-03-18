@@ -101,6 +101,13 @@ div {
 	width: 100%;
 }
 </style>
+<script>
+	$(function(){
+		$('.searchBtn').click(function(){
+			location.href='search?keyword='+$('.search>input').val();
+		})
+	})
+</script>
 </head>
 <body>
 	<!-- alertMsg -->
@@ -160,14 +167,10 @@ div {
 		<div class="bottom w3-bar w3-border w3-light-grey" align="center">
 			<a href="<%=request.getContextPath()%>"class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">홈</a> 
 			<a href="main.sc" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">일정</a>
-			<a href="main.pl"	class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">여행지</a>
+			<a href="main.pl" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">여행지</a>
+			<a href="list.no" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">고객센터</a>
 		</div>
 
 	</div>
-
-
-
-
-
 </body>
 </html>
