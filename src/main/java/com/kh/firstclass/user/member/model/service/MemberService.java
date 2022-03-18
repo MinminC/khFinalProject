@@ -60,7 +60,7 @@ public interface MemberService {
 	int updateInquiry(Inquiry i);
 
 	// 개인정보 수정(update)
-	int updateEnrollForm(Object object);
+	int updateEnrollForm(Member m);
 
 	// 문의 댓글 작성하기(insert)
 	int registReply(Inquiry i);
@@ -78,7 +78,6 @@ public interface MemberService {
 	int updatePassword(Member m);
 
 	//
-	int updateEnrollForm(Member m);
 
 	
 	

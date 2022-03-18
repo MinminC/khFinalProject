@@ -161,11 +161,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.updatePassword(sqlSession, m);
 	}
 
-	@Override
-	public int updateEnrollForm(Object object) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 
 }

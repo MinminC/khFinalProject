@@ -57,23 +57,23 @@ public class MemberController {
 	public ModelAndView updateMember(ModelAndView mv, HttpSession session, Member m) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+		if(m.getUserPwd() != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {			
 			mv.setViewName("user/member/updateMember");
 		}
-		
 		return mv;
-		
 	}
 	
 	// 개인정보 변경
 	@RequestMapping("updateEnrollForm.me")
 	public String updateEnrollForm(Member m, HttpSession session, Model model) {
-		
+		System.out.println("1");
 		int result = memberService.updateEnrollForm(m);
 		
 		if(result > 0) {
+			Member updateMem = memberService.loginMember(m);
+			session.setAttribute("loginUser", updateMem);			
 			session.setAttribute("alertMsg", "수정 되었습니다.");
-			return "redirect:update.me";
+			return "redirect:myPage.me";
 		} else { 
 			model.addAttribute("errorMsg", "실패");
 			return "common/errorPage";
@@ -95,9 +95,10 @@ public class MemberController {
 		
 		int result = memberService.updatePassword(m);
 		if(result != 0) {
-			session.setAttribute("alertMsg", "수정 되었습니다.");
+			session.setAttribute("alertMsg", "비밀번호가 변경되었습니다. 재로그인 바랍니다.");
+			session.removeAttribute("loginUser");
 		}
-		return "user/member/updatePassword";
+		return "redirect:/";
 		
 	}
 	
@@ -155,7 +156,6 @@ public class MemberController {
 				model.addAttribute("errorMsg","회원가입실패");
 				return "common/errorPage";
 			}
-		
 			
 		}
 		
@@ -183,10 +183,7 @@ public class MemberController {
 
 			String ip = request.getRemoteAddr(); //ip알려주는 메소드 
 			
-			
 			String secret = memberService.sendMail(ip); //인증번호db에 insert해와줌
-		
-			
 			
 			MimeMessage message = sender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
@@ -196,9 +193,30 @@ public class MemberController {
 			
 			sender.send(message);
 			
-			
 			return secret!=""?1:0;
 		}
+		
+		// 개인정보변경(변경 이메일 확인)
+		@ResponseBody
+		@RequestMapping("sendEmail.me")
+		public String sendEmail(String email,HttpServletRequest request) throws MessagingException {
+
+			String ip = request.getRemoteAddr(); 
+			String secret = memberService.sendMail(ip);
+			
+			MimeMessage message = sender.createMimeMessage();
+			
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			
+			helper.setTo(email);
+			helper.setSubject("메일인증");
+			helper.setText("인증번호 : "+ secret);
+			
+			sender.send(message);
+			
+			return secret;
+		}
+		
 		
 		@ResponseBody
 		@RequestMapping("check")
@@ -210,8 +228,6 @@ public class MemberController {
 											.build());
 			
 			return result;
-			
-			
 		}
 		
 		//비밀번호찾기
@@ -437,7 +453,7 @@ public class MemberController {
 	public ModelAndView updatePassword(Member m, HttpSession session, ModelAndView mv) {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {		
 			mv.setViewName("user/member/updatePassword");
 		}
 		
