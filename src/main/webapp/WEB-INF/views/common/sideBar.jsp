@@ -24,16 +24,22 @@
 <body>
 
 <!-- Sidebar -->
+
 <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:200px">
+
     <a href="<%=request.getContextPath()%>"  style="text-decoration: none;"><h3 class="w3-bar-item"><i class="fa-solid fa-house fa-xl"></i>&nbsp;홈으로</h3></a>
     <a href="#" class="w3-bar-item w3-button">회원관리</a>
     <a href="#" class="w3-bar-item w3-button">일정관리</a>
     <a href="listAdmin.no" class="w3-bar-item w3-button">공지사항관리</a>
     <a href="list.pl" class="w3-bar-item w3-button">여행지관리</a>
+    <a href="" class="w3-bar-item w3-button">리뷰관리</a>
+    <a href="inquiry.ad" class="w3-bar-item w3-button">1:1문의</a>
 </div>
     
 <!-- Page Content -->
+
 <div style="margin-left:200px">
+
 
 <div class="w3-container w3-teal" id="adminDiv">
     <h1><i class="fa-solid fa-user fa-xl"></i>관리자페이지</h1>

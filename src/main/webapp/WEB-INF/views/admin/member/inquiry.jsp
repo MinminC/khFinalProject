@@ -29,6 +29,7 @@
     #main{
     	width:1200px;
     	margin:auto;
+        margin-left: 200px;
     	
     }
     table{
@@ -59,16 +60,12 @@
 </head>
 <body>
 
-	<jsp:include page="../../common/header.jsp" />
+	<jsp:include page="/WEB-INF/views/common/sideBar.jsp"/>
 	
 	<div id="main">
 		<br>
-		<div id="top">
-		        <h3>나의 문의내역</h3>
-		</div>
+		
 	    <div class="content">
-            <br>
-            <a class="btn btn-secondary" style="float:right;" href="enrollForm.bo">글쓰기</a>
 	        <br><br>
 	        <div class="innerOuter">
                 <table>
@@ -88,7 +85,7 @@
 		                        <td>${ b.inqTitle }</td>
 		                        <td>${ b.createDate }</td>
 		                        <td>
-		                        	<c:choose>
+		                       		<c:choose>
 			                       		<c:when test="${ empty b.inqReply }">
 			                       			처리중
 			                       		</c:when>
@@ -96,14 +93,14 @@
 			                       			처리완료
 			                       		</c:otherwise>
 		                       		</c:choose>
-		                        </td>		                       	
+		                        </td>
 		                    </tr>
                     	</c:forEach>
                     
                     </tbody>
                 </table>
 				<hr>
-								
+				
                 <!-- 페이징처리(5개) -->
 				<div id="pagingArea">
                 	<ul class="pagination">
@@ -113,12 +110,12 @@
 		                    <li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="page-item"><a class="page-link" href="myInquiry.me?cpage=${pi.currentPage - 1}">&lt;</a>
+							<li class="page-item"><a class="page-link" href="inquiry.ad?cpage=${pi.currentPage - 1}">&lt;</a>
 						</c:otherwise>
 	            	</c:choose>
 
 					<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-                    	<li class="page-item"><a class="page-link" href="myInquiry.me?cpage=${p}">${ p }</a></li>
+                    	<li class="page-item"><a class="page-link" href="inquiry.ad?cpage=${p}">${ p }</a></li>
 					</c:forEach>
 					
 					
@@ -127,7 +124,7 @@
                     		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myInquiry.me?cpage=${pi.currentPage + 1}">&gt;</a></li>
+                			<li class="page-item"><a class="page-link" href="inquiry.ad?cpage=${pi.currentPage + 1}">&gt;</a></li>
                 		</c:otherwise>
 					</c:choose>
                 
@@ -144,11 +141,10 @@
 	<script>
 			$(function(){
 				$('tbody>tr').click(function(){
-					location.href="detail.inq?no="+$(this).children('.no').text();
+					location.href="inquiryDetail.ad?no="+$(this).children('.no').text();
 				})
 			})
 	</script>
 	
-	<jsp:include page="../../common/footer.jsp" />
 </body>
 </html>

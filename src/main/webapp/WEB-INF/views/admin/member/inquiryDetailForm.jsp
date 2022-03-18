@@ -56,18 +56,18 @@
     #enrollForm{
     	width:1200px;
     }
-
+	.form-control{
+		margin:auto;
+	}
 </style>
 </head>
 <body>
-	<jsp:include page="../../common/header.jsp" />
+
+	<jsp:include page="../../common/sideBar.jsp" />
 
     <div class="content">
         <br><br>
         <div class="innerOuter">
-            <div id="top">
-                <h3>문의하기</h3>
-            </div>
             <br>
             <form id="enrollForm" method="post" action="update.inq" enctype="multipart/form-data">
 				
@@ -77,22 +77,22 @@
                 	<br>
                     <tr>
                         <th><label for="title">제목</label></th>
-                        <td><input type="text" id="title" class="form-control" name="inqTitle" value="${ i.inqTitle }" required></td>
-                    </tr>                    
+                        <td><input type="text" id="title" class="form-control" name="inqTitle" value="${ i.inqTitle }" readonly></td>
+                    </tr>                   
                     <tr>
                         <th><label for="content">내용</label></th>
-                        <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="inqContent" required>${ i.inqContent }</textarea></td>
+                        <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="inqContent" readonly>${ i.inqContent }</textarea></td>
                     </tr>
                     <c:if test="${ not empty i.inqReply }">
 				        <tr>
 	                        <th><label for="content">답글</label></th>
-	                        <td><textarea id="content" class="form-control" rows="2" style="resize:none;" name="inqReply" readonly>${ i.inqReply }</textarea></td>
+	                        <td><textarea id="content" class="form-control" rows="2" style="resize:none;" name="inqContent" readonly>${ i.inqReply }</textarea></td>
 	                    </tr>          			
 			    	</c:if>
                 </table>
                 <br>
                 <div align="center">
-                    <button type="submit" id="update" class="btn btn-secondary" style="width: 360px; height:40px;">수정하기</button>
+                    <button type="button" class="btn btn-secondary" style="width: 360px; height:40px;"  data-toggle="modal" data-target="#Modal">댓글</button>
                 	<button type="button" id="delete" class="btn btn-danger" style="width: 360px; height:40px;">삭제</button>
                 </div>
                 <br>
@@ -105,10 +105,42 @@
     $(function(){
 		$('#delete').click(function(){
 			location.href="delete.inq?no="+${i.inqNo};
-		})		
+		})
+		
+		$('#reply').click(function(){
+			$.ajax({
+				url : 'registReply.ad',
+				data : {inqReply : $('#registReply').val(),
+						inqNo : ${i.inqNo}},
+				success : function(result){
+					if(result == 1){
+						alert('성공적으로 등록되었습니다.');
+						location.href="inquiry.ad";
+					}
+					else{
+						alert('댓글 실패');
+					}
+				}
+			})
+		})
 	})
+	
+	
     </script>
     
+    <div class="modal fade" id="Modal">
+        <div class="modal-dialog modal-lg" >
+          <div class="modal-content" style=" width:500px; height:400px;" >  
+            <div class="modal-body" style="text-align: center;">
+                <br>
+                <h3><b>문의 댓글</b></h3>
+                <textarea class="form-control" style="resize:none; width:360px; height:200px" name="inqReply" id="registReply"></textarea>
+                <br>
+                <button type="button" id="reply" class="btn btn-secondary" style="width: 360px; height:40px;">작성</button>
+                <br><br><br>
+            </div>            
+          </div>
+        </div>
+    </div>
     
-    <jsp:include page="../../common/footer.jsp" /></body>
 </html>
