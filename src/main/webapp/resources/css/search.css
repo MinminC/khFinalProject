@@ -16,15 +16,14 @@
 		top:80px;
 	}
 	#tags-option{
-		top:360px;
+		top:500px;
 	}
 	#search-option, #area-option, #tags-option{
-		width:auto;
 		display:inline-block;
 		position:absolute;
 		background:rgb(230,230,230);
 		width:280px;
-		height:280px;
+		height:auto;
 		padding:20px;
 	}
 	#search-tab ul, #area-option ul, #tags-option ul{
@@ -80,14 +79,14 @@
 	}
 	#course-summary>div{
 		display:inline-block;
-		height:300px;
-		width:300px;
+		height:auto;
+		width:280px;
 		border:1px solid gray;
 		padding: 5px;
-		margin:5px;
+		margin:10px;
 	}
 	#course-summary img{
-		width:280px;
+		width:260px;
 		height:auto;
 	}
 /*추천 코스*/

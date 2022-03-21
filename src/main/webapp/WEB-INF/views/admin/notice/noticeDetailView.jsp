@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사용자-공지사항</title>
+<title>관리자-공지사항 상세</title>
+<link rel="stylesheet" type="text/css" href="resources/css/admin-notice.css">
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<div class="wrap" style="margin-top:200px;">
-		<h1>공지사항</h1>
+<jsp:include page="/WEB-INF/views/common/sideBar.jsp" />
+	<div id="wrap" style="margin-top:200px;">
 		<table class="table">
 			<thead>
 				<tr>
@@ -36,24 +36,24 @@
 				<!-- 다음 글이 존재할 경우 -->
 				<c:if test="${n.nextNoticeNo != 0}">
 					<tr>
-						<td><a href="detail.no?noticeNo=${n.nextNoticeNo}">다음글 : ${n.nextNoticeTitle}</a></td>
+						<td><a href="detailAdmin.no?noticeNo=${n.nextNoticeNo}">다음글 : ${n.nextNoticeTitle}</a></td>
 					</tr>
 				</c:if>
 				<!-- 이전 글이 존재할 경우 -->
 				<c:if test="${n.prevNoticeNo != 0}">
 					<tr>
-						<td><a href="detail.no?noticeNo=${n.prevNoticeNo}">이전글 : ${n.prevNoticeTitle}</a></td>
+						<td><a href="detailAdmin.no?noticeNo=${n.prevNoticeNo}">이전글 : ${n.prevNoticeTitle}</a></td>
 					</tr>
 				</c:if>
 			</tbody>
 		</table>
-	</div>
 
 	<!-- 목록으로 이동 -->
-	<a href="list.no" class="btn btn-secondary">목록 이동</a>
+	<a href="listAdmin.no" class="btn btn-secondary">목록 이동</a>
+	<a href="updateForm.no?noticeNo=${n.noticeNo}" class="btn btn-secondary">수정</a>
+	<a href="delete.no?noticeNo=${n.noticeNo}" class="btn btn-secondary">삭제</a>
 	<br>
-	<!--footer-->
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
+	</div>
 </body>
 </html>

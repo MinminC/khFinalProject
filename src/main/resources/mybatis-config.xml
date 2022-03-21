@@ -13,8 +13,12 @@
 		<typeAlias type="com.kh.firstclass.user.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.firstclass.common.mail.CertVo" alias="certVo"/>
 		<typeAlias type="com.kh.firstclass.user.member.model.vo.Inquiry" alias="Inquiry"/>
+
 		<typeAlias type="com.kh.firstclass.user.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.firstclass.user.review.model.vo.ReviewPicture" alias="reviewPicture"/>
+
+		<typeAlias type="com.kh.firstclass.user.notice.model.vo.Notice" alias="notice"/>
+
 	</typeAliases>
 
 	<!-- 
@@ -26,6 +30,10 @@
 	 <mappers>
 		<mapper resource="/mappers/place-mapper.xml" />
 		<mapper resource="mappers/member-mapper.xml"/>
+
 		<mapper resource="/mappers/review-mapper.xml"/>
+
+		<mapper resource="/mappers/notice-mapper.xml" />
+
 	 </mappers>
 </configuration>
