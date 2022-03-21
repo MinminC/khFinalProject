@@ -3,6 +3,7 @@ package com.kh.firstclass.user.review.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,6 @@ public class ReviewController {
 		
 		// 여러 사진을 반복문을 통해 굳
 		for(MultipartFile f : file) {
-			System.out.println(f);
 		    
 			if(!f.getOriginalFilename().equals("")) {
 				
@@ -108,6 +108,27 @@ public class ReviewController {
 		
 		return new Gson().toJson(reviewService.pictureReview(placeNo));
 		
+	}
+	
+	//deleteReview.rev
+	// 리뷰 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteReview.rev", produces="applictaion/json; charset=UTF-8")
+	public String deleteReview(int revNo, HttpSession session) {
+		
+		// 리뷰번호로 changeName 가져와서 파일 삭제
+		ArrayList<ReviewPicture> list = reviewService.selectChangeName(revNo);
+		
+		// 가져온 changeName으로 삭제
+		for(ReviewPicture rp : list) {
+			new File(session.getServletContext().getRealPath(rp.getChangeName())).delete();
+		}
+				
+		// 리뷰사진 삭제
+		int result = reviewService.deleteReviewPicture(revNo);
+		// 리뷰 삭제
+		result *= reviewService.deleteReview(revNo);
+		return new Gson().toJson(result);
 	}
 	
 }

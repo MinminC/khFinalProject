@@ -31,6 +31,16 @@ public class ReviewDao {
 		return (ArrayList)sqlSession.selectList("reviewMapper.pictureReview", placeNo);
 	}
 
-	
+	public int deleteReview(SqlSessionTemplate sqlSession, int revNo) {
+		return sqlSession.delete("reviewMapper.deleteReview", revNo);
+	}
+
+	public int deleteReviewPicture(SqlSessionTemplate sqlSession, int revNo) {
+		return sqlSession.delete("reviewMapper.deleteReviewPicture", revNo);
+	}
+
+	public ArrayList<ReviewPicture> selectChangeName(SqlSessionTemplate sqlSession, int revNo) {
+		return (ArrayList)sqlSession.selectList("reviewMapper.selectChangeName", revNo);
+	}
 	
 }
