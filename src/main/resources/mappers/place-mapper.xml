@@ -128,13 +128,31 @@
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
 			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
 		FROM VW_PLACE
-		WHERE ROWNUM &lt; 5
-			AND 
-				(PLACE_TAGS LIKE '%'||#{tag}||'%'
-		<!-- tag-area, ""-전체, "ㄷㄹㄹ"-전체, ""-"인천", "ㄷㄹㄹ"-"인천 -->
+		<where>
+			(PLACE_TAGS LIKE '%'||#{tag}||'%'
+			<!-- tag-area, ""-전체, "ㄷㄹㄹ"-전체, ""-"인천", "ㄷㄹㄹ"-"인천 -->
 			<if test="area != '전체'">
 				AND PLACE_AREA = #{area}
 			</if>
 			)
+		</where>
 	</select>
+	
+	<!-- placeDetailView -->
+	<!-- 여행지 정보 조회 -->
+	<select id="placeDetailView" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_TAGS, PLACE_DES, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
+		FROM PLACE
+		WHERE PLACE_STATUS = 'Y' AND PLACE_NO = #{placeNo}
+	</select>
+	
+	<!-- placeCount -->
+	<!-- 여행지 검색 시 카운터 + -->
+	<update id="placeCount" parameterType="_int">
+		UPDATE PLACE
+		SET VIEWS = VIEWS + 1
+		WHERE PLACE_NO = #{placeNo}
+	</update>
+	
+	
 </mapper>

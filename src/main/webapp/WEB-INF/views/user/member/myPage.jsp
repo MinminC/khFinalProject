@@ -92,19 +92,12 @@
                 <br>
                 <h6>고객의 소중한 개인정보보호를 위해서 본인 확인을 진행합니다.</h6><br>
                 <br>
-                              비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="updateMember();" class="btn btn-secondary" value="확인">
+                <form action="update.me">비밀번호&nbsp;&nbsp;&nbsp;<input type="password" name="userPwd" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-secondary" value="확인"></form>
                 <br><br><br>
             </div>            
           </div>
         </div>
-    </div>
-	 
-	 <script> // 로그인 구현 시 로직 변경
-	 	function updateMember(){
-	 		location.href = "update.me";
-	 	}	 
-	 	
-	 </script>
+    </div>	 
 	 
 	<!-- 모달(비밀번호 변경 비밀번호 확인) -->
     <div class="modal fade" id="Modal2">
@@ -116,18 +109,13 @@
                 <br>
                 <h6>고객의 소중한 개인정보보호를 위해서 본인 확인을 진행합니다.</h6><br>
                 <br>
-                              비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-secondary" value="확인" onclick="updatePassword();">
-                <br><br><br>
+                <form action="update.pwd">비밀번호&nbsp;&nbsp;&nbsp;<input type="password" name="userPwd" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" id="updatePassword" class="btn btn-secondary" value="확인" onclick="updatePassword();">
+                </form><br><br><br>
             </div>            
           </div>
         </div>
-    </div> 
+    </div>  
 	 
-	  <script> // 로그인 구현 시 로직 변경
-	 	function updatePassword(){
-	 		location.href = "update.pwd";
-	 	}
-	 </script>
 	 
 	<!-- 모달(탈퇴 비밀번호 확인) -->
     <div class="modal fade" id="Modal3">
@@ -139,13 +127,25 @@
                 <br>
                 <h6>고객의 소중한 개인정보보호를 위해서 본인 확인을 진행합니다.</h6><br>
                 <br>
-                              비밀번호&nbsp;&nbsp;&nbsp;<input type="password" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-secondary" value="확인">
+                              비밀번호&nbsp;&nbsp;&nbsp;<input type="password" id="deletePwd" style="width: 300px;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="deleteMember" class="btn btn-secondary" value="확인">
                 <br><br><br>
             </div>            
           </div>
         </div>
     </div>
-	
+	<script>
+		$('#deleteMember').click(function(){
+			$('#Modal3').modal('hide');
+			$.ajax({
+				url : "delete.mem",
+				data : {userPwd : $('#deletePwd').val()},
+				success : function(){
+					alert("회원이 탈퇴 되었습니다.");
+					location.href="index.jsp";
+				}
+			})
+		})
+	</script>
 	
 	<jsp:include page="../../common/footer.jsp" />
 </body>

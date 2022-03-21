@@ -150,5 +150,18 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.inquiryList(sqlSession, pi, userNo);
 	}
 
+	@Override
+	public int deleteMember(int userNo) {
+		return memberDao.deleteMember(sqlSession, userNo);
+	}
+
+
+	@Override
+	public int updatePassword(Member m) {
+		return memberDao.updatePassword(sqlSession, m);
+	}
+
+
+
 
 }

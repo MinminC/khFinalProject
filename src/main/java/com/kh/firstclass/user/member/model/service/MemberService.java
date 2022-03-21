@@ -72,6 +72,12 @@ public interface MemberService {
 	ArrayList<Inquiry> inquiryList(PageInfo pi, int userNo);
 
 
+	// 회원탈퇴
+	int deleteMember(int userNo);
+
+	// 비밀번호 변경
+	int updatePassword(Member m);
+
 
 	
 	

@@ -1,15 +1,12 @@
 package com.kh.firstclass.user.member.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-
-import java.util.ArrayList;
-
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +16,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.firstclass.common.mail.CertVo;
+import com.kh.firstclass.common.model.vo.PageInfo;
 import com.kh.firstclass.user.member.model.service.MemberService;
 import com.kh.firstclass.user.member.model.service.MemberServiceImpl;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.kh.firstclass.common.model.vo.PageInfo;
-import com.kh.firstclass.common.template.Pagination;
-import com.kh.firstclass.user.member.model.service.MemberService;
 import com.kh.firstclass.user.member.model.vo.Inquiry;
-
 import com.kh.firstclass.user.member.model.vo.Member;
 
 @Controller
@@ -62,43 +52,53 @@ public class MemberController {
 	}
 	
 	// 개인정보 변경 페이지로 이동
+	@ResponseBody
 	@RequestMapping("update.me")
-	public String updateMember() {
-		// 암호화
-		// 지금은 로그인 유저의 정보를 가져왔지만 암호화 작업 후에는 로그인한 유저의 아이디와 입력한 비밀번호를 통해 해당 유저의 정보를 뺏어오기
+	public ModelAndView updateMember(ModelAndView mv, HttpSession session, Member m) {
 		
-		
-		return "user/member/updateMember";
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(m.getUserPwd() != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {			
+			mv.setViewName("user/member/updateMember");
+		}
+		return mv;
 	}
 	
 	// 개인정보 변경
 	@RequestMapping("updateEnrollForm.me")
 	public String updateEnrollForm(Member m, HttpSession session, Model model) {
-		
+		System.out.println("1");
 		int result = memberService.updateEnrollForm(m);
 		
 		if(result > 0) {
+			Member updateMem = memberService.loginMember(m);
+			session.setAttribute("loginUser", updateMem);			
 			session.setAttribute("alertMsg", "수정 되었습니다.");
-			return "redirect:update.me";
+			return "redirect:myPage.me";
 		} else { 
 			model.addAttribute("errorMsg", "실패");
 			return "common/errorPage";
 		}
 		
-	}
-	
-	// 비밀번호 변경 페이지로 이동
-	@RequestMapping("update.pwd")
-	public String updatePassword() {
-		return "user/member/updatePassword";
-	}
+	}	
 	
 	//updateEnrollForm.pwd
 	// 비밀번호 변경
 	@RequestMapping("updateEnrollForm.pwd")
-	public String updateEnrollForm(Member m) {
-		// 암호화 해서 집어넣어야한다.
-		return "user/member/updatePassword";
+	public String updatePassword(Member m, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd()); 
+		
+		m.setUserPwd(encPwd);
+		m.setUserNo(loginUser.getUserNo());
+		
+		int result = memberService.updatePassword(m);
+		if(result != 0) {
+			session.setAttribute("alertMsg", "비밀번호가 변경되었습니다. 재로그인 바랍니다.");
+			session.removeAttribute("loginUser");
+		}
+		return "redirect:/";
 		
 	}
 	
@@ -156,7 +156,6 @@ public class MemberController {
 				model.addAttribute("errorMsg","회원가입실패");
 				return "common/errorPage";
 			}
-		
 			
 		}
 		
@@ -184,10 +183,7 @@ public class MemberController {
 
 			String ip = request.getRemoteAddr(); //ip알려주는 메소드 
 			
-			
 			String secret = memberService.sendMail(ip); //인증번호db에 insert해와줌
-		
-			
 			
 			MimeMessage message = sender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
@@ -197,9 +193,30 @@ public class MemberController {
 			
 			sender.send(message);
 			
-			
 			return secret!=""?1:0;
 		}
+		
+		// 개인정보변경(변경 이메일 확인)
+		@ResponseBody
+		@RequestMapping("sendEmail.me")
+		public String sendEmail(String email,HttpServletRequest request) throws MessagingException {
+
+			String ip = request.getRemoteAddr(); 
+			String secret = memberService.sendMail(ip);
+			
+			MimeMessage message = sender.createMimeMessage();
+			
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			
+			helper.setTo(email);
+			helper.setSubject("메일인증");
+			helper.setText("인증번호 : "+ secret);
+			
+			sender.send(message);
+			
+			return secret;
+		}
+		
 		
 		@ResponseBody
 		@RequestMapping("check")
@@ -211,8 +228,6 @@ public class MemberController {
 											.build());
 			
 			return result;
-			
-			
 		}
 		
 		//비밀번호찾기
@@ -290,36 +305,66 @@ public class MemberController {
 		return "user/member/myReview";
 	}
 		
-	// 문의 페이지로 이동
+	// 나의 문의 페이지로 이동
 	@RequestMapping("myInquiry.me")
-	public ModelAndView myInquiry(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv) {
+	public ModelAndView Inquiry(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
 	
-		int listCount = memberService.selectListCount();
+		Member m = (Member)session.getAttribute("loginUser");
+		int listCount = memberService.inquiryListCount(m.getUserNo());
 		
 		int pageLimit = 10;
 		int boardLimit = 5;
 		
 		PageInfo pi = PageInfo.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 				
-		ArrayList<Inquiry> list = memberService.selectList(pi);
-		
-		//model.addAttribute("list", list);
-		//model.addAttribute("pi", pi);
+		ArrayList<Inquiry> list = memberService.inquiryList(pi, m.getUserNo());
 		
 		mv.addObject("list",list);
 		mv.addObject("pi", pi);
 		
-		// 포워딩 (/WEB-INF/views/   board/boardListView    .jsp)
 		mv.setViewName("user/member/myInquiry");
 		
 		return mv;
 		
 	}	
 	
-	// 문의하기 페이지로 이동
+	// 문의 페이지로 이동(관리자)
+		@RequestMapping("inquiry.ad")
+		public ModelAndView myInquiry(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
+		
+			int listCount = memberService.selectListCount();
+			
+			int pageLimit = 10;
+			int boardLimit = 5;
+			
+			PageInfo pi = PageInfo.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+					
+			ArrayList<Inquiry> list = memberService.selectList(pi);
+			
+			mv.addObject("list",list);
+			mv.addObject("pi", pi);
+			
+			mv.setViewName("admin/member/inquiry");
+			
+			return mv;
+			
+		}	
+	
+	// 문의 상세 페이지로 이동
 	@RequestMapping("enrollForm.bo")
 	public String inquiryEnrollForm() {
 		return "user/member/inquiryEnrollForm";
+	}	
+	
+	// 관리자 문의 상세 페이지
+	@RequestMapping("inquiryDetail.ad")
+	public ModelAndView inquiryDetail(ModelAndView mv, int no) {
+			
+		Inquiry i = memberService.selectInquiry(no);
+		mv.addObject("i",i).setViewName("admin/member/inquiryDetailForm");
+				
+		return mv;
+			
 	}
 	
 	// 문의하기 
@@ -377,6 +422,42 @@ public class MemberController {
 			model.addAttribute("errorMsg", "문의 수정을 실패했습니다.");
 			return "common/errorPage";
 		}
+	}
+	
+	// 문의 댓글(관리자)
+	@ResponseBody
+	@RequestMapping("registReply.ad")
+	public int registReply(Inquiry i) {
+		int result = memberService.registReply(i);
+		
+		return result;
+	}
+	
+	// 회원 탈퇴
+	@RequestMapping("delete.mem")
+	public String deleteMember(Member m, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+			memberService.deleteMember(loginUser.getUserNo());
+			session.invalidate();
+		}
+		return "redirect:/";
+	}
+	
+
+	// 비밀번호 변경(본인확인 후 변경 페이지로 이동)
+	@ResponseBody
+	@RequestMapping("update.pwd")
+	public ModelAndView updatePassword(Member m, HttpSession session, ModelAndView mv) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {		
+			mv.setViewName("user/member/updatePassword");
+		}
+		
+		return mv;
 	}
 	
 }
