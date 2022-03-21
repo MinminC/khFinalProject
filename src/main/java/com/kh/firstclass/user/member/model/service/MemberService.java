@@ -71,6 +71,8 @@ public interface MemberService {
 	//  문의 내역 조회(select)
 	ArrayList<Inquiry> inquiryList(PageInfo pi, int userNo);
 
+
+
 	
 	
 }
