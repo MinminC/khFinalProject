@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="searchMapper">
+	<resultMap type="place" id="placeResultMap">
+		<result column="PLACE_NO" property="placeNo" />
+		<result column="PLACE_NAME" property="placeName" />
+		<result column="PLACE_ADDRESS" property="placeAddress" />
+		<result column="PLACE_LON" property="placeLon" />
+		<result column="PLACE_LAT" property="placeLat" />
+		<result column="PLACE_DES" property="placeDes" />
+		<result column="PLACE_TAGS" property="placeTags" />
+		<result column="AREA" property="area" />
+		<result column="TYPE" property="typeCode" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="PIC_ORIGIN" property="picOrigin" />
+		<result column="PIC_CHANGE" property="picChange" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="ModifyDate" />
+		<result column="PLACE_STATUS" property="placeStatus" />
+	</resultMap>
+	<select id="countResult" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(PLACE_NO)
+		FROM PLACE
+		<where>
+			PLACE_STATUS = 'Y'
+				AND (PLACE_NAME LIKE '%'||#{keyword}||'%'
+					OR PLACE_ADDRESS LIKE '%'||#{keyword}||'%'
+					OR PLACE_TAGS LIKE '%'||#{keyword}||'%'
+					OR PLACE_DES LIKE '%'||#{keyword}||'%')
+		</where>
+	</select>
+</mapper>

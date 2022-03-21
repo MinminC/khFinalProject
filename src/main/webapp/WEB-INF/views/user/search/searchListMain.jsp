@@ -16,7 +16,7 @@
 			<ul>
 				<li class="now"><a onclick="location.reload();">전체</a> |</li>
 				<li><a href="?where=Place&keyword=${keyword}">여행지</a> |</li>
-				<li><a href="?where=Course&keyword=${keyword}">리뷰</a></li>
+				<li><a href="?where=Review&keyword=${keyword}">리뷰</a></li>
 			</ul>
 		</div>
 		<hr>
@@ -94,7 +94,7 @@
 			</c:choose>
 		</div>
 		<div id="search-option">
-			<h3>실시간 검색 순위</h3>
+			<h3>검색 순위</h3>
 			<ul>
 				<!-- 10개 노출. 공공DB에서 받아온 검색 순위 -->
 				<li><span>1</span><a href="#">검색테스트1</a></li>
@@ -110,6 +110,10 @@
 			</ul>
 		</div>
 	</div>
-	
+	<script>
+		$(function(){
+			$('#search-option>h3>span').text(new Date(today.setDate(today.getDate()-1)));
+		})
+	</script>
 </body>
 </html>

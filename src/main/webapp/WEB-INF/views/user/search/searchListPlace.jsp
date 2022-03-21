@@ -16,13 +16,8 @@
 			<ul>
 				<li><a href="?where=Main&keyword=${keyword}">전체</a> |</li>
 				<li class="now"><a onclick="location.reload();">여행지</a> |</li>
-				<li><a href="?where=Course&keyword=${keyword}">리뷰</a></li>
+				<li><a href="?where=Review&keyword=${keyword}">리뷰</a></li>
 			</ul>
-		</div>
-		<div>
-			<hr>
-				<p>(구름마크)서귀포 10°C &nbsp;&nbsp;&nbsp; (해)동작구 12°C&nbsp;&nbsp;&nbsp; 부산 15°C</p>
-			<hr>
 		</div>
 		<hr>
 		<div id="search-main">
@@ -59,7 +54,7 @@
 					</div>
 					<hr>
 					<h3 class="title">여행지</h3>
-					<div id="course-summary">
+					<div id="review-summary">
 						<div>
 							<img src="">
 							<h4>여행지이름1</h4>
@@ -92,49 +87,48 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="area-option">
-			<ul><!--해당 부분은 DB에서 가져오는 것-->
-				<li>전체</li>
-				<li>서울</li>
-				<li>부산</li>
-				<li>대구</li>
-				<li>인천</li>
-				<li>광주</li>
-				<li>대전</li>
-				<li>울산</li>
-				<li>세종</li>
-				<li>경기</li>
-				<li>강원</li>
-				<li>충북</li>
-				<li>충남</li>
-				<li>경북</li>
-				<li>경남</li>
-				<li>전북</li>
-				<li>전남</li>
-				<li>제주</li>
-			</ul>
-			<hr>
-			<!--숨겨져있다가 대분류 클릭하면 해당하는 GUGUN 이름 가져오기-->
+		<div id="search-option">
+			<h3>검색 순위</h3>
 			<ul>
-				<li>전체</li>
-				<li>서귀포</li>
+				<!-- 10개 노출. 공공DB에서 받아온 검색 순위 -->
+				<li><span>1</span><a href="#">검색테스트1</a></li>
+				<li><span>2</span><a href="#">검색테스트2</a></li>
+				<li><span>3</span><a href="#">검색테스트3</a></li>
+				<li><span>4</span><a href="#">검색테스트4</a></li>
+				<li><span>5</span><a href="#">검색테스트5</a></li>
+				<li><span>6</span><a href="#">검색테스트6</a></li>
+				<li><span>7</span><a href="#">검색테스트7</a></li>
+				<li><span>8</span><a href="#">검색테스트8</a></li>
+				<li><span>9</span><a href="#">검색테스트9</a></li>
+				<li><span>10</span><a href="#">검색테스트10</a></li>
 			</ul>
 		</div>
-		
-			<script>
-				$(function(){
-					$('#area-option').on('click','ul>li',function(){
-						console.log($(this));
-						console.log($(this).hasClass('selected'));
-						if($(this).hasClass('selected'))
-							$(this).removeClass('selected');
-						else
-							$(this).addClass('selected');
-					})
+		<script>
+			$(function(){
+				$('#area-option').on('click','ul>li',function(){
+					console.log($(this));
+					console.log($(this).hasClass('selected'));
+					if($(this).hasClass('selected'))
+						$(this).removeClass('selected');
+					else
+						$(this).addClass('selected');
 				})
-			</script>
-		</div>
+			})
+		</script>
+		<script>
+			$(function(){
+				var now = new Date();
+				var yesterday = getYMD(new Date(now.setDate(now.getDate() - 1)));
+				$('#search-option>i').text(yesterday);
+			})
+			function getYMD(time) {
+			    return time.getFullYear() + "-" 
+			    		+ ((time.getMonth() + 1) > 9 ? 
+			    			(time.getMonth() + 1).toString() : "0" + (time.getMonth() + 1)) 
+			    		+ "-" +(time.getDate() > 9 ? 
+			    			time.getDate().toString() : "0" + time.getDate().toString());
+			}
+		</script>
 	</div>
-	
 </body>
 </html>
