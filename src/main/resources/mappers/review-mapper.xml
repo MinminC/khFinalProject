@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviewMapper">
+ 	
+ 	<resultMap type="review" id="reviewResultSet">
+ 		<result column="REV_NO" property="revNo"/>
+ 		<result column="USER_ID" property="userId"/>
+ 		<result column="REV_CONTENT" property="revContent"/>
+ 		<result column="STAR_SCORE" property="starScore"/>
+ 		<result column="STATUS" property="status"/>
+ 		<result column="CREATE_DATE" property="createDate"/>
+ 		<result column="USER_NO" property="userNo"/>
+ 		<result column="PLACE_NO" property="placeNo"/>
+ 	</resultMap>
+ 	
+ 	 <resultMap type="reviewPicture" id="reviewPictureResultSet">
+ 		<result column="IMG_NO" property="imgNo"/>
+ 		<result column="REV_NO" property="revNo"/>
+ 		<result column="ORIGIN_NAME" property="originName"/>
+ 		<result column="CHANGE_NAME" property="changeName"/>
+ 	</resultMap>
+ 
+ 	<!-- 리뷰 작성(사진 제외 리뷰 나머지 부분)  -->
+ 	<insert id="insertReview" parameterType="review">
+	 	INSERT INTO REVIEW (REV_NO, REV_CONTENT, STAR_SCORE, STATUS, CREATE_DATE, USER_NO, PLACE_NO)
+	 	VALUES (SEQ_REV_NO.NEXTVAL, #{revContent}, #{starScore}, 'Y', SYSDATE, #{userNo}, #{placeNo})
+ 	</insert>
+ 
+ 	<!-- selectReview -->
+ 	<!-- 사진에 리뷰번호를 넘기기위해 select -->
+ 	<select id="selectReview" parameterType="review" resultMap="reviewResultSet">
+ 		SELECT *
+		FROM REVIEW
+		WHERE ROWNUM = 1
+		ORDER BY REV_NO DESC
+ 	</select>
+ 
+ 	<!-- insertReviewPicture -->
+ 	<!-- 사진 정보 DB에 넣기 -->
+ 	<insert id="insertReviewPicture" parameterType="reviewPicture">
+ 		INSERT INTO REVIEW_PICTURE (IMG_NO, REV_NO, ORIGIN_NAME, CHANGE_NAME)
+ 		VALUES (SEQ_IMG_NO.NEXTVAL, #{revNo}, #{originName}, #{changeName})
+ 	</insert>
+ 	
+ 	<!-- selectReview -->
+ 	<!-- 리뷰정보(사진정보 x) 조회하기 -->
+ 	<select id="selectReviewInformation" resultMap="reviewResultSet">
+ 		SELECT USER_ID, REV_CONTENT, CREATE_DATE, STAR_SCORE, REV_NO, R.USER_NO
+		FROM MEMBER M, REVIEW R
+		WHERE M.USER_NO = R.USER_NO AND PLACE_NO = #{placeNo}
+		ORDER BY REV_NO DESC
+ 	</select>
+ 	
+ 	<!-- pictureReview -->
+ 	<!-- 리뷰 사진 정보 조회하기 -->
+ 	<select id="pictureReview" resultMap="reviewPictureResultSet">
+ 		SELECT R.REV_NO, CHANGE_NAME
+		FROM REVIEW R, REVIEW_PICTURE RP
+		WHERE R.REV_NO = RP.REV_NO AND PLACE_NO = #{placeNo}
+		ORDER BY R.REV_NO DESC
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 
+ 
+ 	<!-- 아이디중복체크 쿼리문-->
+ 	<select id="idCheck" resultType="_int">
+ 	
+ 		select count(*)
+ 		from	member
+ 		where	user_id = #{checkId}
+ 	
+ 	</select>
+ 	
+ 	<!-- 이메일 인증번호 db삽입 쿼리문-->
+ 	<insert id="regist" parameterType="certVo">
+ 			INSERT INTO CERT(
+ 							who, secret, when
+ 			)VALUES(
+ 					#{who},#{secret},sysdate
+ 			)
+ 	
+ 	</insert>
+ 	
+ 	<!-- 이메일 인증번호 확인 쿼리문 -->
+ 	<select id = "validate" parameterType="certVo" resultType="certVo">
+ 	
+ 		SELECT * FROM CERT
+ 		WHERE 
+ 				who = #{who}
+ 				and secret = #{secret}
+ 				and when between sysdate - 3/24/60 and sysdate<!-- 이렇게 하면 3분안에 입력해야하는거임 외우셈 -->
+ 	
+ 	</select>
+ 	
+ 	<!-- 이메일 인증번호 db삭제 쿼리문 -->
+ 	<delete id="remove" parameterType="certVo">
+	
+	DELETE CERT WHERE who = #{who} and secret = #{secret}
+	
+	</delete>
+	
+	<!-- 비밀번호 찾기 쿼리문 -->
+	<select id="searchPwd" parameterType="member" resultType="_int">
+	
+	SELECT COUNT(*)
+	FROM	MEMBER
+	WHERE	USER_ID=#{userId}
+	AND		EMAIL=#{email}
+	
+	</select>
+	<!-- 비밀번호 찾기 임시비밀번호로 수정 쿼리문 -->
+	<update id="updatePwd" parameterType="hashMap">
+	
+	UPDATE  MEMBER
+	SET		USER_PWD=#{encPwd}
+	WHERE	USER_ID=#{m.userId}		
+	AND		EMAIL=#{m.email}
+
+	</update>
+ 
+ 	<!-- 아이디찾기 쿼리문 -->
+ 	<select id="searchId" parameterType="member" resultType="string">
+ 	
+ 	SELECT	SUBSTR(USER_ID,1,length(USER_ID)-3)||LPAD('*',3,'*')
+ 	FROM	MEMBER
+ 	WHERE	USER_NAME=#{userName}
+ 	AND		EMAIL=#{email}
+ 	
+ 	
+ 	</select>	
+ 
+
+    <!-- 문의하기 -->
+ 	<insert id="insertInquiry" parameterType="inquiry">
+ 		INSERT INTO INQUIRY(INQ_NO, USER_NO, INQ_TITLE, INQ_CONTENT)
+ 		VALUES (SEQ_INQUIRY_NO.NEXTVAL, #{userNo}, #{inqTitle}, #{inqContent})
+ 	</insert>
+ 	
+ 	<!-- 관리자 문의내역 수(1:1문의) -->
+ 	<select id="selectListCount" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM INQUIRY
+  		WHERE STATUS = 'Y'
+  	</select>
+  	
+  	<!-- inquiryListCount -->
+  	<!-- 문의내역 수(1:1문의) -->
+ 	<select id="inquiryListCount" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM INQUIRY
+  		WHERE STATUS = 'Y'
+  		  AND USER_NO = #{userNo}
+  	</select>
+	
+	<!-- 문의 내역 수정 -->
+	<update id="updateInquiry" parameterType="inquiry">
+		UPDATE INQUIRY
+		SET 
+		   INQ_TITLE = #{inqTitle}
+		   ,INQ_CONTENT = #{inqContent}
+		WHERE INQ_NO = #{inqNo}
+	</update>
+	
+	<!-- 나의 문의 삭제 -->
+	<update id="deleteInquiry" parameterType="_int">
+		UPDATE INQUIRY
+		SET STATUS = 'N'
+		WHERE INQ_NO = #{No}
+	</update>
+	
+	<!-- 개인정보변경 -->
+	<update id="updateEnrollForm" parameterType="member">
+		UPDATE MEMBER
+		SET PHONE = #{phone},
+			EMAIL = #{email}
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<!-- 댓글 등록 -->
+	<update id="registReply" parameterType="inquiry">
+		UPDATE INQUIRY
+		 SET INQ_REPLY = #{inqReply}
+		  WHERE INQ_NO = #{inqNo}
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<update id="deleteMember" parameterType="_int">
+		UPDATE MEMBER
+		   SET STATUS = 'N'
+		 WHERE USER_NO = #{userNo}
+	</update>
+
+	<!-- updatePassword -->
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword" parameterType="member">
+		UPDATE MEMBER
+		   SET USER_PWD = #{userPwd}
+		 WHERE USER_NO = #{userNo}
+	</update>
+	
+</mapper>
