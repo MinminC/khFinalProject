@@ -45,6 +45,21 @@ public class ReviewServiceImpl implements ReviewService{
 		return reviewDao.pictureReview(sqlSession, placeNo);
 	}
 
+	@Override
+	public int deleteReview(int revNo) {
+		return reviewDao.deleteReview(sqlSession, revNo);
+	}
+
+	@Override
+	public int deleteReviewPicture(int revNo) {
+		return reviewDao.deleteReviewPicture(sqlSession, revNo);
+	}
+
+	@Override
+	public ArrayList<ReviewPicture> selectChangeName(int revNo) {
+		return reviewDao.selectChangeName(sqlSession, revNo);
+	}
+
 	
 	
 }

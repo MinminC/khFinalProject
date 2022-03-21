@@ -62,149 +62,41 @@
 		ORDER BY R.REV_NO DESC
  	</select>
  	
+ 	<!-- deleteReview -->
+ 	<!-- 리뷰 삭제 -->
+ 	<delete id="deleteReview" parameterType="_int">
+ 		DELETE 
+ 		FROM REVIEW
+ 		WHERE REV_NO = #{revNo}
+ 	</delete>
  	
+ 	<!-- deleteReviewPicture -->
+ 	<!-- 리뷰 삭제 -->
+ 	<delete id="deleteReviewPicture" parameterType="_int">
+ 		DELETE 
+ 		FROM REVIEW_PICTURE
+ 		WHERE REV_NO = #{revNo}
+ 	</delete>
  	
- 	
- 	
- 	
- 	
- 	
- 
- 
- 	<!-- 아이디중복체크 쿼리문-->
- 	<select id="idCheck" resultType="_int">
- 	
- 		select count(*)
- 		from	member
- 		where	user_id = #{checkId}
- 	
+ 	<!-- selectChangeName -->
+ 	<!-- 리뷰번호로 changeName 가져와서 파일 삭제 -->
+ 	<select id="selectChangeName" resultMap="reviewPictureResultSet">
+ 		SELECT CHANGE_NAME
+ 		FROM REVIEW_PICTURE
+ 		WHERE REV_NO = #{revNo}
  	</select>
  	
- 	<!-- 이메일 인증번호 db삽입 쿼리문-->
- 	<insert id="regist" parameterType="certVo">
- 			INSERT INTO CERT(
- 							who, secret, when
- 			)VALUES(
- 					#{who},#{secret},sysdate
- 			)
  	
- 	</insert>
  	
- 	<!-- 이메일 인증번호 확인 쿼리문 -->
- 	<select id = "validate" parameterType="certVo" resultType="certVo">
  	
- 		SELECT * FROM CERT
- 		WHERE 
- 				who = #{who}
- 				and secret = #{secret}
- 				and when between sysdate - 3/24/60 and sysdate<!-- 이렇게 하면 3분안에 입력해야하는거임 외우셈 -->
  	
- 	</select>
  	
- 	<!-- 이메일 인증번호 db삭제 쿼리문 -->
- 	<delete id="remove" parameterType="certVo">
-	
-	DELETE CERT WHERE who = #{who} and secret = #{secret}
-	
-	</delete>
-	
-	<!-- 비밀번호 찾기 쿼리문 -->
-	<select id="searchPwd" parameterType="member" resultType="_int">
-	
-	SELECT COUNT(*)
-	FROM	MEMBER
-	WHERE	USER_ID=#{userId}
-	AND		EMAIL=#{email}
-	
-	</select>
-	<!-- 비밀번호 찾기 임시비밀번호로 수정 쿼리문 -->
-	<update id="updatePwd" parameterType="hashMap">
-	
-	UPDATE  MEMBER
-	SET		USER_PWD=#{encPwd}
-	WHERE	USER_ID=#{m.userId}		
-	AND		EMAIL=#{m.email}
-
-	</update>
+ 	
+ 	
+ 	
+ 	
+ 	
  
- 	<!-- 아이디찾기 쿼리문 -->
- 	<select id="searchId" parameterType="member" resultType="string">
- 	
- 	SELECT	SUBSTR(USER_ID,1,length(USER_ID)-3)||LPAD('*',3,'*')
- 	FROM	MEMBER
- 	WHERE	USER_NAME=#{userName}
- 	AND		EMAIL=#{email}
- 	
- 	
- 	</select>	
  
-
-    <!-- 문의하기 -->
- 	<insert id="insertInquiry" parameterType="inquiry">
- 		INSERT INTO INQUIRY(INQ_NO, USER_NO, INQ_TITLE, INQ_CONTENT)
- 		VALUES (SEQ_INQUIRY_NO.NEXTVAL, #{userNo}, #{inqTitle}, #{inqContent})
- 	</insert>
  	
- 	<!-- 관리자 문의내역 수(1:1문의) -->
- 	<select id="selectListCount" resultType="_int">
-  		SELECT COUNT(*)
-  		FROM INQUIRY
-  		WHERE STATUS = 'Y'
-  	</select>
-  	
-  	<!-- inquiryListCount -->
-  	<!-- 문의내역 수(1:1문의) -->
- 	<select id="inquiryListCount" resultType="_int">
-  		SELECT COUNT(*)
-  		FROM INQUIRY
-  		WHERE STATUS = 'Y'
-  		  AND USER_NO = #{userNo}
-  	</select>
-	
-	<!-- 문의 내역 수정 -->
-	<update id="updateInquiry" parameterType="inquiry">
-		UPDATE INQUIRY
-		SET 
-		   INQ_TITLE = #{inqTitle}
-		   ,INQ_CONTENT = #{inqContent}
-		WHERE INQ_NO = #{inqNo}
-	</update>
-	
-	<!-- 나의 문의 삭제 -->
-	<update id="deleteInquiry" parameterType="_int">
-		UPDATE INQUIRY
-		SET STATUS = 'N'
-		WHERE INQ_NO = #{No}
-	</update>
-	
-	<!-- 개인정보변경 -->
-	<update id="updateEnrollForm" parameterType="member">
-		UPDATE MEMBER
-		SET PHONE = #{phone},
-			EMAIL = #{email}
-		WHERE USER_ID = #{userId}
-	</update>
-	
-	<!-- 댓글 등록 -->
-	<update id="registReply" parameterType="inquiry">
-		UPDATE INQUIRY
-		 SET INQ_REPLY = #{inqReply}
-		  WHERE INQ_NO = #{inqNo}
-	</update>
-	
-	<!-- 회원탈퇴 -->
-	<update id="deleteMember" parameterType="_int">
-		UPDATE MEMBER
-		   SET STATUS = 'N'
-		 WHERE USER_NO = #{userNo}
-	</update>
-
-	<!-- updatePassword -->
-	<!-- 비밀번호 변경 -->
-	<update id="updatePassword" parameterType="member">
-		UPDATE MEMBER
-		   SET USER_PWD = #{userPwd}
-		 WHERE USER_NO = #{userNo}
-	</update>
-	
 </mapper>

@@ -205,8 +205,10 @@
         color:#777;
     }
 
-    /*  */
-    
+	/* 삭제 */
+    .deleteReview{
+    	cursor : pointer;
+    }
 </style>
 </head>
 <body>
@@ -264,12 +266,15 @@
                         "<div class='rv2'>"
                             +"<div class='rv2_1'>"
                             	+"<img src='resources/upfiles/user/profilePic.png' alt='프로필' class='rounded-circle'>"
-			                    +"<p>"+list[i].userId+"</p>"
-			                    +"<c:if test='${not empty loginUser}'>"
-			                    +"<pre>삭제</pre>"
-			                    +"</c:if>"
-			                    +"<input type='hidden' value='"+list[i].userNo+"'>"
-			                +"</div>"
+			                    +"<p>"+list[i].userId+"</p>";
+			                    
+								if('${loginUser.userId}' == list[i].userId){
+				                    value += "<pre class='deleteReview'>삭제</pre>"
+				                    		+"<input type='hidden' value='"+list[i].revNo+"'>";
+								}
+			                    
+			            value += 
+			                "</div>"
                             +"<div class='rv2_2'>"
                                 +"<div class='rv2_2_1'><p>"+star+"</p></div>"
                                 +"<div class='rv2_2_2'><p>"+list[i].createDate.substr(0, 10)+"</p></div>"
@@ -278,32 +283,45 @@
                             +"<div class='"+list[i].revNo+"'></div>"
                             +"<hr>"
                         +"</div>";
-
+						
 						star =" ";
 						
-						
-						
                     }
+                    
                     $('#review').append(value);
+                    
                     $.ajax({
                         url : "pictureReview.rev",
                         data : {placeNo : ${p.placeNo}},
                         success : function(list){
-                            console.log(list);
                             let value="";
                             for(let i in list){
                                 value = "<img src="+list[i].changeName+">";
                                 $("div[class='"+list[i].revNo+"']").append(value);
                             }
-                            
-                            
+
                         }
                     })
-
+                    
+                    
+                    $('.deleteReview').click(function(){
+			            $.ajax({
+				            url : "deleteReview.rev",
+				            data : {revNo : $(this).next().val()},
+				            success : function(result){
+					            alert('리뷰가 삭제되었습니다.');
+					            location.reload();
+				            }
+			            })
+		            })
+                    
+		            
                 }
-            })
+            })   
+            
         })
-      
+        
+        
     </script>
 
 	<!-- 모달(리뷰쓰기) -->
