@@ -16,24 +16,58 @@
 	#search-one{
 		width: 100%;
 	}
+	#search-list img{
+		width:300px;
+		height:200px;
+	}
+	.list-text{
+		padding-left:20px;
+		display: inline-block;
+		position:relative;
+		width:60%;
+		height:200px;
+	}
+	.list-text button{
+		position:absolute;
+		right:0;
+		top:0;
+	}
+	#search-list>div>img, #search-list>div>.list-text{
+		float:left;
+	}
+	#search-main, #search-option{
+		float:left;
+	}
+	#search-main{
+		width:1000px;
+	}
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<div id="wrap">
-		<div id="search-tab">
-			<ul>
-				<li><a href="?where=Main&keyword=${keyword}">전체</a> |</li>
-				<li class="now"><a onclick="location.reload();">여행지</a> |</li>
-				<li><a href="?where=Review&keyword=${keyword}">리뷰</a></li>
-			</ul>
-			<div>
-				인기순
-				여행지명 순
-			</div>
-		</div>
-		<hr>
 		<div id="search-main">
+			<div id="search-tab">
+				<ul>
+					<li><a href="?where=Main&keyword=${keyword}">전체</a> |</li>
+					<li class="now"><a onclick="location.reload();">여행지</a> |</li>
+					<li><a href="?where=Review&keyword=${keyword}">리뷰</a></li>
+				</ul>
+				<ul>
+					<li onclick="changeSort('new');">최신 순</li>
+					<li onclick="changeSort('views');">인기 순</li>
+					<li onclick="changeSort('place');">여행지 명 순</li>
+				</ul>
+				<div id="align-bar">
+					<i>총 <span>${places.size()}</span>건</i>
+					<script>
+						function changeSort(str){
+							location.href="search?where=${where}&keyword=${keyword}&sort="+str;
+						}
+					</script>
+				</div>
+			</div>
+			<hr>
 			<c:choose>
 				<c:when test="${keyword eq ''}">
 					<!-- 키워드가 없이 검색된 경우 -->
@@ -118,38 +152,70 @@
 					</c:if>
 					<hr>
 					<div id="search-list">
-						<c:forEach var="i" items="${places}">
+						<c:forEach var="place" items="${places}">
 							<div>
 								<img src="${place.filePath}${place.picChange}">
-								<h4>${place.placeName}</h4>
-								<p>
-									별점 : 
-									<c:forEach var="i" begin="1" end="${place.starScore}">
-										★
-									</c:forEach>
-								</p>
+								<div class="list-text">
+									<h4>${place.placeName}</h4>
+									<button type="button" class="btn" data-toggle="modal" data-target="#shareUrl"><i class="fa fa-share-alt" style="font-size:36px"></i></button>
+									<span>
+										별점 : 
+										<c:forEach begin="1" end="${place.starScore}">
+											★
+										</c:forEach>
+									</span>
+									<p>
+										${place.placeTags}
+									</p>
+								</div>
 							</div>
+							<br clear="both">
 							<hr>
 						</c:forEach>
 					</div>
+					
+					<script>
+						function share() {
+						  var url = encodeURI(encodeURIComponent(myform.url.value));
+						  var title = encodeURI(myform.title.value);
+						  var shareURL = "https://share.naver.com/web/shareView?url=" + url + "&title=" + title;
+						  window.open(shareURL, '네이버 공유하기', 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no');
+						}
+					</script>
+					<!--페이징 처리-->
+					<ul class="pagination">
+						<c:if test="${pi.currentPage != 1}">
+							<li class="page-item"><a class="page-link" href="?where=${where}&keyword=${keyword}pageNo=${pi.currentPage - 1}">&lt;</a></li>
+						</c:if>
+						<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+							<li class="page-item"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${i}">${i}</a></li>
+							<!--해당되는 번호에 클래스 active 넣어주기!-->
+						</c:forEach>
+						<c:if test="${pi.currentPage != pi.maxPage}">
+							<li class="page-item endPage"><a class="page-link" href="?where=${where}&keyword=${keyword}pageNo=${pi.currentPage + 1}">&gt;</a></li>
+						</c:if>
+					</ul>
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="search-option">
-			<h3>검색 순위</h3>
-			<ul>
-				<!-- 10개 노출. 공공DB에서 받아온 검색 순위 -->
-				<li><span>1</span><a href="#">검색테스트1</a></li>
-				<li><span>2</span><a href="#">검색테스트2</a></li>
-				<li><span>3</span><a href="#">검색테스트3</a></li>
-				<li><span>4</span><a href="#">검색테스트4</a></li>
-				<li><span>5</span><a href="#">검색테스트5</a></li>
-				<li><span>6</span><a href="#">검색테스트6</a></li>
-				<li><span>7</span><a href="#">검색테스트7</a></li>
-				<li><span>8</span><a href="#">검색테스트8</a></li>
-				<li><span>9</span><a href="#">검색테스트9</a></li>
-				<li><span>10</span><a href="#">검색테스트10</a></li>
-			</ul>
+		<!-- share Modal -->
+		<div class="modal" id="shareUrl">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form id="myform">
+						URL:  <input type="text" id="url" value=""><br/>
+						Title:  <input type="text" id="title" value=""><br/>
+					</form>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="share()">Share</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			</div>
 		</div>
 		<script>
 			$(function(){
@@ -178,6 +244,20 @@
 			    			time.getDate().toString() : "0" + time.getDate().toString());
 			}
 		</script>
+		<div id="search-option">
+			<h3>검색 순위</h3>
+			<i></i>
+			<ul>
+				<!-- 10개 노출. 공공DB에서 받아온 검색 순위 -->
+				<c:forEach var="r" items="${ranking}" varStatus="vs">
+					<li><span>${vs.count}</span><a href="#">${r}</a></li>
+				</c:forEach>
+			</ul>
+		</div>
 	</div>
+	<br clear="both">
+	<br><br><br><br><br><br><br><br><br>
+
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

@@ -10,7 +10,9 @@ import com.kh.firstclass.user.review.model.vo.ReviewPicture;
 
 public interface SearchService {
 
-	int countResult(HashMap<String, Object> map);
+	int countPlace(HashMap<String, Object> map);
+	
+	int countReview(HashMap<String, Object> map);
 
 	ArrayList<Place> selectPlaceList(HashMap<String, Object> map, PageInfo pi);
 
@@ -19,5 +21,9 @@ public interface SearchService {
 	ArrayList<ReviewPicture> selectPictureList(ArrayList<Integer> reviewNo);
 
 	Place selectPlaceOne(HashMap<String, String> map);
+
+	void insertKeyword(String[] keywords);
+
+	ArrayList<String> countSearchRanking();
 
 }

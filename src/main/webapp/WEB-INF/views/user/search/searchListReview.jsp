@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="resources/css/search.css">
 <style>
-//이미지에는 
+
 .review-one>img {
 	position: relative;
 }
@@ -43,7 +43,7 @@
 				<c:otherwise>
 					<!--검색 내용 존재-->
 					<div id="align-bar">
-						<i>총 <span>10</span>건</i>
+						<i>총 <span>${reviews.size()}</span>건</i>
 						<ul>
 							<li onclick="changeSort('new');">최신 순</li>
 							<li onclick="changeSort('writer');">작성자 순</li>
@@ -56,79 +56,44 @@
 						</script>
 					</div>
 					<div id="review-list">
-						<div class="review-one">
-							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-							<div class="review-text">
-								<h4>여행을 떠나자</h4>
-								<h5>
-									작성일 : <span></span>
-									작성자 : <span></span>
-								</h5>
-								<p>
-									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-								</p>
-		                        <div class="share-button">
-		                            <a href="#" class="btn">예매하기</a><br><br>
-		                            <a href="#" class="btn">상세정보</a>
-		                        </div>
+						<c:forEach var="r" items="${reviews}">
+							<div class="review-one">
+								<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
+								<div class="review-text">
+									<h4>${r.placeName}</h4>
+									<h5>
+										작성일 : <span>${r.createDate}</span>
+										작성자 : <span>${r.userId}</span>
+									</h5>
+									<p>
+										${r.revContent}
+									</p>
+									<button type="button" class="share-button" data-toggle="modal" data-target="#myModal">
+										<i class="fa fa-share-alt" style="font-size:36px"></i>
+										<!-- 이게 사진마다 떠있음 마우스 오버하면 보이거나 함 -->
+									</button>
+								</div>
 							</div>
-						</div>
-						<div class="review-one">
-							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-							<div class="review-text">
-								<h4>여행을 떠나자</h4>
-								<h5>
-									하트 : <span></span>
-									조회수 : <span></span>
-									작성일 : <span></span>
-									작성자 : <span></span>
-								</h5>
-								<p>
-									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-								</p>
-								<button type="button" class="share-button" data-toggle="modal" data-target="#myModal">
-								    <i class="fa fa-share-alt" style="font-size:36px"></i>
-								    <!-- 이게 사진마다 떠있음 마우스 오버하면 보이거나 함 -->
-								</button>
-							</div>
-						</div>
-						<div class="review-one">
-							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-							<div class="review-text">
-								<h4>여행을 떠나자</h4>
-								<p>
-									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-								</p>
-							</div>
-						</div>
-						<div class="review-one">
-							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-							<div class="review-text">
-								<h4>여행을 떠나자</h4>
-								<p>
-									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-								</p>
-							</div>
-						</div>
-						<div class="review-one">
-							<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-							<div class="review-text">
-								<h4>여행을 떠나자</h4>
-								<p>
-									별과 풀이 맺어, 바이며, 풍부하게 인간이 붙잡아 곳이 풍부하게 사막이다. 대한 우리 고행을 힘있다. 봄바람을 찬미를 곳으로 기쁘며, 희망의 시들어 두기 물방아 위하여서. 
-								</p>
-							</div>
-						</div>
-						
+						</c:forEach>
 						<br>
-
 						<!--pagination-->
 						<ul class="pagination">
-							<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item active"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">Next</a></li>
+							<c:if test="${pi.currentPage != 1}">
+								<li class="page-item firstPage"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${pi.currentPage - 1}">&lt;</a></li>
+							</c:if>
+							<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+								<c:choose>
+									<c:when test="${pi.currentPage eq i}">
+										<li class="page-item active"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${i}">${i}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${i}">${i}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:if test="${pi.currentPage != pi.maxPage}">
+								<li class="page-item endPage"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${pi.currentPage + 1}">&gt;</a></li>
+							</c:if>
 						</ul>
 					</div>
 				</c:otherwise>
@@ -136,51 +101,22 @@
 		</div>
 		<!-- 어제 검색 순위 -->
 		<div id="search-option">
-			<h3>어제 검색 순위</h3>
+			<h3>검색 순위</h3>
 			<i></i>
 			<ul>
 				<!-- 10개 노출. 공공DB에서 받아온 검색 순위 -->
-				<li><span>1</span><a href="search?keyword=검색테스트1">검색테스트1</a></li>
-				<li><span>2</span><a href="#">검색테스트2</a></li>
-				<li><span>3</span><a href="#">검색테스트3</a></li>
-				<li><span>4</span><a href="#">검색테스트4</a></li>
-				<li><span>5</span><a href="#">검색테스트5</a></li>
-				<li><span>6</span><a href="#">검색테스트6</a></li>
-				<li><span>7</span><a href="#">검색테스트7</a></li>
-				<li><span>8</span><a href="#">검색테스트8</a></li>
-				<li><span>9</span><a href="#">검색테스트9</a></li>
-				<li><span>10</span><a href="#">검색테스트10</a></li>
+				<c:forEach var="r" items="${ranking}" varStatus="vs">
+					<li><span>${vs.count}</span><a href="#">${r}</a></li>
+				</c:forEach>
 			</ul>
 		</div>
-	<script>
-		$(function(){
-			var now = new Date();
-			var yesterday = getYMD(new Date(now.setDate(now.getDate() - 1)));
-			$('#search-option>i').text(yesterday);
-		})
-		function getYMD(time) {
-		    return time.getFullYear() + "-" 
-		    		+ ((time.getMonth() + 1) > 9 ? 
-		    			(time.getMonth() + 1).toString() : "0" + (time.getMonth() + 1)) 
-		    		+ "-" +(time.getDate() > 9 ? 
-		    			time.getDate().toString() : "0" + time.getDate().toString());
-		}
-	</script>
-		<!-- <div id="area-option">
-			<ul>
-				<li>#감귤농장</li>
-				<li>#제주도</li>
-				<li>#감귤농장</li>
-				<li>#제주도</li>
-				<li>#감귤농장</li>
-				<li>#제주도</li>
-				<li>#감귤농장</li>
-				<li>#제주도</li>
-				<li>#감귤농장</li>
-				<li>#제주도</li>
-				<li>#감귤농장</li>
-			</ul>
-		</div>-->
+		<script>
+			$(function(){
+				var now = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');;
+				var yesterday = new Date(+new Date() -24*60*60*1000 + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');;
+				$('#search-option>i').html(yesterday+'<br>~'+now+' 기준');
+			})
+		</script>
 	</div>
 	<script>
 		$(function(){

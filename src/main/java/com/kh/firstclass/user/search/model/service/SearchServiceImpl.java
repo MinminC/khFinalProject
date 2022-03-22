@@ -21,8 +21,8 @@ public class SearchServiceImpl implements SearchService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int countResult(HashMap<String, Object> map) {
-		return searchDao.countResult(sqlSession, map);
+	public int countPlace(HashMap<String, Object> map) {
+		return searchDao.countPlace(sqlSession, map);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public ArrayList<Review> selectReviewList(HashMap<String, Object> map, PageInfo pi) {
-		return null;
+		return searchDao.selectReviewList(sqlSession, map, pi);
 	}
 
 	@Override
@@ -43,6 +43,21 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public Place selectPlaceOne(HashMap<String, String> map) {
 		return searchDao.searchPlaceOne(sqlSession, map);
+	}
+
+	@Override
+	public void insertKeyword(String[] keywords) {
+		searchDao.insertKeyword(sqlSession, keywords);
+	}
+
+	@Override
+	public ArrayList<String> countSearchRanking() {
+		return searchDao.countSearchRanking(sqlSession);
+	}
+
+	@Override
+	public int countReview(HashMap<String, Object> map) {
+		return searchDao.countReview(sqlSession, map);
 	}
 
 }

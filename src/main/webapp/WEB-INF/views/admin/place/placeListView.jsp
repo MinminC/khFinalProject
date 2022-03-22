@@ -64,7 +64,7 @@
 				<li class="page-item"><a class="page-link" href="list.pl?pageNo=${pi.currentPage - 1}">&lt;</a></li>
 			</c:if>
 			<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
-				<li class="page-item"><a class="page-link" href="list.pl?keyword=${keyword}&pageNo=${i}">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="list.pl?&pageNo=${i}">${i}</a></li>
 				<!--해당되는 번호에 클래스 active 넣어주기!-->
 			</c:forEach>
 			<c:if test="${pi.currentPage != pi.maxPage}">

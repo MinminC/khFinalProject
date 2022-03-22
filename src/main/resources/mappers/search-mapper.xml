@@ -20,7 +20,7 @@
 		<result column="PLACE_STATUS" property="placeStatus" />
 		<result column="STAR_SCORE" property="starScore" />
 	</resultMap>
-	<select id="countResult" parameterType="hashmap" resultType="_int">
+	<select id="countPlace" parameterType="hashmap" resultType="_int">
 	<!-- 키워드는 이름과 내용에서만 검색 -->
 		SELECT COUNT(PLACE_NO)
 		FROM PLACE
@@ -36,6 +36,21 @@
 	                    	PLACE_DES LIKE '%'||#{key}||'%'
 					</foreach>
 					)
+	</select>
+	<select id="countReview" parameterType="hashmap" resultType="_int">
+	<!-- 키워드는 이름과 내용에서만 검색 -->
+		SELECT COUNT(REV_NO)
+		FROM VW_REVIEW
+			WHERE 
+				<foreach collection="keywords" item="key"  open="(" 
+					close=")" separator="OR">
+                    	PLACE_NAME LIKE '%'||#{key}||'%'
+				</foreach>
+				OR
+				<foreach collection="keywords" item="key"  open="(" 
+					close=")" separator="OR">
+                    	REV_CONTENT LIKE '%'||#{key}||'%'
+				</foreach>
 	</select>
 	<select id="selectPlaceOne" parameterType="hashmap" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
@@ -80,6 +95,50 @@
 				<when test="sort == 'new'">
 					<!-- 최신순 -->
 					PLACE_NO DESC
+				</when>
+				<when test="sort == 'views'">
+					<!-- 인기순 -->
+					VIEWS DESC
+				</when>
+				<otherwise>
+					<!-- 여행지명 순 -->
+					PLACE_NAME
+				</otherwise>
+			</choose>
+	</select>
+	<insert id="insertKeyword" parameterType="string">
+		INSERT INTO SEARCH(SEARCH_NO, KEYWORD)
+		VALUES (SEQ_SEARCH_NO.NEXTVAL, #{keyword})
+	</insert>
+	<select id="countSearchRanking" resultType="string">
+		SELECT KEYWORD
+		FROM
+			(SELECT KEYWORD, COUNT(KEYWORD) AS COUNT
+			 FROM 
+				(SELECT KEYWORD, SEARCH_DATE
+				 FROM SEARCH
+				 WHERE SEARCH_DATE > SYSDATE -1)
+			 GROUP BY KEYWORD
+			 ORDER BY COUNT DESC)
+		WHERE ROWNUM &lt; 10
+	</select>
+	<resultMap type="review" id="reviewResultMap">
+		<result column="REV_NO" property="revNo" />
+		<result column="REV_CONTENT" property="revContent" />
+		<result column="STAR_SCORE" property="starScore" />
+		<result column="STATUS" property="status" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="USER_ID" property="userId" />
+		<result column="PLACE_NAME" property="placeName" />
+	</resultMap>
+	<select id="selectReviewList" resultMap="reviewResultMap">
+		SELECT REV_NO, REV_CONTENT, STAR_SCORE, CREATE_DATE, USER_ID, PLACE_NAME
+		FROM VW_REVIEW
+		ORDER BY 
+			<choose>
+				<when test="sort == 'new'">
+					<!-- 최신순 -->
+					REV_NO DESC
 				</when>
 				<when test="sort == 'views'">
 					<!-- 인기순 -->
