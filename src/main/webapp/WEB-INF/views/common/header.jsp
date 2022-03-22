@@ -122,7 +122,7 @@ div {
 	<div class="headerOuter"  style="z-index:100">
 		<div class="top">
 			<div class="logo">
-				<img src="resources/img/reallogo.png" height="330px">
+				<img src="resources/img/reallogo.png" height="330px" onclick="home()">
 			</div>
 			<div class="search">
 				<input class="w3-input w3-border w3-light-grey"
@@ -172,5 +172,12 @@ div {
 		</div>
 
 	</div>
+	
+	
+	<script>
+	function home(){//로고 클릭시 홈 페이지로 
+		location.href="<%=request.getContextPath()%>";
+	}
+	</script>
 </body>
 </html>

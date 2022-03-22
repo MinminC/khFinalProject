@@ -72,7 +72,7 @@ table td{
             <option value="id">아이디</option>
             <option value="name">이름</option>
         </select>
-        <input type="text" style="width: 500px;" name="keyword" value="${keyword}"><button class="btn btn-info">검색</button>
+        <input type="text" style="width: 500px;" name="keyword" value="${keyword}"><button style="margin-left:5px" class="btn btn-info">검색</button>
         </form>
     </div>
     <div class="mc2">

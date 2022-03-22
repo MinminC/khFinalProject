@@ -125,7 +125,11 @@ public class MemberController {
 			mv.setViewName("redirect:/");
 			
 		}else { //로그인실패
-			mv.addObject("errorMsg","로그인실패").setViewName("common/errorPage");
+			//mv.addObject("errorMsg","로그인실패").setViewName("common/errorPage");
+			session.setAttribute("alertMsg", "로그인정보를확인해주세요");
+			mv.setViewName("redirect:/");
+			
+		
 		}
 		
 		return mv;
