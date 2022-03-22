@@ -23,31 +23,36 @@ public class SearchController {
 	@Autowired
 	private SearchService searchService;
 	
-	@RequestMapping("search")
+	@RequestMapping(value="search")
 	public String searchListMain(@RequestParam(value="where", defaultValue="Main") String where
 			, @RequestParam(value="keyword", defaultValue="") String keyword
 			, @RequestParam(value="sort", defaultValue="new") String sort
 			, @RequestParam(value="pageNo", defaultValue="1") int pageNo
 			, Model model) {
-		//받아와야하는 정보
-		//place의 경우 : 완전일치 1개
-		//place 목록들
-		HashMap<String, String> map = new HashMap<>();
-		map.put("where", where);
-		map.put("keyword", keyword);
-		map.put("sort", sort);
+		//완전일치
+		HashMap<String, String> mapOne = new HashMap<>();
+		mapOne.put("keyword", keyword);
+		mapOne.put("sort", sort);
+		Place p = searchService.selectPlaceOne(mapOne);
 		
-		int listCount = searchService.countResult(map);
+		//키워드의 띄어쓰기를 모두 분리해서 검색 노출
+		String[] keywords = keyword.split(" ");
+		HashMap<String, Object> mapList = new HashMap<>();
+		mapList.put("keywords", keywords);
+		mapList.put("sort", sort);
+		
+		//페이징 처리
+		int listCount = searchService.countResult(mapList);
 		int currentPage = pageNo;
 		int pageLimit = 5;
 		int boardLimit = 10;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-		//완전일치
-		Place p = searchService.selectPlaceOne(map, pi);
+
 		System.out.println(listCount);
 		
 		//내용에서 비슷한게 있는지
-		ArrayList<Place> places = searchService.searchPlaceList(map, pi);
+		ArrayList<Place> places = searchService.selectPlaceList(mapList, pi);
+		System.out.println(places);
 //		ArrayList<Review> reviews = searchService.searchReviewList(map, pi);
 		
 //		ArrayList<Integer> reviewNo = new ArrayList<>();

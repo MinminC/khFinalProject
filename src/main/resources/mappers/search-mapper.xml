@@ -18,16 +18,77 @@
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="MODIFY_DATE" property="ModifyDate" />
 		<result column="PLACE_STATUS" property="placeStatus" />
+		<result column="STAR_SCORE" property="starScore" />
 	</resultMap>
 	<select id="countResult" parameterType="hashmap" resultType="_int">
+	<!-- 키워드는 이름과 내용에서만 검색 -->
 		SELECT COUNT(PLACE_NO)
 		FROM PLACE
-		<where>
-			PLACE_STATUS = 'Y'
-				AND (PLACE_NAME LIKE '%'||#{keyword}||'%'
-					OR PLACE_ADDRESS LIKE '%'||#{keyword}||'%'
-					OR PLACE_TAGS LIKE '%'||#{keyword}||'%'
-					OR PLACE_DES LIKE '%'||#{keyword}||'%')
-		</where>
+			WHERE PLACE_STATUS = 'Y'
+				AND (
+					<foreach collection="keywords" item="key"  open="(" 
+						close=")" separator="OR">
+	                    	PLACE_NAME LIKE '%'||#{key}||'%'
+					</foreach>
+					OR
+					<foreach collection="keywords" item="key"  open="(" 
+						close=")" separator="OR">
+	                    	PLACE_DES LIKE '%'||#{key}||'%'
+					</foreach>
+					)
+	</select>
+	<select id="selectPlaceOne" parameterType="hashmap" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
+		FROM VW_PLACE
+		WHERE PLACE_NAME = #{keyword}
+		ORDER BY
+			<choose>
+				<when test="sort == 'new'">
+					<!-- 최신순 -->
+					PLACE_NO DESC
+				</when>
+				<when test="sort == 'views'">
+					<!-- 인기순 -->
+					VIEWS DESC
+				</when>
+				<otherwise>
+					<!-- 여행지명 순 -->
+					PLACE_NAME
+				</otherwise>
+			</choose>
+	</select>
+	<select id="selectPlaceList" parameterType="hashmap" resultMap="placeResultMap">
+		SELECT PLACE_NO, NVL(STAR_SCORE, 0) AS STAR_SCORE, PLACE_NAME, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
+		FROM VW_PLACE
+		    LEFT JOIN (SELECT PLACE_NO, AVG(STAR_SCORE) AS STAR_SCORE
+		            FROM REVIEW
+		            GROUP BY PLACE_NO) USING(PLACE_NO)
+		WHERE 
+			<foreach collection="keywords" item="key"  open="(" 
+				close=")" separator="OR">
+                   	PLACE_NAME LIKE '%'||#{key}||'%'
+			</foreach>
+			OR
+			<foreach collection="keywords" item="key"  open="(" 
+				close=")" separator="OR">
+                   	PLACE_DES LIKE '%'||#{key}||'%'
+			</foreach>
+		ORDER BY
+			<choose>
+				<when test="sort == 'new'">
+					<!-- 최신순 -->
+					PLACE_NO DESC
+				</when>
+				<when test="sort == 'views'">
+					<!-- 인기순 -->
+					VIEWS DESC
+				</when>
+				<otherwise>
+					<!-- 여행지명 순 -->
+					PLACE_NAME
+				</otherwise>
+			</choose>
 	</select>
 </mapper>

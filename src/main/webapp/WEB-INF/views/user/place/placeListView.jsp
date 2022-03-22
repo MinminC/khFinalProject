@@ -66,8 +66,9 @@
 									    };
 									
 									var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-										// 마커를 표시할 위치와 title 객체 배열입니다 
-										var positions = [];
+									
+									// 마커를 표시할 위치와 title 객체 배열입니다 
+									var positions = [];
 										
 									for(var i = 0; i<list.length; i++){
 									    positions.push({
@@ -101,9 +102,7 @@
 					</div>
 					<hr>
 					<h3 class="title">여행지</h3>
-					<div id="course-summary">
-						
-					</div>
+					<div id="place-summary"></div>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -187,7 +186,7 @@
 							})
 						}
 						makeMarker(list);
-						$('#course-summary').html(result);
+						$('#place-summary').html(result);
 						$('#tags-option>ul').html(tags);
 					},
 					error:function(){

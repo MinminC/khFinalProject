@@ -10,14 +10,14 @@ import com.kh.firstclass.user.review.model.vo.ReviewPicture;
 
 public interface SearchService {
 
-	int countResult(HashMap<String, String> map);
+	int countResult(HashMap<String, Object> map);
 
-	ArrayList<Place> searchPlaceList(HashMap<String, String> map, PageInfo pi);
+	ArrayList<Place> selectPlaceList(HashMap<String, Object> map, PageInfo pi);
 
-	ArrayList<Review> searchReviewList(HashMap<String, String> map, PageInfo pi);
+	ArrayList<Review> selectReviewList(HashMap<String, Object> map, PageInfo pi);
 
 	ArrayList<ReviewPicture> selectPictureList(ArrayList<Integer> reviewNo);
 
-	Place selectPlaceOne(HashMap<String, String> map, PageInfo pi);
+	Place selectPlaceOne(HashMap<String, String> map);
 
 }

@@ -8,6 +8,15 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="resources/css/search.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+	#search-one img{
+		width:400px;
+		height:300px;
+	}
+	#search-one{
+		width: 100%;
+	}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -18,71 +27,110 @@
 				<li class="now"><a onclick="location.reload();">여행지</a> |</li>
 				<li><a href="?where=Review&keyword=${keyword}">리뷰</a></li>
 			</ul>
+			<div>
+				인기순
+				여행지명 순
+			</div>
 		</div>
 		<hr>
 		<div id="search-main">
 			<c:choose>
 				<c:when test="${keyword eq ''}">
-					<!-- 키워드가 없이 검색된 경우 : 키워드를 입력해주세요 -> 이거 하나만 뜸 -->
-					<!-- 다른 경우는 있을까? 오류의 경우? -->
+					<!-- 키워드가 없이 검색된 경우 -->
 					<h3>검색어를 입력해주세요.</h3>
+				</c:when>
+				<c:when test="${empty places}">
+					<!-- 검색 결과가 없는 경우 -->
+					<h3>검색 결과가 존재하지 않습니다.</h3>
 				</c:when>
 				<c:otherwise>
 					<!--검색 내용 존재-->
-					<h3 class="title">여행지</h3>
-					<div id="place">
-						<div id="map" style="width:100%;height:100%;"></div>
+					<!-- 완전 일치하는 여행지가 있는 경우 -->
+					<c:if test="${not empty p}">
+						<table class="table" id="search-one">
+							<thead>
+								<tr>
+									<th colspan="4"><h3>${p.placeName}</h3></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="2"><img src="${p.filePath}${p.picChange}"></td>
+									<td colspan="2">
+										<div id="map" style="width:400px;height:300px;"></div>
+										<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=01fd683c4bc8ef3abbe0ed0b33e36889"></script>
+										<script>
+											var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+												mapOption = { 
+													center: new kakao.maps.LatLng('${p.placeLon}', '${p.placeLat}'), // 지도의 중심좌표
+													level: 5 // 지도의 확대 레벨
+												};
 
-						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=01fd683c4bc8ef3abbe0ed0b33e36889"></script>
-						<script>
-							var container = document.getElementById('map');
-							$(function(){
-								loadMap();
-							})
-							
-							function loadMap(){
-								var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-								mapOption = { 
-									center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-									level: 3 // 지도의 확대 레벨
-								};
+											var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-								// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-								var map = new kakao.maps.Map(mapContainer, mapOption); 
-							}
-						</script>
-					</div>
+											// 마커가 표시될 위치입니다 
+											var markerPosition  = new kakao.maps.LatLng('${p.placeLon}', '${p.placeLat}'); 
+
+											// 마커를 생성합니다
+											var marker = new kakao.maps.Marker({
+												position: markerPosition
+											});
+
+											// 마커가 지도 위에 표시되도록 설정합니다
+											marker.setMap(map);
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<th>지역</th>
+									<td colspan="3">
+										${p.placeAddress}
+									</td>
+								</tr>
+								<tr>
+									<th>위도</th>
+									<td>${p.placeLat}</td>
+									<th>경도</th>
+									<td>${p.placeLat}</td>
+								</tr>
+								<tr>
+									<th>지역</th>
+									<td>${p.area}</td>
+									<th>여행지 타입</th>
+									<td>${p.typeCode}</td>
+								</tr>
+								<tr>
+									<td colspan="4" id="tags">
+										<c:forEach var="i" items="${tags}">
+											<span>${i}</span>
+										</c:forEach>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<p>
+											${p.placeDes}
+										</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</c:if>
 					<hr>
-					<h3 class="title">여행지</h3>
-					<div id="review-summary">
-						<div>
-							<img src="">
-							<h4>여행지이름1</h4>
-							<p>
-								별점 : ★★☆
-							</p>
-						</div>
-						<div>
-							<img src="">
-							<h4>여행지이름2</h4>
-							<p>
-								별점 : ★★☆
-							</p>
-						</div>
-						<div>
-							<img src="">
-							<h4>여행지이름3</h4>
-							<p>
-								별점 : ★★☆
-							</p>
-						</div>
-						<div>
-							<img src="">
-							<h4>여행지이름4</h4>
-							<p>
-								별점 : ★★☆
-							</p>
-						</div>
+					<div id="search-list">
+						<c:forEach var="i" items="${places}">
+							<div>
+								<img src="${place.filePath}${place.picChange}">
+								<h4>${place.placeName}</h4>
+								<p>
+									별점 : 
+									<c:forEach var="i" begin="1" end="${place.starScore}">
+										★
+									</c:forEach>
+								</p>
+							</div>
+							<hr>
+						</c:forEach>
 					</div>
 				</c:otherwise>
 			</c:choose>
@@ -113,6 +161,7 @@
 					else
 						$(this).addClass('selected');
 				})
+				console.log('${places}');
 			})
 		</script>
 		<script>
