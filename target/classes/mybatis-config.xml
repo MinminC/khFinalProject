@@ -34,6 +34,8 @@
 		<mapper resource="/mappers/review-mapper.xml"/>
 
 		<mapper resource="/mappers/notice-mapper.xml" />
+		
+		<mapper resource="/mappers/mainpage-mapper.xml" />
 
 	 </mappers>
 </configuration>

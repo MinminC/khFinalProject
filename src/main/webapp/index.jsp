@@ -51,7 +51,7 @@
 		width: 20%;
 		height: 100%;
 		float: left;
-		border: 1px solid black;
+		
 	}
 	
 	.mpBoard>div{
@@ -59,6 +59,8 @@
 		height: 100%;
 		float: left;
 	}
+	
+	
 	
 	 /*슬라이드 이미지 스타일*/
     *{margin:0;padding:0;}
@@ -120,44 +122,27 @@
 		</div>
 
 
-		<div class="best5Title"><h4>Best5</h4></div>
+		<div class="best5Title"><h4>Best5여행지</h4></div>
 		<div class="best5">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
+			
 		</div>
 		<div class="mpBoard">
 			<div>
 				<br><br>
 				<h3 align="center">공지사항</h3>
-				<a href="" style="float: right;">더보기></a>
+				<a href="list.no" style="float: right;">더보기></a>
 				<table class="w3-table w3-bordered">
+				<thead>
 					<tr>
 						<th>no</th>
 						<th>제목</th>
 						<th>작성자</th>
 						<th>조회수</th>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>공지</td>
-						<td>admin</td>
-						<td>1</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>두번째공지</td>
-						<td>admin</td>
-						<td>5</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>두번째공지</td>
-						<td>admin</td>
-						<td>5</td>
-					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+					
 					
 				</table>
 				</div>
@@ -179,10 +164,9 @@
 					$(this).addClass('selected');
 			})
 		})
-	</script>
-
 	
-	<script>
+	
+	
 
 		// 슬라이드쇼
         window.onload = function(){
@@ -211,12 +195,119 @@
 	window.onload = function(){
 		
 		var slideIndex = 1;
-		showDivs(slideIndex);
+		/*showDivs(slideIndex);*/
 	}
 	
-		
 	
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	function fixedNoticeLoad(){//메인화면 공지사항 띄우기
+		
+		$.ajax({
+			url:"fixedNotice.mp",
+			success: function(list){
+				
+				var	result="";
+				
+					
+					for(var i in list){
+	
+						result+="<tr>"
+						+"<input type='hidden' value='"+list[i].noticeNo+"'>"
+						+"<td>"+ list[i].noticeNo + "</td>"
+						+"<td>"+ list[i].noticeTitle+"</td>"
+						+"<td>"+ "관리자" + "</td>"
+						+"<td>"+ list[i].views+"</td>"
+						+"</tr>";
+	
+					}
+					
+					$('.w3-table tbody').append(result); //tbody의 자식요소로 집어넣기 
+				
+				
+				
+			},error:function(){
+				
+				console.log("공지사항 로딩 실패");
+			}
+			
+
+		})
+		
+		
+	}
+	
+	function selectBestPlace(){
+		
+		
+		$.ajax({
+			
+			url:"bestPlace.mp",
+			success: function(list){
+				
+				console.log(list);
+				
+				var result="";
+				
+				var num = 1;
+				
+				for(var i in list){
+				
+				
+				result+=
+					"<div>"
+					+"<table>"
+					+"<tr>" 
+					+"<input type='hidden' value='"+list[i].placeNo+"'>"
+					+"<th>"+"<img src='"+list[i].filePath+"'style='width:250px; height:200px;'>"+"</th>"
+					+"</tr>"
+					+"<tr>"
+					+"<td>"+num+"위"+"<br>"+list[i].placeName+"</td>"
+					+"</tr>"
+					+"</table>"
+					+"</div>"
+					
+					num++;
+				}
+				
+				$('.best5').append(result);
+				
+				
+				
+			},error:function(){
+				console.log("best5로딩실패");
+			}
+
+		})
+		
+
+	} 
+	
+	
+	
+	
+	
+	//html문서 다 로딩되면 바로 실행된 메소드
+	$(function(){
+		
+		fixedNoticeLoad();//고정 공지사항 로딩 
+		selectBestPlace();//여행지best5
+		
+		$(document).on('click','.w3-table>tbody>tr',function(){ //클릭하면 공지사항 디테일로 이동 
+			location.href='detail.no?noticeNo='+$(this).children().eq(0).val();
+			console.log($(this).children().eq(0).val());
+		})
+	
+		$(document).on('click','.best5 img' ,function(){ //클릭하면 여행지 디테일로 이동 
+			location.href='detailView.pl?placeNo='+$(this).parent().prev().val();
+			console.log($(this).children().eq(0).val());
+		}) 
+		
+	})
+	
+	</script>
+	
+	
+
+	
 	
 	
 
