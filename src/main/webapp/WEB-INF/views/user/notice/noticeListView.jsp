@@ -36,10 +36,21 @@
 	#wrap{
 		width:1200px;
 		justify-items:center;
+		margin: 200px auto 200px auto;
 	}
 	#category-tab li:hover{
 		background:gray;
 		color:white;
+	}
+	
+	.pagination{
+		justify-content: center; 
+	}
+	#notice-search>form{
+		text-align: center;
+	}
+	#notice-list th{
+		vertical-align: middle;
 	}
 </style>
 </head>
@@ -104,12 +115,14 @@
 			<tr>
 				<th>번호</th>
 				<th class="category">
-					구분▼
-					<ul id="category-tab" class="isHide">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						구분
+				    </button>
+				    <div class="dropdown-menu">
 						<c:forEach var="i" items="${category}">
-							<li onclick="location.href='list.no?category=${i.CATEGORY_NO}'">${i.CATEGORY_CONTENT}</li>
+							<li class="dropdown-item" onclick="location.href='list.no?category=${i.CATEGORY_NO}'">${i.CATEGORY_CONTENT}</li>
 						</c:forEach>
-					</ul>
+				    </div>
 				</th>
 				<!-- 구분으로 선택해서 filter -->
 				<th>제목</th>	

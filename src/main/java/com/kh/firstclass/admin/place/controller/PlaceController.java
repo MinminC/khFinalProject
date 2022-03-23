@@ -9,7 +9,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kh.firstclass.admin.place.model.service.PlaceService;
 import com.kh.firstclass.admin.place.model.vo.AreaCode;
 import com.kh.firstclass.admin.place.model.vo.Place;
@@ -238,10 +243,106 @@ public class PlaceController {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("area", area);
 		map.put("tag", tag);
-		System.out.println(area+":"+tag);
+		
 		ArrayList<Place> list = placeService.selectUserPlaceList(map);
-		System.out.println(list);
 		
 		return list;
+	}
+	
+	/**
+	 * 여행지 등록에서 키워드로 검색하여 오픈데이터를 추가하는 AJAX 처리 부분
+	 * Gson 2.8.6버전을 요하므로, 작동이 안된다면 이부분 확인
+	 * @return
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping(value="weather", produces="application/json; charset=UTF-8")
+	public ArrayList<AreaCode> findWeather() throws IOException{
+		ArrayList<AreaCode> area = new ArrayList<>();
+		area.add(new AreaCode("서울", 60, 127));
+		area.add(new AreaCode("인천", 55, 124));
+		area.add(new AreaCode("경기", 60, 121));
+		area.add(new AreaCode("강원", 92, 131));
+		area.add(new AreaCode("충북", 69, 106));
+		area.add(new AreaCode("충남", 68, 100));
+		area.add(new AreaCode("경북", 90, 77));
+		area.add(new AreaCode("경남", 91, 106));
+		area.add(new AreaCode("전북", 63, 89));
+		area.add(new AreaCode("전남", 50, 67));
+		area.add(new AreaCode("제주", 52, 38));
+		//시간 남으면 테이블에 저장하기
+		
+		for(int i=0; i<area.size();i++) {
+			//url 완성
+			String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
+			url += "?serviceKey="+SERVICE_KEY;
+			url += "&pageNo=1&numOfRows=1000&dataType=json";
+			Date today = new Date();
+			Date yesterday = new Date(today.getTime()+(1000*60*60*24*-1));
+			SimpleDateFormat dayFormat = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
+			String now = timeFormat.format(today);
+
+			
+			//예보 시간 -> 3시간 단위
+			String day = dayFormat.format(today);
+			String toHour = "";
+			int[] timeTable = {2, 5, 8, 11, 14, 17, 20, 23};
+			for(int k=0;k<timeTable.length;k++) {
+				String hour = now.substring(0,2);
+				int hourLab = Integer.parseInt(hour)-timeTable[k];
+				if(hour.equals("00") || hour.equals("01")) {	
+					day = dayFormat.format(yesterday);
+					toHour = "23";
+				}
+				if(hourLab == -2|| hourLab == -1 || hourLab == 0) {
+					toHour += timeTable[k];
+					break;
+				}
+			}
+			url += "&base_date="+day;	
+			url += "&base_time="+toHour+"00";
+			url += "&nx="+area.get(i).getLon();
+			url += "&ny="+area.get(i).getLat();
+			
+			//API에 요청하기
+			URL requestUrl = new URL(url);
+			HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+			urlConnection.setRequestMethod("GET");
+			
+			//통로 열기
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+			
+			//받기
+			String responseText = "";
+			String line;
+			while((line = br.readLine()) != null) {
+				responseText += line;
+			}
+			
+			br.close();
+			urlConnection.disconnect();
+
+			JsonObject itemsObj = (((JsonParser.parseString(responseText).getAsJsonObject()).getAsJsonObject("response"))
+									.getAsJsonObject("body")).getAsJsonObject("items");
+			JsonArray itemArr = itemsObj.getAsJsonArray("item");
+			for(int j = 0; j< itemArr.size(); j++) {
+				JsonObject item = itemArr.get(j).getAsJsonObject();
+				String category = item.get("category").getAsString();
+				switch(category) {
+					case "SKY":area.get(i).setSky(item.get("fcstValue").getAsString());
+						break;
+					case "TMN":area.get(i).setTemperatureMin(item.get("fcstValue").getAsString());
+						break;
+					case "TMX":area.get(i).setTemperatureMax(item.get("fcstValue").getAsString());
+						break;
+					case "REH":area.get(i).setHumidity(item.get("fcstValue").getAsString());
+						break;
+					case "PTY":area.get(i).setRain(item.get("fcstValue").getAsString());
+						break;
+				}
+			}
+		}
+		return area;
 	}
 }

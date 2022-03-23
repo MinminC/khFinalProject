@@ -16,9 +16,42 @@
 	<div id="wrap">
 		<div>
 			<hr>
-				<marquee>(구름마크)서귀포 10°C &nbsp;&nbsp;&nbsp; (해)동작구 12°C&nbsp;&nbsp;&nbsp; 부산 15°C</marquee>
+				<marquee></marquee>
 			<hr>
 		</div>
+		<script>
+			$(function(){/* 잘나오는것 확인 but 조회에 드는 데이터가 많아서 주석처리->실제 작업 시 주석 풀기
+				$.ajax({
+					url:'weather',
+					success:function(list){
+						value = '';
+						for(var i = 0; i<list.length; i++){
+							var rain = list[i].rain;
+							var sky = list[i].sky;
+							switch(rain){
+								case '3': value += '<i class="fas fa-snowflake" />';
+								break;
+								case '2': value += '<i class="fas fa-cloud-rain" />';
+								break;
+								case '1': value += '<i class="fas fa-cloud-showers-heavy" />';
+								break;
+								default: switch(sky){
+											case '4': value += '<i class="fas fa-smog" />';
+											break;
+											case '3': value += '<i class="fas fa-cloud" />';
+											break;
+											case '2': value += '<i class="fas fa-cloud-sun" />';
+											break;
+											default: value += '<i class="fas fa-sun" />';
+										}
+							}
+							value += ' '+list[i].sido+' '+list[i].temperatureMin+'°C/'+list[i].temperatureMin+'°C '+list[i].humidity+'%&nbsp;&nbsp;&nbsp;&nbsp;';
+						}
+						$('marquee').html(value);
+					}
+				})*/
+			})
+		</script>
 		<hr>
 		<div id="search-main">
 			<c:choose>
