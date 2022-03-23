@@ -7,13 +7,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="resources/css/search.css">
+<!-- <link rel="stylesheet" type="text/css" href="resources/css/search.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+	#right-side{
+		border:1px solid red;
+		width:300px;
+		height:200px;
+		float:right;
+	}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 	<div id="wrap">
+		<div style="text-align: center;">
+			<h1>여행지</h1>
+			<h3 style="color:#00c5b1; font-weight: 800;">선호 여행지 선택</h3>
+			<p>
+				지역별/태그별 조회가 가능합니다.
+			</p>
+		</div>
 		<div>
 			<hr>
 				<marquee></marquee>
@@ -139,18 +154,17 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div id="area-option">
-			<ul><!--해당 부분은 DB에서 가져오는 것-->
+		<div id="right-side">
+			<!--해당 부분은 DB에서 가져오는 것-->
+			<ul id="area-option">
 				<li class="selected">전체</li>
 				<c:forEach var="i" items="${area}">
 					<li>${i.sido}</li>
 				</c:forEach>
 			</ul>
-		</div>
-		<div id="tags-option">
-			<ul>
-				<!-- 태그를 4개 올리는 곳 -->
-			</ul>
+
+			<!-- 태그를 4개 올리는 곳 -->
+			<ul id="tags-option"></ul>
 		</div>
 		
 		<!-- 필터 조건 1. areacode, 조건2. typecode -->
