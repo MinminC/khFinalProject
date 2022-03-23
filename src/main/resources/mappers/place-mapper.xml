@@ -42,6 +42,7 @@
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="MODIFY_DATE" property="ModifyDate" />
 		<result column="PLACE_STATUS" property="placeStatus" />
+		<result column="STAR_SCORE" property="starScore" />
 	</resultMap>
 	<select id="countPlaceAll" resultType="_int">
 		SELECT COUNT(PLACE_NO)
@@ -126,15 +127,19 @@
 	</select>
 	<select id="selectUserPlaceList" parameterType="hashmap" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
-			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE, STAR_SCORE
 		FROM VW_PLACE
-		<where>
-			(PLACE_TAGS LIKE '%'||#{tag}||'%'
-			<!-- tag-area, ""-전체, "ㄷㄹㄹ"-전체, ""-"인천", "ㄷㄹㄹ"-"인천 -->
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="area != '전체'">
-				AND PLACE_AREA = #{area}
+				PLACE_AREA LIKE '%'||#{area}||'%'
 			</if>
-			)
-		</where>
+			<if test="tags.size != 0">
+				AND
+				<foreach collection="tags" item="key"  open="(" 
+					close=")" separator="OR">
+	                   	PLACE_TAGS LIKE '%'||#{key}||'%'
+				</foreach>
+			</if>
+		</trim>
 	</select>
 </mapper>

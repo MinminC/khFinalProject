@@ -13,12 +13,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -236,21 +238,21 @@ public class PlaceController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="select.pl"/*, produces="application/json; charset=UTF-8"*/)
-	//produces는 json배열로 넘길때는 오류 안나는데 json배열아닌 걸로 넘기면 오류남. 추후에 여러 태그 받게 되는 경우에는 남기기
-	public ArrayList<Place> selectUserPlaceList(@RequestParam(value="tag", defaultValue="") String tag
-			, @RequestParam(value="area", defaultValue="전체") String area, Model model) {
-		HashMap<String, String> map = new HashMap<>();
+	@PostMapping(value="select.pl")
+	public ArrayList<Place> selectUserPlaceList(@RequestParam(value="tags") List<String> tags
+				, @RequestParam(value="area", defaultValue="전체") String area, Model model) {
+		System.out.println(tags+"L"+area);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("tags", tags);
 		map.put("area", area);
-		map.put("tag", tag);
-		
+		System.out.println(map);
 		ArrayList<Place> list = placeService.selectUserPlaceList(map);
-		
+		System.out.println(list);
 		return list;
 	}
 	
 	/**
-	 * 여행지 등록에서 키워드로 검색하여 오픈데이터를 추가하는 AJAX 처리 부분
+	 * 날씨를 조회하는 AJAX
 	 * Gson 2.8.6버전을 요하므로, 작동이 안된다면 이부분 확인
 	 * @return
 	 * @throws IOException

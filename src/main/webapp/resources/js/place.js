@@ -9,7 +9,6 @@ $(function(){
     })
 })
 
-
 function regExpNumber(keyword){
     var regExp = /^[\d.]{1,}$/;
     return regExp.test(keyword);
@@ -23,11 +22,9 @@ function ajaxSearchPlace(keyword, pageNo){
             'pageNo' : pageNo
             },
         success: function(result){
-            console.log(result);
             var itemArr = $(result).find('item');
             var value = '';
 
-            console.log(itemArr);
             itemArr.each(function(i, item){
                                 
                 value += '<tr><td class="title">'+$(item).find('title').text()//이름
@@ -45,9 +42,6 @@ function ajaxSearchPlace(keyword, pageNo){
             $('#placeList tbody').html(value);
             //<pageNo>1</pageNo>
             //<totalCount>39</totalCount>->페이징바 만들기
-        },
-        error: function(){
-            console.log('error');
         }
     })
 }
@@ -78,4 +72,70 @@ function changeImg(picture){
         }
     }else
         $('#placeImg').attr('src', null);
+}
+
+function ajaxPlaceList(pageNo){
+    var area = $('#area-option .btn-firstclass').text();
+    var $tag = $('#tags-option .btn-firstclass');
+    var tags = [];
+    $tag.each(function(idx, item){
+        tags.push(item.innerText);
+    })
+    
+    console.log(tags);
+    $.ajax({
+        url:'select.pl',
+        type:'post',
+        dataType : 'json',
+        traditional: true,
+        data:{
+            'tags': tags,
+            'area': area
+        },
+        success:function(list){
+            var result = '';
+            var tags = '';
+            
+            if(list.length == 0){
+                result = '검색 결과가 존재하지 않습니다.';
+            }
+            else{
+                var tagSet = new Set();
+                for(var i=0; i<list.length; i++){
+                    result += '<div><img src="'+list[i].filePath+list[i].picChange+'">'
+                                +'<h4>'+list[i].placeName+'</h4>'
+                                +'<span>'+list[i].star+'</span></div>';
+                    
+                    var tagArr = list[i].placeTags.split(',');
+                    
+                    for(var j = 0; j<tagArr.length; j++){
+                        tagSet.add(tagArr[j]);
+                    }
+                }
+                var tagASet = Array.from(tagSet);
+                //랜덤 20개만 노출
+                var random = [];
+                var count = 20;
+                while(count>0){//20개 추출
+                    var ranNum = Math.floor(Math.random()*tagSet.size);
+                    if(random.indexOf(ranNum)==-1){
+                        random.push(ranNum);
+                        count--;
+                    }
+                }
+                for(var i=0;i<20;i++)
+                    tags +='<li class="btn btn-light">'+tagASet[random[i]]+'</li>';
+
+                // tagSet.forEach(function(value){
+                //     tags +='<li class="btn btn-light">'+value+'</li>';
+                // })
+            }
+            makeMarker(list);
+            $('#summary').html(result);
+            $('#tags-option').html(tags);
+        },
+        error:function(){
+            alert('실패');
+        }	
+    });
 }
