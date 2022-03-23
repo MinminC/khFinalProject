@@ -127,13 +127,13 @@
 	</select>
 	<select id="selectUserPlaceList" parameterType="hashmap" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
-			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE, STAR_SCORE
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE, NVL(STAR_SCORE, 0) AS STAR_SCORE
 		FROM VW_PLACE
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="area != '전체'">
 				PLACE_AREA LIKE '%'||#{area}||'%'
 			</if>
-			<if test="tags.size != 0">
+			<if test="tags != null and tags.size != 0">
 				AND
 				<foreach collection="tags" item="key"  open="(" 
 					close=")" separator="OR">

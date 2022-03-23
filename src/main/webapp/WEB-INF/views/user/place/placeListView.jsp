@@ -184,7 +184,7 @@
 			</c:choose>
 		</div>
 		<div class="float-right">
-			<button onclick="ajaxPlaceList(1);">검색하기</button>
+			<a onclick="ajaxPlaceList(1);">검색하기</a>
 			<!--해당 부분은 DB에서 가져오는 것-->
 			<ul id="area-option">
 				<li class="btn btn-light btn-firstclass">전체</li>

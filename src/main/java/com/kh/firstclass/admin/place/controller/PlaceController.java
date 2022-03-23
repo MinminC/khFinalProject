@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -238,8 +238,8 @@ public class PlaceController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value="select.pl")
-	public ArrayList<Place> selectUserPlaceList(@RequestParam(value="tags") List<String> tags
+	@RequestMapping(value="select.pl", produces="application/json; charset=utf-8", method= RequestMethod.POST)
+	public ArrayList<Place> selectUserPlaceList(@RequestParam(value="tags", required=false) List<String> tags
 				, @RequestParam(value="area", defaultValue="전체") String area, Model model) {
 		System.out.println(tags+"L"+area);
 		HashMap<String, Object> map = new HashMap<>();

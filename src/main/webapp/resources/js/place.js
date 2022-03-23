@@ -75,24 +75,27 @@ function changeImg(picture){
 }
 
 function ajaxPlaceList(pageNo){
+    console.log('여기들어옴?');
     var area = $('#area-option .btn-firstclass').text();
     var $tag = $('#tags-option .btn-firstclass');
     var tags = [];
     $tag.each(function(idx, item){
         tags.push(item.innerText);
     })
-    
     console.log(tags);
+    console.log('여기들어옴?');
     $.ajax({
-        url:'select.pl',
         type:'post',
         dataType : 'json',
-        traditional: true,
+        // traditional: true,
+        url:'select.pl',
+        // contentType: "application/json; charset=UTF-8",
         data:{
             'tags': tags,
             'area': area
         },
         success:function(list){
+            console.log(list);
             var result = '';
             var tags = '';
             
