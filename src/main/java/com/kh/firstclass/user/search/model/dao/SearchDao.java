@@ -31,9 +31,13 @@ public class SearchDao {
 		return sqlSession.selectOne("searchMapper.selectPlaceOne", map);
 	}
 
-	public void insertKeyword(SqlSessionTemplate sqlSession, String[] keywords) {
+	public int insertKeyword(SqlSessionTemplate sqlSession, String[] keywords) {
+		int count = 0;
+		
 		for(String keyword:keywords)
-			sqlSession.insert("searchMapper.insertKeyword", keyword);
+			count += sqlSession.insert("searchMapper.insertKeyword", keyword);
+		
+		return count;
 	}
 
 	public ArrayList<String> countSearchRanking(SqlSessionTemplate sqlSession) {

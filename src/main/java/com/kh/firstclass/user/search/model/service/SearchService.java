@@ -22,7 +22,7 @@ public interface SearchService {
 
 	Place selectPlaceOne(HashMap<String, String> map);
 
-	void insertKeyword(String[] keywords);
+	int insertKeyword(String[] keywords);
 
 	ArrayList<String> countSearchRanking();
 

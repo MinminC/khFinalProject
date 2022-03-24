@@ -129,17 +129,13 @@
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
 			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE, NVL(STAR_SCORE, 0) AS STAR_SCORE
 		FROM VW_PLACE
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		<where>
 			<if test="area != '전체'">
 				PLACE_AREA LIKE '%'||#{area}||'%'
 			</if>
-			<if test="tags != null and tags.size != 0">
-				AND
-				<foreach collection="tags" item="key"  open="(" 
-					close=")" separator="OR">
-	                   	PLACE_TAGS LIKE '%'||#{key}||'%'
-				</foreach>
+			<if test="tag != ''">
+				AND PLACE_TAGS LIKE '%'||#{tag}||'%'
 			</if>
-		</trim>
+		</where>
 	</select>
 </mapper>

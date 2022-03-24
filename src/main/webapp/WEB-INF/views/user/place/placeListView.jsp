@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- <link rel="stylesheet" type="text/css" href="resources/css/search.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 	#right-side{
@@ -17,22 +16,23 @@
 		float:right;
 	}
 	.float-left{
-		width:1000px;
+		width:900px;
+		margin-left: 10px;
+		margin-right: 20px;
 	}
 	.float-left>span{
 		color:#00c5b1;
 	}
 	#wrap{
-		text-align: center;
 		width:1200px;
 		justify-items:center;
-		margin: 200px auto 200px auto;
+		margin: 200px auto 50px auto;
 	}
-	#wrap>div>h3{
+	#wrap>div>h3, #totalCount{
 		color:#00c5b1;
 		font-weight: 800;
 	}
-	.float-right{
+	.sideBar{
 		display:inline-block;
 		position:absolute;
 		background:rgb(240,240,240);
@@ -42,51 +42,68 @@
 		height:auto;
 		padding:20px;
 	}
-	.float-right li{
+	.sideBar li{
 		margin:5px;
 	}
 	.btn-firstclass{
-		background:#009688 !important;
-    	border-color:#009688 !important;
+		background:#00c5b1 !important;
+    	border-color:#00c5b1 !important;
 		color:white !important;
 	}
-	.float-right>ul{
-		padding:0;
+	.sideBar>ul{
+		padding:0 0 0 5px;
 	}
 	#kakaomap{
 		width:100%;
 		height:500px;
 	}
-	#summary>div{
+	.carousel-item>div{
 		display:inline-block;
 		height:auto;
 		width:280px;
 		border:1px solid lightgray;
 		border-radius: 5px;
 		padding: 5px;
-		margin:10px;
+		margin:5px;
+		line-height: 40px;
 	}
-	#summary img{
+	.carousel-inner img{
 		width:260px;
 		height:auto;
 		border-radius: 5px;
+		margin:auto;
 	}
-	#summary h4{
+	.carousel-inner h4{
 		font-weight: 800;
 		display:inline-block;
-		font-size:12px;
+		font-size:16px;
+		margin:0;
 	}
-	#summary span{
+	.carousel-inner span{
 		float:right;
+		font-size:12px;
+		color:gray;
+	}
+	.carousel-inner{
+		text-align: center;
+	}
+	.title{
+		text-align: center;
+	}
+	.btn-go{
+		background:#009688 !important;
+		width:100%;
+		color:white !important;
+		cursor:pointer;
+		margin-bottom: 20px;
 	}
 </style>
-<!-- <link rel="stylesheet" type="text/css" href="resources/css/notice.css"> -->
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 	<div id="wrap">
-		<div>
+		<div class="title">
 			<h1>여행지</h1>
 			<h3 style="color:#00c5b1; font-weight: 800;">선호 여행지 선택</h3>
 			<p>
@@ -179,12 +196,33 @@
 						</script>
 					</div>
 					<hr>
-					<div id="summary"></div>
+					<h6>총 <span id="totalCount"></span>개 여행지</h6>
+					<div id="demo" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ul class="carousel-indicators">
+							<li data-target="#demo" data-slide-to="0" class="active"></li>
+							<li data-target="#demo" data-slide-to="1"></li>
+							<li data-target="#demo" data-slide-to="2"></li>
+						</ul>
+
+						<!-- The slideshow -->
+						<div class="carousel-inner">
+						</div>
+
+						<!-- Left and right controls -->
+						<a class="carousel-control-prev" href="#demo" data-slide="prev" style="left:-65px;">
+							<button type="button" class="btn btn-dark">&lt;</button>
+						</a>
+						<a class="carousel-control-next" href="#demo" data-slide="next" style="right:-65px;">
+							<button type="button" class="btn btn-dark">&gt;</button>
+						</a>
+					</div>
+					<!-- <div id="summary"></div> -->
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div class="float-right">
-			<a onclick="ajaxPlaceList(1);">검색하기</a>
+		<div class="sideBar">
+			<div class="btn btn-go" onclick="ajaxPlaceList(1);">검색하기</div>
 			<!--해당 부분은 DB에서 가져오는 것-->
 			<ul id="area-option">
 				<li class="btn btn-light btn-firstclass">전체</li>
@@ -194,10 +232,11 @@
 			</ul>
 			<hr>
 			<!-- 태그를 4개 올리는 곳 -->
+			<h5 style="text-align: center;">태그 랜덤 10개</h5>
 			<ul id="tags-option"></ul>
 		</div>
+		<br style="clear:both;" /><br>
 	</div>
-	<br style="clear:both;" />
 	<script>
 		$(function(){
 			//지역 선택
@@ -213,15 +252,22 @@
 			});
 			//태그 선택
 			$('#tags-option').on('click','li',function(){
-				if($(this).hasClass('btn-firstclass'))
+				if($(this).hasClass('btn-firstclass')){
 					$(this).removeClass('btn-firstclass');
-				
-				else
+				}
+				else{
 					$(this).addClass('btn-firstclass');
+					$(this).siblings().removeClass('btn-firstclass');
+				}
 			});
 			
 			ajaxPlaceList(1);
 
+			//여행지 클릭하면 이동하기
+			$('.carousel-inner').on('click','.carousel-item>div',function(){
+				location.href='detailView.pl?placeNo='+$(this).children('input').val();
+				// console.log($(this).children('input').val());
+			})
 			// 날씨 조회
 			/* 잘나오는것 확인 but 조회에 드는 데이터가 많아서 주석처리->실제 작업 시 주석 풀기
 			$.ajax({
@@ -255,7 +301,90 @@
 			})*/
 		})
 	</script>
-	<script src="resources/js/place.js"></script>
+	<script>
+		//사용자-여행지 태그로 조회해오기
+		function ajaxPlaceList(pageNo){
+			console.log('여기들어옴?');
+			var area = $('#area-option .btn-firstclass').text();
+			var tag = $('#tags-option .btn-firstclass').text();
+			$.ajax({
+				url:'select.pl',
+				data:{
+					'tag': tag,
+					'area': area
+				},
+				success:function(list){
+					console.log(list);
+					var result = '';
+					var tags = '';
+					//선택된게 있으면 맨 상단에 위치
+					if(tag != '')
+						tags += '<li class="btn btn-light btn-firstclass">'+tag+'</li>';
+					if(list.length == 0){
+						result = '검색 결과가 존재하지 않습니다.';
+					}
+					else{
+						var tagSet = new Set();
+						for(var i=0; i<list.length; i++){
+							if(i == 0)
+								result += '<div class="carousel-item active">'
+							else if(i%3 == 0)
+								result += '<div class="carousel-item">'
+									
+							result += '<div><input type="hidden" value="'+list[i].placeNo+'"><img src="'+list[i].filePath+list[i].picChange+'">'
+										+'<h4>'+list[i].placeName+'</h4>'
+										+'<span>';
+							var star = list[i].starScore;
+							if(star==0){
+								result +='별점 정보 없음';
+							}
+							else{
+								for(var j=0; j<star; j++){
+									result += '★';
+								}
+							}
+							result += '</span></div>';
+
+							if(i%3 == 2)
+								result += '</div>'
+
+							var tagArr = list[i].placeTags.split(',');
+							
+							for(var j = 0; j<tagArr.length; j++){
+								tagSet.add(tagArr[j]);
+							}
+						}
+						//tagSet 중에서 랜덤 20개만 노출
+						var tagASet = Array.from(tagSet);
+						var random = [];
+						var count = 10;
+						while(count>0){//20개 추출
+							var ranNum = Math.floor(Math.random()*tagSet.size);
+							if(ranNum == 0 || ranNum == tag)
+								count--;
+							if(random.indexOf(ranNum)==-1){
+								random.push(ranNum);
+								count--;
+							}
+						}
+						console.log(random);
+						for(var i=0;i<10;i++){
+							var t = tagASet[random[i]];
+							if(t != null)
+								tags +='<li class="btn btn-light">'+tagASet[random[i]]+'</li>';
+						}
+					}
+					makeMarker(list);
+					$('.carousel-inner').html(result);
+					$('#tags-option').html(tags);
+					$('#totalCount').html(list.length);
+				},
+				error:function(){
+					alert('AJAX 통신 실패');
+				}	
+			});
+		}
+	</script>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

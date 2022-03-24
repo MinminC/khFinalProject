@@ -17,6 +17,7 @@ import com.kh.firstclass.user.search.model.dao.SearchDao;
 public class SearchServiceImpl implements SearchService{
 	@Autowired
 	private SearchDao searchDao;
+	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
@@ -46,8 +47,8 @@ public class SearchServiceImpl implements SearchService{
 	}
 
 	@Override
-	public void insertKeyword(String[] keywords) {
-		searchDao.insertKeyword(sqlSession, keywords);
+	public int insertKeyword(String[] keywords) {
+		return searchDao.insertKeyword(sqlSession, keywords);
 	}
 
 	@Override
