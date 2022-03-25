@@ -101,6 +101,15 @@ public class ReviewController {
 		
 	}
 	
+	// 나의 리뷰정보(사진정보 x) 조회하기
+	@ResponseBody
+	@RequestMapping(value="mySelectReviewInformation.rev", produces="applictaion/json; charset=UTF-8")
+	public String mySelectReviewInformation(int userNo) {
+		
+		return new Gson().toJson(reviewService.mySelectReviewInformation(userNo));
+		
+	}
+	
 	// 리뷰 사진 정보 조회하기
 	@ResponseBody
 	@RequestMapping(value="pictureReview.rev", produces="applictaion/json; charset=UTF-8")
@@ -109,6 +118,16 @@ public class ReviewController {
 		return new Gson().toJson(reviewService.pictureReview(placeNo));
 		
 	}
+	
+	// 
+	// 나의 리뷰 사진 정보 조회하기
+		@ResponseBody
+		@RequestMapping(value="myPictureReview.rev", produces="applictaion/json; charset=UTF-8")
+		public String myPictureReview(int userNo) {
+			
+			return new Gson().toJson(reviewService.myPictureReview(userNo));
+			
+		}
 	
 	//deleteReview.rev
 	// 리뷰 삭제

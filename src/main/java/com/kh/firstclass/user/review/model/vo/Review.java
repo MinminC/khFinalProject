@@ -20,4 +20,5 @@ public class Review {
 	private int placeNo;
 	
 	private String userId;
+	private String placeName;
 }

@@ -42,5 +42,13 @@ public class ReviewDao {
 	public ArrayList<ReviewPicture> selectChangeName(SqlSessionTemplate sqlSession, int revNo) {
 		return (ArrayList)sqlSession.selectList("reviewMapper.selectChangeName", revNo);
 	}
+
+	public ArrayList<Review> mySelectReviewInformation(SqlSessionTemplate sqlSession, int userNo) {
+		return (ArrayList)sqlSession.selectList("reviewMapper.mySelectReviewInformation", userNo);
+	}
+
+	public ArrayList<ReviewPicture> myPictureReview(SqlSessionTemplate sqlSession, int userNo) {
+		return (ArrayList)sqlSession.selectList("reviewMapper.myPictureReview", userNo);
+	}
 	
 }
