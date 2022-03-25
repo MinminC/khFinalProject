@@ -31,5 +31,12 @@ public interface ReviewService {
 
 	// 리뷰번호로 changeName 가져와서 파일 삭제
 	ArrayList<ReviewPicture> selectChangeName(int revNo);
+
+	// 나의 리뷰정보(사진정보 x) 조회하기
+	ArrayList<Review> mySelectReviewInformation(int userNo);
+
+	// 나의 리뷰 사진 정보 조회하기
+	ArrayList<ReviewPicture> myPictureReview(int userNo);
+	
 	
 }
