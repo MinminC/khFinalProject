@@ -100,12 +100,10 @@
 		</c:if>
 	</ul>
 </div>
-
-<c:if test="${not empty hideImportant}">
+<c:if test="${cookie.hideImportantNotice != null}">
 	<script>
 		$(function(){
 			$('#hide-important').prop('checked', true);
-			hideImportant();
 		})
 	</script>
 </c:if>
@@ -134,10 +132,9 @@
 
 <script>
 	$(function(){
-		//중요 공지 숨기기 누르면 빨간 공지들은 사라지도록 구현
-		//공지 숨기기가 되면 session에 저장되어 공지 숨기기가 계속 저장됨
-		$('#hide-important').click(function(){
-			hideImportant();
+		//중요 공지 숨기기
+		$('#hide-important').change(function(){
+				hideImportant();
 		})
 		
 		//공지 구분으로 구분되도록 구현

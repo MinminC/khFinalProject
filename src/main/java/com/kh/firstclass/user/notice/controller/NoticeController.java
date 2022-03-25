@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,15 +213,17 @@ public class NoticeController {
 	
 	@ResponseBody
 	@RequestMapping("hideImportant")
-	public void hideImportant(HttpSession session) {
-		System.out.println("숨김");
-		session.setAttribute("important", "hide");
+	public void hideImportant(HttpServletResponse response) {
+		Cookie ck = new Cookie("hideImportantNotice", "hideImportantNotice");
+		ck.setMaxAge(60);//초단위
+		response.addCookie(ck);
 	}
 	
 	@ResponseBody
 	@RequestMapping("openImportant")
-	public void openImportant(HttpSession session) {
-		System.out.println("펼침");
-		session.removeAttribute("important");
+	public void openImportant(HttpServletResponse response) {
+		Cookie ck = new Cookie("hideImportantNotice", "hideImportantNotice");
+		ck.setMaxAge(0);
+		response.addCookie(ck);
 	}
 }
