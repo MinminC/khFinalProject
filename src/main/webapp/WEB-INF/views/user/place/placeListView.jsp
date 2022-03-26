@@ -265,7 +265,6 @@
 			//여행지 클릭하면 이동하기
 			$('.carousel-inner').on('click','.carousel-item>div',function(){
 				location.href='detailView.pl?placeNo='+$(this).children('input').val();
-				// console.log($(this).children('input').val());
 			})
 			// 날씨 조회
 			/* 잘나오는것 확인 but 조회에 드는 데이터가 많아서 주석처리->실제 작업 시 주석 풀기
@@ -303,7 +302,6 @@
 	<script>
 		//사용자-여행지 태그로 조회해오기
 		function ajaxPlaceList(pageNo){
-			console.log('여기들어옴?');
 			var area = $('#area-option .btn-firstclass').text();
 			var tag = $('#tags-option .btn-firstclass').text();
 			$.ajax({
@@ -313,7 +311,6 @@
 					'area': area
 				},
 				success:function(list){
-					console.log(list);
 					var result = '';
 					var tags = '';
 					//선택된게 있으면 맨 상단에 위치
@@ -366,7 +363,6 @@
 								count--;
 							}
 						}
-						console.log(random);
 						for(var i=0;i<10;i++){
 							var t = tagASet[random[i]];
 							if(t != null)

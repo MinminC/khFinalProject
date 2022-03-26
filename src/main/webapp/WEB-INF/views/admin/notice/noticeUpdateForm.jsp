@@ -41,7 +41,7 @@
 			<tr>
 				<td colspan="4">
 					<script type="text/javascript" src="resources/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-					<textarea name="noticeContent" id="ir1" rows="10" cols="127" required>${n.noticeContent}</textarea>
+					<textarea name="noticeContent" id="ir1" rows="10" cols="120" required>${n.noticeContent}</textarea>
 					<script type="text/javascript">
 						var oEditors = [];
 						nhn.husky.EZCreator.createInIFrame({

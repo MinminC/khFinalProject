@@ -131,7 +131,7 @@ public class PlaceController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="searchOpenData.pl", produces="text/xml; charset=UTF-8")
-	public String searchOpenData(String keyword, @RequestParam(value="pageNo", defaultValue="1") int pageNo) throws IOException{
+	public String searchOpenData(@RequestParam(value="contentTypeId", defaultValue="12") int contentTypeId, String keyword, @RequestParam(value="pageNo", defaultValue="1") int pageNo) throws IOException{
 		
 		//url 완성
 		String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword";
@@ -143,7 +143,7 @@ public class PlaceController {
 		url += "&numOfRows=5";
 		url += "&listYN=Y";
 		url += "&arrange=A";
-		url += "&contentTypeId=12";
+		url += "&contentTypeId="+contentTypeId;
 		url += "&keyword="+URLEncoder.encode(keyword, "UTF-8");
 		
 		//API에 요청하기

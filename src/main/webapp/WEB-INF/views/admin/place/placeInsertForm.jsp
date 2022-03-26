@@ -7,6 +7,30 @@
 <meta charset="UTF-8">
 <title>관리자-여행지 등록</title>
 <link rel="stylesheet" type="text/css" href="resources/css/admin-place.css">
+<link rel="stylesheet" type="text/css" href="resources/css/admin-styleSheet.css">
+<style>
+    input{
+        margin:0 !important;
+        padding:0;
+        display:inline-block;
+    }
+    #searchPlace>div>select, #searchPlace>div>input, #searchPlace>div>button{
+        display: inline-block;
+    }
+    input[name=placeName]{
+        width:100%;
+    }
+    #tag-tab{
+        background: rgb(233,233,233);
+        padding-top: 20px;
+        text-align: center;
+        border-radius: 20px;
+    }
+    #selectResult p{
+        padding:0;
+        margin:0;
+    }
+</style>
 </head>
 <body>
     <div id="menubar"><jsp:include page="/WEB-INF/views/common/sideBar.jsp"/></div>
@@ -15,49 +39,51 @@
 		<br>
         <div id="searchPlace">
             <div>
-                <span>여행지</span><input type="search"><button class="btn btn-secondary">검색</button>
+                <h3>여행지</h3>
+                <hr>
+                <select name="contentTypeId" class="form-control" style="width:200px;">
+                    <c:forEach var="i" items="${placeType}">
+                        <option value="${i.typeCode}">${i.typeContent}</option>
+                    </c:forEach>
+                </select>
+                <input type="search" id="input-search" class="form-control" style="width:250px;">
+                <button class="btn btn-firstclass">검색</button>
             </div>
             <script>
                 
             </script>
-            <table id="placeList" class="table">
+            <table id="placeList" class="table" style="border-right:1px solid rgb(233,233,233);">
                 <thead>
                     <tr>
                         <th>여행지 명</th>
                         <th>주소</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody><td colspan="2" style="height:400px;"></td></tbody>
             </table>
             <!--pagination-->
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
+            <ul class="pagination"></ul>
         </div>
         
         <form action="insert.pl" method="post" enctype="multipart/form-data">
             <div id="selectResult">
-                <input type="text" name="placeName" required><br>
-                <img id="placeImg" class="image" src="" alt="사진없음" width="500" height="363">
+                <input type="text" class="form-control" name="placeName" required><br>
+                <img id="placeImg" class="image" src="" alt="사진없음" style="width:100%; height:400px;">
                 <input type="file" onchange="changeImg(this);" name="upfile" required>
                 <p>
-                    위도 : <input type="text" min="0" size="3" name="placeLat" required>
-                    경도 : <input type="text" min="0" size="3" name="placeLon" required><br>
-                    주소 : <input type="text" size="50" name="placeAddress" required>
+                    위도 : <input type="text" class="form-control" style="width:100px;" name="placeLat" required>
+                    경도 : <input type="text" class="form-control" style="width:100px;" name="placeLon" required><br>
+                    주소 : <input type="text" class="form-control" style="width:300px;" name="placeAddress" required>
                 </p>
                 <p>
                     지역 코드 : 
-                    <select name="area">
+                    <select name="area" class="form-control">
                         <c:forEach var="i" items="${areaCode}">
                             <option value="${i.areaNo}">${i.sido}</option>
                         </c:forEach>
                     </select>
                     여행지 타입 : 
-                    <select name="typeCode">
+                    <select name="typeCode" class="form-control">
                         <c:forEach var="i" items="${placeType}">
                             <option value="${i.typeCode}">${i.typeContent}</option>
                         </c:forEach>
@@ -65,18 +91,22 @@
                 </p>
             </div>
             <br clear="both" />
-            <div id="tags">
-                <button class="btn btn-danger" onclick="$(this).next().empty()">초기화</button>
-                <ul></ul>
-                <input type="text" id="tagNow">
-                <input type="hidden" name="placeTags">
+            <div id="tag-tab">
+                <h4>태그</h4>
+                <div id="tags">
+                    <ul style="display:inline-block;margin:0;padding:0;"></ul>
+                    <input type="text" class="form-control" style="width:100px;" id="tagNow">
+                    <input type="hidden" name="placeTags">
+                </div>
+                <br>
             </div>
             <div id="description">
-                <textarea name="placeDes" id="" cols="120" rows="10"></textarea>
-            </div>
+                <h4>설명</h4>
+                <textarea name="placeDes" class="form-control" cols="120" rows="10"></textarea>
+            </div><br>
             <div id="btns-center">
-                <button onclick="location.href='list.pl';" class="btn btn-secondary">목록으로</button>
-                <button type="submit" onclick="return checkIntegrity();" class="btn btn-primary">등록하기</button>
+                <button type="button" onclick="location.href='list.pl';" class="btn btn-secondary">목록으로</button>
+                <button type="submit" onclick="return checkIntegrity();" class="btn btn-firstclass">등록하기</button>
             </div>
         </form>
     </div>
@@ -85,7 +115,6 @@
         //여행지 등록
         //여행지 검색을 하면 테이블에 띄움
         $('#searchPlace>div').on('click','button', function(){
-            console.log('들어옴');
             var keyword = $(this).siblings('input[type=search]').val();
             
             //xml로 오는 객체를 AJAX

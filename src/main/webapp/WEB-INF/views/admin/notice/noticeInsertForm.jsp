@@ -33,7 +33,7 @@
 			<tr>
 				<td colspan="4">
 					<script type="text/javascript" src="resources/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-					<textarea name="noticeContent" id="ir1" rows="10" cols="127" required></textarea>
+					<textarea name="noticeContent" id="ir1" rows="10" cols="120" required></textarea>
 					<script type="text/javascript">
 						var oEditors = [];
 						nhn.husky.EZCreator.createInIFrame({
@@ -56,7 +56,7 @@
 			</tr>
 		</table>
 		<button type="submit" class="btn btn-firstclass" onclick="return submitContents();">등록하기</button>
-		<button class="btn btn-secondary" onclick="history(back);">뒤로가기</button>
+		<button type="button" class="btn btn-secondary" onclick="history.back();">뒤로가기</button>
 	</form>
 </div>
 </body>

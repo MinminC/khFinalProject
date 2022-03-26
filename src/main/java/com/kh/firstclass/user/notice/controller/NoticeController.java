@@ -57,7 +57,6 @@ public class NoticeController {
 		if(selectCategory != 0)
 			model.addAttribute("selectCategory", selectCategory);
 		
-		System.out.println(list+"K"+pi);
 		return "user/notice/noticeListView";
 	}
 	
@@ -123,7 +122,6 @@ public class NoticeController {
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
-		System.out.println(list+"K"+pi);
 		
 		if(selectCategory != 0)
 			model.addAttribute("selectCategory", selectCategory);
@@ -215,7 +213,6 @@ public class NoticeController {
 	@ResponseBody
 	@PostMapping(value="delete.no")
 	public int deleteNotice(@RequestParam(value="noticeNo")List<Integer> noticeNo, Model model) {
-		System.out.println(noticeNo);
 		return noticeService.deleteNoticeList(noticeNo);
 	}
 	

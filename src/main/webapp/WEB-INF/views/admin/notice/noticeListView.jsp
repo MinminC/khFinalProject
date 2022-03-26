@@ -119,18 +119,17 @@
 			var deleteNo = $(this).parent().siblings().eq(0).text();
 			var deleteTitle = $(this).parent().siblings().eq(2).text();
 			
-			if ($(this).prop('checked'))
+			if ($(this).prop('checked')){
 				deleteContent.push({deleteNo, deleteTitle});
+			}
 			else
 				deleteContent.pop({deleteNo, deleteTitle});
 		})
 		$('#modalBtn').click(function(){
 			var result = '';
 			for(var i=0;i<deleteContent.length;i++){
-				console.log(deleteContent[i].deleteTitle);
 				result += '<li>'+deleteContent[i].deleteTitle+'</li>';
 			}
-			console.log(deleteContent.map(a=> a.deleteNo));
 			$('#deleteList').html(result);
 		})
 		//삭제modal-삭제 누르면 delete.no에 리스트로 전달

@@ -143,7 +143,6 @@
 		//여행지 클릭하면 이동하기
 		$(function(){
 			$('#search-main').on('click','h4',function(){
-				//console.log($(this).siblings('.placeNo'));
 				location.href='detailView.pl?placeNo='+$(this).siblings('.placeNo').val();
 			})
 		})
@@ -409,7 +408,6 @@
 											$('#review-list .revNo').each(function(idx,reviewNo){
 												reviewsNum.push(Number(reviewNo.value));
 											});
-											console.log(reviewsNum);
 											$.ajax({
 												url:'ajaxReviewImage.se',
 												data: {'reviewsNum':reviewsNum},
@@ -420,13 +418,9 @@
 														//reviewsNum == [2,3,5,7,9]
 														//reviewsNum
 														//reviewsNum.indexof(revNo)//0번째에 append함
-														console.log(reviewsNum.indexOf(list[i].revNo));
-														console.log(list[i].changeName);
 														
 														var value = '<img src="resources/upfiles/review/'+list[i].changeName+'"></div>';
 
-														console.log(value);
-														console.log($('#review-list .search-one').eq(reviewsNum.indexOf(list[i].revNo)).find('.review-image'));
 														$('#review-list .search-one').eq(reviewsNum.indexOf(list[i].revNo)).find('.review-image').append(value);
 													}
 												},
@@ -509,8 +503,6 @@
 	<c:if test="${not empty keyword}">
 		<script>
 			$(function(){
-				console.log('${keyword}');
-				console.log($('.search>input'));
 				$('.search>input').val('${keyword}');
 			})
 		</script>

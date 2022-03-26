@@ -35,9 +35,6 @@
 .pagination{
 	justify-content: center; 
 }
-#place-detail *{
-	text-align: center;
-}
 #place-detail img{
 	width:500px;
 	height:auto;
