@@ -72,4 +72,22 @@ public class PlaceServiceImpl implements PlaceService{
 		return placeDao.selectPlaceDetail(sqlSession, placeNo);
 	}
 
+	@Override
+	public ArrayList<Place> selectUserPlaceList(HashMap<String, String> map) {
+		return placeDao.selectUserPlaceList(sqlSession, map);
+	}
+
+	@Override
+	public Place placeDetailView(int placeNo) {
+		return placeDao.placeDetailView(sqlSession, placeNo);
+	}
+
+	@Override
+	public void placeCount(int placeNo) {
+		placeDao.placeCount(sqlSession, placeNo);
+	}
+	
+	
+	
+
 }

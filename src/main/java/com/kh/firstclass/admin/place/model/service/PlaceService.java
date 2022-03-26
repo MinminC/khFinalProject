@@ -38,4 +38,13 @@ public interface PlaceService {
 	//여행지 상세조회
 	Place selectPlaceDetail(int placeNo);
 	
+	//사용자 여행지 리스트 조회
+	ArrayList<Place> selectUserPlaceList(HashMap<String, String> map);
+	
+	// 여행지 정보 조회(select)
+	Place placeDetailView(int placeNo);
+	
+	// 여행지 검색 시 카운터 +
+	void placeCount(int placeNo);
+	
 }

@@ -199,4 +199,49 @@ public class PlaceController {
 		
 		return p != null?"admin/place/placeDetailView":"common/errorPage";
 	}
+	
+	@RequestMapping("top5.pl")
+	public String selectPlace(String type, @RequestParam(value="pageNo", defaultValue="1") int pageNo, Model model) {
+		
+		int listCount = placeService.countPlaceAll();
+		int currentPage = pageNo;
+		int pageLimit = 3;
+		int boardLimit = 5;
+		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Place> list = placeService.selectPlaceList(pi);
+		ArrayList<AreaCode> areaCode = placeService.selectAreaCode();
+		ArrayList<PlaceType> placeType = placeService.selectPlaceType();
+		
+		model.addAttribute("list", list);
+		model.addAttribute("areaCode", areaCode);
+		model.addAttribute("placeType", placeType);
+		
+		return "user/place/placeListView";
+	}
+	
+	@RequestMapping("main.pl")
+	public String selectUserPlace(@RequestParam(value="pageNo", defaultValue="1") int pageNo, ArrayList<String> keywords, Model model) {
+		
+		ArrayList<AreaCode> areaCode = placeService.selectAreaCode();
+		
+		model.addAttribute("area", areaCode);
+		
+		return "user/place/placeListView";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="select.pl"/*, produces="application/json; charset=UTF-8"*/)
+	//produces는 json배열로 넘길때는 오류 안나는데 json배열아닌 걸로 넘기면 오류남. 추후에 여러 태그 받게 되는 경우에는 남기기
+	public ArrayList<Place> selectUserPlaceList(@RequestParam(value="tag", defaultValue="") String tag
+			, @RequestParam(value="area", defaultValue="전체") String area, Model model) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("area", area);
+		map.put("tag", tag);
+		System.out.println(area+":"+tag);
+		ArrayList<Place> list = placeService.selectUserPlaceList(map);
+		System.out.println(list);
+		
+		return list;
+	}
 }

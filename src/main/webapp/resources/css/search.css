@@ -13,20 +13,24 @@
 		margin:0;
 	}
 	#search-option, #area-option{
-		width:auto;
+		top:80px;
+	}
+	#tags-option{
+		top:500px;
+	}
+	#search-option, #area-option, #tags-option{
 		display:inline-block;
 		position:absolute;
-		top:80px;
 		background:rgb(230,230,230);
-		width:300px;
-		height:500px;
+		width:280px;
+		height:auto;
 		padding:20px;
 	}
-	#search-tab ul, #area-option ul{
+	#search-tab ul, #area-option ul, #tags-option ul{
 		list-style: none;
 		padding:0;
 	}
-	#search-tab li, #area-option li{
+	#search-tab li, #area-option li, #tags-option li{
 		display:inline-block;
 		padding:10px;
 		margin:3px;
@@ -39,7 +43,7 @@
 		padding: 0px 20px;
 	}
 	/*지역코드 검색*/
-	#area-option li{
+	#area-option li, #tags-option li{
 		background:gray;
 		color:white;
 		border-radius: 30px;
@@ -75,16 +79,15 @@
 	}
 	#course-summary>div{
 		display:inline-block;
-		height:300px;
-		width:200px;
+		height:auto;
+		width:280px;
 		border:1px solid gray;
-		border-radius: 20px;
 		padding: 5px;
-		margin:5px;
+		margin:10px;
 	}
 	#course-summary img{
-		width:180px;
-		height:200px;
+		width:260px;
+		height:auto;
 	}
 /*추천 코스*/
 #align-bar>div, #align-bar li{

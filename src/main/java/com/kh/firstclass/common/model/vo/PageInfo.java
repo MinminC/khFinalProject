@@ -15,10 +15,11 @@ public class PageInfo {
 	private int currentPage;
 	private int pageLimit;
 	private int boardLimit;
+
 	private int maxPage;
 	private int startPage;
 	private int endPage;
-	
+			
 	public static PageInfo getPageInfo(int listCount, int currentPage, int pageLimit, int boardLimit) {
 		int maxPage = (int)Math.ceil((double)listCount/boardLimit);
 		int startPage = (currentPage -1)/pageLimit * pageLimit +1;
@@ -29,4 +30,5 @@ public class PageInfo {
 		
 		return new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 	}
+
 }

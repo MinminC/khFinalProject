@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +30,11 @@
     	width:1200px;
     	margin:auto;
     }
+    #pwdCheck{
+    	width:400px;
+    	height:30px;
+    	
+    }
 </style>
 </head>
 <body>
@@ -43,23 +49,35 @@
 	    <div class="content">
 	        <br><br>
 	        <div class="innerOuter">
-	            <form action="update.me" method="post">
+	            <form action="updateEnrollForm.pwd" method="post" onsubmit= "return check()">
 	                <div class="form-group">
 	                    <label for="userId"> 변경할 비밀번호  </label>
 	                    <input type="password" class="form-control" id="userPwd" name="userPwd"> <br>
 	
 	                    <label> 비밀번호 확인  </label>
-	                    <input type="password" class="form-control" > <br>
+	                    <input type="password" class="form-control" id="checkPwd"> <br>
+	                    <label id="pwdCheck"></label>
 					</div> 
-	                <br>
 	                <div class="btns" align="center">
 	                    <button type="submit" class="btn btn-secondary" style="width:477px">변경하기</button>
 	                </div>
 	            </form>
 	        </div>
-	        <br><br>
+	        <br>
 	    </div>
 	</div>
+	
+	<script>
+			
+		function check(){
+			if($('#userPwd').val() == $('#checkPwd').val()){	    // 자바스크립트 : 빈문자열 -> false 반환
+				return true;
+			}
+			$('#pwdCheck').html('비밀번호 확인이 비밀번호와 다릅니다.').css('color','red');
+			return false;
+		}
+		
+	</script>
 
     <jsp:include page="../../common/footer.jsp" />
 

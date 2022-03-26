@@ -30,6 +30,9 @@
     	margin:auto;
     	
     }
+	.form-group{
+		height: 620px;
+	}
 </style>
 </head>
 <body>
@@ -44,7 +47,7 @@
 	    <div class="content">
 	        <br><br>
 	        <div class="innerOuter">
-	            <form action="" method="post">
+	            <form action="updateEnrollForm.me" method="post" id="updateEnrollForm">
 	                <div class="form-group">
 	                    <label for="userId"> 아이디  </label>
 	                    <input type="text" class="form-control" id="userId" value="${loginUser.userId}" name="userId" readonly> <br>
@@ -61,8 +64,10 @@
 	                    <label for="phone"> &nbsp; 연락처  </label>
 	                    <input type="text" class="form-control" id="phone" value="${loginUser.phone}" name="phone"> <br>
 	                    
-	                    <label for="email"> &nbsp; 이메일  </label>
+	                    <label for="email" style="margin-top: 15px;"> &nbsp; 이메일  </label> <button type="button" id="emailbtn" class="btn btn-secondary" style="float: right;">인증</button>
 	                    <input type="text" class="form-control" id="email" value="${loginUser.email}" name="email"> <br>
+						<input type="text" class="form-control" id="emailCheck" placeholder="인증번호를 입력하세요."> <br>
+						<label id="check"></label>
 	                </div> 
 	                <br>
 	                <div class="btns" align="center">
@@ -73,6 +78,35 @@
 	        <br><br>
 	    </div>
 	</div>
+
+	<script>
+
+		$('#email').focus(function(){
+			$('#updateEnrollForm :submit').attr('disabled', true);
+		})
+
+		$('#emailbtn').click(function(){
+			$.ajax({
+				url : "sendEmail.me",
+				data : {email : $('#email').val()},
+				success : function(secret){
+					alert('메일이 전송되었습니다.');
+					console.log(secret);
+					$('#emailCheck').keyup(function(){
+						if($('#emailCheck').val() == secret){
+							$('#check').show().css("color","green").text("인증 확인");
+							$('#updateEnrollForm :submit').attr('disabled', false);
+						}
+						else{
+							$('#check').show().css("color","red").text("다시 인증해주세요.");
+							$('#updateEnrollForm :submit').attr('disabled', true);
+						}
+					})
+
+				}
+			})
+		})
+	</script>
 
     <jsp:include page="../../common/footer.jsp" />
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="mainpageMapper">
+  
+  <resultMap type="notice" id="noticeResultMap">
+  	<result column="NOTICE_NO" property="noticeNo" />
+	<result column="CATEGORY" property="category" />
+	<result column="NOTICE_TITLE" property="noticeTitle" />
+	<result column="NOTICE_CONTENT" property="noticeContent" />
+	<result column="CREATE_DATE" property="createDate" />
+	<result column="VIEWS" property="views" />
+	<result column="STATUS" property="status" />
+	<result column="PREV_NO" property="prevNoticeNo" />
+	<result column="PREV_TITLE" property="prevNoticeTitle" />
+	<result column="NEXT_NO" property="nextNoticeNo" />
+	<result column="NEXT_TITLE" property="nextNoticeTitle" />
+  </resultMap>
+  
+  <resultMap type="place" id="placeResultMap">
+		<result column="PLACE_NO" property="placeNo" />
+		<result column="PLACE_NAME" property="placeName" />
+		<result column="PLACE_ADDRESS" property="placeAddress" />
+		<result column="PLACE_LON" property="placeLon" />
+		<result column="PLACE_LAT" property="placeLat" />
+		<result column="PLACE_DES" property="placeDes" />
+		<result column="PLACE_TAGS" property="placeTags" />
+		<result column="AREA" property="area" />
+		<result column="TYPE" property="typeCode" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="PIC_ORIGIN" property="picOrigin" />
+		<result column="PIC_CHANGE" property="picChange" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="ModifyDate" />
+		<result column="PLACE_STATUS" property="placeStatus" />
+		<result column="VIEWS"	property="views"/>
+	</resultMap>
+  
+  <!-- 메인페이지 공지사항 리스트 조회 -->
+  <select id="selectFixedNotice" resultMap="noticeResultMap">
+ SELECT	*		  
+ FROM		(SELECT ROW_NUMBER()OVER(ORDER BY CREATE_DATE DESC) RNUM,NOTICE_NO,NOTICE_TITLE,CREATE_DATE,VIEWS
+            FROM NOTICE
+            WHERE STATUS='Y')
+  WHERE		RNUM BETWEEN 1 AND 5
+  </select>
+  
+  <select id="selectBestPlace"  resultMap="placeResultMap">
+ 	SELECT *
+  	FROM (SELECT ROW_NUMBER()OVER(ORDER BY VIEWS DESC)RNUM,PLACE_NO,PLACE_NAME,PLACE_ADDRESS,FILE_PATH||PIC_CHANGE AS FILE_PATH
+    FROM PLACE
+    WHERE PLACE_STATUS='Y')
+    WHERE RNUM BETWEEN 1 AND 5
+  </select>
+  
+  
+  </mapper>

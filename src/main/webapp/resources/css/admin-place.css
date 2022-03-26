@@ -11,17 +11,9 @@ body{
 	padding:0;
 	position:relative;
 }
-#menubar, #wrap{
-	float:left;
-}
-#menubar{
-	margin:0;
-	padding:0;
-	width:200px;
-	height:100vh;
-}
 #wrap{
 	margin-top:100px;
+	margin-left:200px;
 	width:1000px;
 	padding:0;
 }

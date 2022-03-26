@@ -26,5 +26,5 @@ public class Place {
 	private String createDate;
 	private String modifyDate;
 	private String placeStatus;
-	
+	private	int	views;
 }

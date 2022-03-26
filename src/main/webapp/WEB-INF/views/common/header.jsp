@@ -101,6 +101,13 @@ div {
 	width: 100%;
 }
 </style>
+<script>
+	$(function(){
+		$('.searchBtn').click(function(){
+			location.href='search?keyword='+$('.search>input').val();
+		})
+	})
+</script>
 </head>
 <body>
 	<!-- alertMsg -->
@@ -108,13 +115,16 @@ div {
 		<script>
 			alert("${alertMsg}");
 		</script>
-		<c:remove var="alertMsg" scope="session" />
-		<!-- session에 있는 alertMsg 삭제  -->
+
+		<c:remove var="alertMsg" scope="session"/> <!-- session에 있는 alertMsg 삭제  -->
 	</c:if>
-	<div class="headerOuter">
+
+
+	<div class="headerOuter"  style="z-index:100">
+
 		<div class="top">
 			<div class="logo">
-				<img src="resources/img/reallogo.png" height="330px">
+				<img src="resources/img/reallogo.png" height="330px" onclick="home()">
 			</div>
 			<div class="search">
 				<input class="w3-input w3-border w3-light-grey"
@@ -135,16 +145,18 @@ div {
 					</div>
 					<div class="mpLogin">
 
-						<label style="margin-top: 70px;"><p>${loginUser.userName}님
-								환영합니다</p></label>
 
+						<label style="margin-top: 70px;"><p>${loginUser.userName}님 환영합니다</p></label>
+						
 						<div>
 							<a href="logout.me"
 								style="font-size: 15px; text-decoration: none; color: gray;">logout</a>
 						</div>
 						<div style="margin-bottom: 100px;">
-							<a href="myPage.me"
-								style="font-size: 15px; text-decoration: none; color: gray;">mypage</a>
+							<a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a>
+							<c:if test="${loginUser!=null&&loginUser.userId=='admin1234'}">
+								<a href="admin.me" style="font-size: 5px; text-decoration: none;">관리자 페이지로 이동</a>
+							</c:if>
 						</div>
 					</div>
 				</c:when>
@@ -157,17 +169,20 @@ div {
 
 		<div class="bottom w3-bar w3-border w3-light-grey" align="center">
 
-
-			<a href="<%=request.getContextPath()%>"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">홈</a> <a href="main.sc"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">일정</a> <a href="#"
-				class="w3-bar-item w3-button w3-text-teal"
-				style="font-weight: bold;">여행지</a>
-
+			<a href="<%=request.getContextPath()%>"class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">홈</a> 
+			<a href="main.sc" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">일정</a>
+			<a href="main.pl" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">여행지</a>
+			<a href="list.no" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">고객센터</a>
 		</div>
+
 	</div>
+	
+	
+	<script>
+	function home(){//로고 클릭시 홈 페이지로 
+		location.href="<%=request.getContextPath()%>";
+	}
+	</script>
 
 </body>
 </html>
