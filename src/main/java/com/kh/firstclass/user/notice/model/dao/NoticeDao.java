@@ -20,14 +20,14 @@ public class NoticeDao {
 		return sqlSession.selectOne("noticeMapper.countNoticeAll", selectCategory);
 	}
 
-	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, int selectCategory, PageInfo pi) {
+	public ArrayList<Notice> selectNoticeList(SqlSessionTemplate sqlSession, HashMap<String, Object> map, PageInfo pi) {
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() -1)*limit;
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);	
 
 
-		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", selectCategory, rowBounds);
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectNoticeList", map, rowBounds);
 	}
 
 	public Notice selectNoticeOne(SqlSessionTemplate sqlSession, int noticeNo) {

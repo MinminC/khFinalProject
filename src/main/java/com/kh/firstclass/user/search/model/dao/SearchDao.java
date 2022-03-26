@@ -2,6 +2,7 @@ package com.kh.firstclass.user.search.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.firstclass.admin.place.model.vo.Place;
 import com.kh.firstclass.common.model.vo.PageInfo;
 import com.kh.firstclass.user.review.model.vo.Review;
+import com.kh.firstclass.user.review.model.vo.ReviewPicture;
 
 @Repository
 public class SearchDao {
@@ -55,6 +57,14 @@ public class SearchDao {
 
 	public int countReview(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.selectOne("searchMapper.countReview", map);
+	}
+
+	public ArrayList<ReviewPicture> selectPictureList(SqlSessionTemplate sqlSession, List<Integer> list) {
+		return (ArrayList)sqlSession.selectList("searchMapper.selectPictureList", list);
+	}
+
+	public ArrayList<ReviewPicture> selectReviewPicture(SqlSessionTemplate sqlSession, List<Integer> reviewsNum) {
+		return (ArrayList)sqlSession.selectList("searchMapper.selectReviewPicture", reviewsNum);
 	}
 
 }

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사용자-여행지 목록</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 	#right-side{
@@ -200,9 +200,8 @@
 					<div id="demo" class="carousel slide" data-ride="carousel">
 						<!-- Indicators -->
 						<ul class="carousel-indicators">
-							<li data-target="#demo" data-slide-to="0" class="active"></li>
-							<li data-target="#demo" data-slide-to="1"></li>
-							<li data-target="#demo" data-slide-to="2"></li>
+							<!-- 필수가 아닌지 없어도 진행 가능함 -->
+							<!-- <li data-target="#demo" data-slide-to="0" class="active"></li> -->
 						</ul>
 
 						<!-- The slideshow -->

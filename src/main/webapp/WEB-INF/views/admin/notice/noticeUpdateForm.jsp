@@ -6,18 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자-공지사항 수정</title>
-<link rel="stylesheet" type="text/css" href="resources/css/admin-notice.css">
+<link rel="stylesheet" type="text/css" href="resources/css/admin-styleSheet.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sideBar.jsp" />
 <div id="wrap">
+	<h1>공지사항 수정</h1>
+	<br>
 	<form action="update.no" method="post">
 	<input type="hidden" name="noticeNo" value="${n.noticeNo}">
 		<table class="table">
 			<tr>
-				<th>구분</th>
-				<td>
-					<select name="category">
+				<th style="width:150px;">구분</th>
+				<td style="width:100px;">
+					<select name="category" class="form-control" style="width:200px;">
 						<c:forEach var="i" items="${category}">
 							<c:choose>
 								<c:when test="${i.CATEGORY_CONTENT eq n.category}">
@@ -30,16 +32,16 @@
 						</c:forEach>
 					</select>
 				</td>
-				<th>제목</th>
-				<td><input type="text" name="noticeTitle" value="${n.noticeTitle}" required></td>
+				<th style="width:150px;">제목</th>
+				<td style="width:800px;"><input type="text" style="width:800px;" name="noticeTitle" class="form-control" value="${n.noticeTitle}" required></td>
 			</tr>
 			<tr>
-				<th>본문</th>
+				<th colspane="4">본문</th>
 			</tr>
 			<tr>
 				<td colspan="4">
 					<script type="text/javascript" src="resources/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-					<textarea name="noticeContent" id="ir1" rows="10" cols="100" required>${n.noticeContent}</textarea>
+					<textarea name="noticeContent" id="ir1" rows="10" cols="127" required>${n.noticeContent}</textarea>
 					<script type="text/javascript">
 						var oEditors = [];
 						nhn.husky.EZCreator.createInIFrame({
@@ -61,8 +63,8 @@
 				</td>
 			</tr>
 		</table>
-		<button type="submit" onclick="return submitContents();">수정하기</button>
-		<button onclick="location.href='list.no'">목록이동</button>
+		<button type="submit" class="btn btn-firstclass" onclick="return submitContents();">수정하기</button>
+		<button class="btn btn-secondary" onclick="history(back);">뒤로가기</button>
 	</form>
 </div>
 </body>

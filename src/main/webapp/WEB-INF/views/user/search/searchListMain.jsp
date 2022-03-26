@@ -5,17 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>${keyword} 검색 결과</title>
 <link rel="stylesheet" type="text/css" href="resources/css/search.css">
 <style>
 	#wrap{
 		width:1200px;
+		height:600px;
 		justify-items:center;
 		margin: 200px auto 50px auto;
 	}
-	#wrap>div>h3, #totalCount{
-		color:#00c5b1;
+	#wrap>div>h3{
 		font-weight: 800;
+		color:#009688;
 	}
 	.sideBar{
 		display:inline-block;
@@ -26,6 +27,7 @@
 		width:260px;
 		height:auto;
 		padding:20px;
+		margin-top:60px;
 	}
 	.sideBar li{
 		margin:5px;
@@ -43,17 +45,21 @@
 		margin-left: 10px;
 		margin-right: 20px;
 	}
+	.float-left, .sideBar{
+		float:left;
+	}
 	.float-left>span{
 		color:#00c5b1;
 	}
-	#search-tab ul{
+	#search-tab ul, .sideBar ul{
 		list-style: none;
 		padding:0;
 	}
+	#search-tab ul{
+		text-align: center;
+	}
 	#search-tab li{
 		display:inline-block;
-		padding:0;
-		margin:0;
 	}
 	#search-tab a{
 		font-size:20px;
@@ -62,24 +68,154 @@
 		color:gray;
 		padding: 0px 20px;
 	}
+	.sideBar span{
+		display:inline-block;
+		width:20px;
+		background: gray;
+		color:white;
+		border-radius: 5px;
+		text-align: center;
+	}
 	.now{
-		color: #00c5b1;
+		color: #00c5b1 !important;
+	}
+	#search-tab li, .search-list img, .search-text{
+		margin:0;
+		padding:0;
+	}
+	.search-text{
+		padding:10px;
+	}
+	#place-list .search-text{
+		width:600px;
+	}
+	#place-list img{
+		width:300px;
+		top:8px;
+		/*외곽에 line-height 속성을 주고 내부를 vertical-align 속성 주면 가운데 위치->p태그까지 영향받음. 사용X*/
+	}
+	#review-list img{
+		width:150px;
+		top:8px;
+		/*외곽에 line-height 속성을 주고 내부를 vertical-align 속성 주면 가운데 위치->p태그까지 영향받음. 사용X*/
+	}
+	#search-one h3{
+		text-align: center;
+		font-weight: 800;
+		font-size: 30px;
+	}
+	#search-one{
+		background:rgb(240,240,240);
+		border:1px solid lightgray;
+	}
+	.float-left a{
+		float:right;
+		text-decoration: none;
+		color:#00c5b1;
+		font-weight: 600;
+	}
+	.float-left span{
+		color:#00c5b1;
+	}
+	#place-list img, #place-list .search-text{
+		float:left;
+	}
+	#search-main .btn{
+		float:right;
+	}
+	.search-text h4:hover{
+		cursor:pointer;
+		text-decoration:underline;
+	}
+	.sideBar a{
+		color:#009688;
+		padding-left: 10px;
+	}
+	.light-bar{
+		border:0;
+		border-top:1px dashed rgb(0,0,0,.1);
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
+	<script>
+		//여행지 클릭하면 이동하기
+		$(function(){
+			$('#search-main').on('click','h4',function(){
+				//console.log($(this).siblings('.placeNo'));
+				location.href='detailView.pl?placeNo='+$(this).siblings('.placeNo').val();
+			})
+		})
+	</script>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<div id="wrap">
 		<div id="search-tab">
 			<h1 style="text-align: center;">"<span>${keyword}</span>" 검색 결과</h1>
-			<ul>
-				<li class="now"><a href="?keyword=${keyword}">전체</a>|</li>
+			<ul style="float:left;">
+				<li><a href="?keyword=${keyword}">전체</a>|</li>
 				<li><a href="?where=Place&keyword=${keyword}">여행지</a>|</li>
 				<li><a href="?where=Review&keyword=${keyword}">리뷰</a></li>
 			</ul>
+			
+			<c:if test="${where != 'Main'}">
+				<ul style="float:right;">
+					<li><a href="?sort=new&where=${where}&keyword=${keyword}">최신 순</a>|</li>
+					<li><a href="?sort=score&where=${where}&keyword=${keyword}">별점 순</a>|</li>
+					<li><a href="?sort=place&where=${where}&keyword=${keyword}">여행지 명 순</a></li>
+				</ul>
+			</c:if>
+			<br clear="both"/>
 		</div>
+		<c:choose>
+			<c:when test="${where eq 'Main'}">
+				<script>
+					$(function(){
+						$('#search-tab li>a').eq(0).addClass('now');
+					})
+					</script>
+			</c:when>
+			<c:when test="${where eq 'Place'}">
+				<script>
+					$(function(){
+						$('#search-tab li>a').eq(1).addClass('now');
+					})
+					</script>
+			</c:when>
+			<c:otherwise>
+				<script>
+					$(function(){
+						$('#search-tab li>a').eq(2).addClass('now');
+					})
+					</script>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${sort eq 'new'}">
+				<script>
+					$(function(){
+						$('#search-tab li>a').eq(3).addClass('now');
+					})
+					</script>
+			</c:when>
+			<c:when test="${sort eq 'score'}">
+				<script>
+					$(function(){
+						$('#search-tab li>a').eq(4).addClass('now');
+					})
+					</script>
+			</c:when>
+			<c:otherwise>
+				<script>
+					$(function(){
+						$('#search-tab li>a').eq(5).addClass('now');
+					})
+					</script>
+			</c:otherwise>
+		</c:choose>
+		<br clear="both"/>
 		<hr>
+		<br>
 		<div id="search-main" class="float-left">
 			<c:choose>
 				<c:when test="${empty keyword}">
@@ -89,11 +225,15 @@
 				<c:otherwise>
 					<c:if test="${where != 'Review'}">
 						<h3>여행지</h3>
-						<i>총 <span>${places.size()}</span>건</i>더보기
+						<i>총 <span>${totalPlace}</span>건</i>
+						<c:if test="${where == 'Main'}">
+							<a href="?where=Place&keyword=${keyword}">더보기</a>
+						</c:if>
+						<hr class="light-bar">
 						<c:choose>
 							<c:when test="${empty places}">
 								<!-- 여행지 검색 결과가 없는 경우 -->
-								<h5>검색 결과가 존재하지 않습니다.</h5>
+								<br><br><h5>검색 결과가 존재하지 않습니다.</h5><br>
 							</c:when>
 							<c:otherwise>
 								<!--검색 내용 존재-->
@@ -107,7 +247,7 @@
 										</thead>
 										<tbody>
 											<tr>
-												<td colspan="2"><img src="${p.filePath}${p.picChange}"></td>
+												<td colspan="2"><img src="${p.filePath}${p.picChange}" style="width:450px;"></td>
 												<td colspan="2">
 													<div id="map" style="width:400px;height:300px;"></div>
 													<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=01fd683c4bc8ef3abbe0ed0b33e36889"></script>
@@ -168,27 +308,34 @@
 										</tbody>
 									</table>
 								</c:if>
-								<hr>
-								<div id="search-list">
-									<c:forEach var="place" items="${places}">
-										<div>
-											<img src="${place.filePath}${place.picChange}">
-											<div class="list-text">
+								<div class="search-list" id="place-list">
+								<c:forEach var="place" items="${places}">
+									<div>
+										<img src="${place.filePath}${place.picChange}">
+										<div class="search-text">
+												<input type="hidden" class="placeNo" value="${place.placeNo}">
 												<h4>${place.placeName}</h4>
 												<button type="button" class="btn" data-toggle="modal" data-target="#shareUrl"><i class="fa fa-share-alt" style="font-size:36px"></i></button>
 												<span>
 													별점 : 
-													<c:forEach begin="1" end="${place.starScore}">
-														★
-													</c:forEach>
+													<c:choose>
+														<c:when test="${place.starScore == 0}">
+															별점 정보 없음
+														</c:when>
+														<c:otherwise>
+															<c:forEach begin="1" end="${place.starScore}">
+																★
+															</c:forEach>
+														</c:otherwise>
+													</c:choose>
 												</span>
 												<p>
 													${place.placeTags}
 												</p>
 											</div>
 										</div>
-										<br clear="both">
-										<hr>
+										<br clear="both"/>
+										<hr class="light-bar">
 									</c:forEach>
 								</div>
 								<script>
@@ -202,37 +349,111 @@
 							</c:otherwise>
 						</c:choose>
 					</c:if>
+					<c:if test="${where eq 'Main'}">
+						<br><br>
+					</c:if>
 					<c:if test="${where != 'Place'}">
 						<h3>리뷰</h3>
-						<i>총 <span>${reviews.size()}</span>건</i>더보기
-						<div id="review-list">
-							<c:choose>
-								<c:when test="${reviews == null}">
-									<h5>검색 결과가 존재하지 않습니다.</h5>
-								</c:when>
-								<c:otherwise>
+						<i>총 <span>${totalReview}</span>건</i>
+						<c:if test="${where == 'Main'}">
+							<a href="?where=Review&keyword=${keyword}">더보기</a>
+						</c:if>
+						<hr class="light-bar">
+						<c:choose>
+							<c:when test="${empty reviews}">
+								<br><br><h5>검색 결과가 존재하지 않습니다.</h5><br>
+							</c:when>
+							<c:otherwise>
+								<div class="search-list" id="review-list">
 									<c:forEach var="r" items="${reviews}">
-										<div class="review-one">
-											<img src="http://tong.visitkorea.or.kr/cms/resource/53/2721553_image2_1.jpg">
-											<div class="review-text">
+										<div class="search-one">
+											<div class="search-text">
+												<input type="hidden" class="placeNo" value="${r.placeNo}">
+												<input type="hidden" class="revNo" value="${r.revNo}">
 												<h4>${r.placeName}</h4>
-												<h5>
-													작성일 : <span>${r.createDate}</span>
-													작성자 : <span>${r.userId}</span>
-												</h5>
 												<p>
 													${r.revContent}
 												</p>
-												<button type="button" class="share-button" data-toggle="modal" data-target="#myModal">
-													<i class="fa fa-share-alt" style="font-size:36px"></i>
-													<!-- 이게 사진마다 떠있음 마우스 오버하면 보이거나 함 -->
-												</button>
+												<button type="button" class="btn" data-toggle="modal" data-target="#shareUrl"><i class="fa fa-share-alt" style="font-size:36px"></i></button>
+												<h5>
+													작성일 : <span>${r.createDate}</span>
+													작성자 : <span>${r.userId}</span>
+													별점 : 
+													<span>
+														<c:choose>
+															<c:when test="${r.starScore == 0}">
+																-
+															</c:when>
+															<c:otherwise>
+																<c:forEach begin="1" end="${r.starScore}">
+																	★
+																</c:forEach>
+															</c:otherwise>
+														</c:choose>
+													</span>
+												</h5>
 											</div>
+											<div class="review-image"></div>
 										</div>
+										<hr class="light-bar">
 									</c:forEach>
-								</c:otherwise>
-							</c:choose>
-						</div>
+									<script>
+										//리뷰 이미지를 뿌려주는 함수
+										$(function(){
+											viewReviewImage();
+										})
+										
+										function viewReviewImage(){
+											//리뷰 번호
+											var reviewsNum = [];
+											$('#review-list .revNo').each(function(idx,reviewNo){
+												reviewsNum.push(Number(reviewNo.value));
+											});
+											console.log(reviewsNum);
+											$.ajax({
+												url:'ajaxReviewImage.se',
+												data: {'reviewsNum':reviewsNum},
+												traditional: true,
+												success:function(list){
+													for(var i=0;i<list.length;i++){
+														//list -> {imgNo: 1, revNo: 2, originName: '1.JPG', changeName: '1.JPG
+														//reviewsNum == [2,3,5,7,9]
+														//reviewsNum
+														//reviewsNum.indexof(revNo)//0번째에 append함
+														console.log(reviewsNum.indexOf(list[i].revNo));
+														console.log(list[i].changeName);
+														
+														var value = '<img src="resources/upfiles/review/'+list[i].changeName+'"></div>';
+
+														console.log(value);
+														console.log($('#review-list .search-one').eq(reviewsNum.indexOf(list[i].revNo)).find('.review-image'));
+														$('#review-list .search-one').eq(reviewsNum.indexOf(list[i].revNo)).find('.review-image').append(value);
+													}
+												},
+												error:function(){
+													alert('사진 로딩 실패');
+												}
+											})
+										}
+									</script>
+								</div>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+					<c:if test="${where != 'Main'}">
+						<!--페이징 처리-->
+						<ul class="pagination">
+							<c:if test="${pi.currentPage != 1}">
+								<li class="page-item"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${pi.currentPage - 1}">&lt;</a></li>
+							</c:if>
+							<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+								<li class="page-item"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${i}">${i}</a></li>
+								<!--해당되는 번호에 클래스 active 넣어주기!-->
+							</c:forEach>
+							<c:if test="${pi.currentPage lt pi.maxPage}">
+								<li class="page-item endPage"><a class="page-link" href="?where=${where}&keyword=${keyword}&pageNo=${pi.currentPage + 1}">&gt;</a></li>
+							</c:if>
+						</ul>
 					</c:if>
 				</c:otherwise>
 			</c:choose>
@@ -244,18 +465,39 @@
 			<ul>
 				<!-- 10개 노출. 공공DB에서 받아온 검색 순위 -->
 				<c:forEach var="r" items="${ranking}" varStatus="vs">
-					<li><span>${vs.count}</span><a href="#">${r}</a></li>
+					<li><span>${vs.count}</span><a href="?keyword=${r}">${r}</a></li>
 				</c:forEach>
 			</ul>
 		</div>
-		<br clear="both" />
 	</div>
+	<br clear="both"/>
+	<!-- share Modal -->
+	<div class="modal" id="shareUrl">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form id="myform">
+						URL:  <input type="text" id="url"><br/>
+						Title:  <input type="text" id="title"><br/>
+					</form>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="share()">Share</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script>
 		$(function(){
-			var now = new Date();
-			var yesterday = getYMD(new Date(now.setDate(now.getDate() - 1)));
-			$('#search-option>i').text(yesterday);
+			var now = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');;
+			var yesterday = new Date(+new Date() -24*60*60*1000 + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');;
+			$('.sideBar>i').html(yesterday+'<br> &nbsp;&nbsp;&nbsp;~ '+now+' 기준');
 		})
+		
 		function getYMD(time) {
 			return time.getFullYear() + "-" 
 					+ ((time.getMonth() + 1) > 9 ? 
@@ -264,6 +506,15 @@
 						time.getDate().toString() : "0" + time.getDate().toString());
 		}
 	</script>
+	<c:if test="${not empty keyword}">
+		<script>
+			$(function(){
+				console.log('${keyword}');
+				console.log($('.search>input'));
+				$('.search>input').val('${keyword}');
+			})
+		</script>
+	</c:if>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

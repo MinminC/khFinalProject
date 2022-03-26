@@ -5,12 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자-여행지 등록</title>
 <link rel="stylesheet" type="text/css" href="resources/css/admin-place.css">
 </head>
 <body>
     <div id="menubar"><jsp:include page="/WEB-INF/views/common/sideBar.jsp"/></div>
 	<div id="wrap">
+        <h1>여행지 등록</h1>
+		<br>
         <div id="searchPlace">
             <div>
                 <span>여행지</span><input type="search"><button class="btn btn-secondary">검색</button>

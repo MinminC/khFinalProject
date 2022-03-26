@@ -2,6 +2,7 @@ package com.kh.firstclass.user.search.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ public class SearchServiceImpl implements SearchService{
 	}
 
 	@Override
-	public ArrayList<ReviewPicture> selectPictureList(ArrayList<Integer> reviewNo) {
-		return null;
+	public ArrayList<ReviewPicture> selectPictureList(List<Integer> reviewNo) {
+		return searchDao.selectPictureList(sqlSession, reviewNo);
 	}
 
 	@Override
@@ -59,6 +60,11 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public int countReview(HashMap<String, Object> map) {
 		return searchDao.countReview(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<ReviewPicture> selectReviewPicture(List<Integer> reviewsNum) {
+		return searchDao.selectReviewPicture(sqlSession, reviewsNum);
 	}
 
 }

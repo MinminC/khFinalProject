@@ -43,7 +43,10 @@ public class NoticeController {
 		//중요 공지
 		ArrayList<Notice> list = noticeService.selectImportantNotice();
 		//일반 공지
-		ArrayList<Notice> commons = noticeService.selectNoticeList(selectCategory, pi);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("selectCategory", selectCategory);
+		
+		ArrayList<Notice> commons = noticeService.selectNoticeList(map, pi);
 		//리스트 연결
 		list.addAll(commons);
 		
@@ -112,7 +115,11 @@ public class NoticeController {
 		int boardLimit = 8;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Notice> list = noticeService.selectNoticeList(selectCategory, pi);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("selectCategory", selectCategory);
+		map.put("admin", "admin");
+		
+		ArrayList<Notice> list = noticeService.selectNoticeList(map, pi);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
@@ -145,6 +152,7 @@ public class NoticeController {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("type", type);
 		map.put("keyword", keyword);
+		map.put("admin", "admin");
 		
 		int listCount = noticeService.countSearchNotice(map);
 		int currentPage = pageNo;

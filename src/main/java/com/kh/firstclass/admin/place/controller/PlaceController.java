@@ -251,6 +251,8 @@ public class PlaceController {
 	/**
 	 * 날씨를 조회하는 AJAX
 	 * Gson 2.8.6버전을 요하므로, 작동이 안된다면 이부분 확인
+	 * timeTable을 넘겨서 시간마다 재로딩한다거나
+	 * 측정 기준 시간을 넘겨서 띄워주기
 	 * @return
 	 * @throws IOException
 	 */
@@ -282,7 +284,6 @@ public class PlaceController {
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
 			String now = timeFormat.format(today);
 
-			
 			//예보 시간 -> 3시간 단위
 			String day = dayFormat.format(today);
 			String toHour = "";

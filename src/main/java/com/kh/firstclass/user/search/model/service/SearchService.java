@@ -2,6 +2,7 @@ package com.kh.firstclass.user.search.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.kh.firstclass.admin.place.model.vo.Place;
 import com.kh.firstclass.common.model.vo.PageInfo;
@@ -18,12 +19,14 @@ public interface SearchService {
 
 	ArrayList<Review> selectReviewList(HashMap<String, Object> map, PageInfo pi);
 
-	ArrayList<ReviewPicture> selectPictureList(ArrayList<Integer> reviewNo);
+	ArrayList<ReviewPicture> selectPictureList(List<Integer> reviewNo);
 
 	Place selectPlaceOne(HashMap<String, String> map);
 
 	int insertKeyword(String[] keywords);
 
 	ArrayList<String> countSearchRanking();
+
+	ArrayList<ReviewPicture> selectReviewPicture(List<Integer> reviewsNum);
 
 }

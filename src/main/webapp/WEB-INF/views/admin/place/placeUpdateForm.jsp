@@ -5,19 +5,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="resources/css/admin-place.css">
+<title>관리자-여행지 수정</title>
+<link rel="stylesheet" type="text/css" href="resources/css/admin-styleSheet.css">
 </head>
 <body>
 	<div id="menubar"><jsp:include page="/WEB-INF/views/common/sideBar.jsp"/></div>
 	<div id="wrap">
+		<h1>여행지 수정</h1>
+		<br>
 		<form action="update.pl" method="post" enctype="multipart/form-data">
 			<table class="table" id="place-detail">
 				<thead>
 					<tr>
 						<th colspan="4">
 							<input type="hidden" name="placeNo" value="${p.placeNo}">
-							<input type="text" name="placeName" value="${p.placeName}">
+							<input class="form-control" type="text" name="placeName" value="${p.placeName}">
 						</th>
 					</tr>
 				</thead>
@@ -33,19 +35,19 @@
 					<tr>
 						<th>지역</th>
 						<td colspan="3">
-							<input type="text" name="placeAddress" value="${p.placeAddress}">
+							<input class="form-control" style="width:820px;" type="text" name="placeAddress" value="${p.placeAddress}">
 						</td>
 					</tr>
 					<tr>
 						<th>위도</th>
-						<td><input type="text" name="placeLat" value="${p.placeLat}"></td>
+						<td><input class="form-control" style="width:100px;" type="text" name="placeLat" value="${p.placeLat}"></td>
 						<th>경도</th>
-						<td><input type="text" name="placeLon" value="${p.placeLon}"></td>
+						<td><input class="form-control" style="width:100px;" type="text" name="placeLon" value="${p.placeLon}"></td>
 					</tr>
 					<tr>
 						<th>지역 코드</th>
 						<td>
-							<select name="area">
+							<select name="area"  class="form-control">
 								<c:forEach var="i" items="${areaCode}">
 									<option value="${i.areaNo}">${i.sido}</option>
 								</c:forEach>
@@ -53,7 +55,7 @@
 						</td>
 						<th>여행지 타입</th>
 						<td>
-							<select name="typeCode">
+							<select name="typeCode"  class="form-control">
 								<c:forEach var="i" items="${placeType}">
 									<option value="${i.typeCode}">${i.typeContent}</option>
 								</c:forEach>
@@ -70,19 +72,19 @@
 									</li>
 								</c:forEach>
 							</ul>
-							<input type="text" id="tagNow" value="">
+							<input type="search" class="form-control" id="tagNow" value="">
 							<input type="hidden" name="placeTags" value="">
 						</td>
 					</tr>
 					<tr>
 						<td colspan="4">
-							<textarea name="placeDes" cols="150" rows="10">${p.placeDes}</textarea>
+							<textarea name="placeDes" class="form-control" cols="120" rows="10">${p.placeDes}</textarea>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<div id="center-btns">
-				<button type="submit" onclick="return checkIntegrity();" class="btn btn-warning">수정</button>
+				<button type="submit" onclick="return checkIntegrity();" class="btn btn-firstclass">수정</button>
 				<button type="button" onclick="location.href='list.pl'" class="btn btn-secondary">목록 이동</button>
 			</div>
 		</form>
