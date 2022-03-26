@@ -18,6 +18,10 @@
         margin: auto;
         background-color: lightgray;
         width: 100%;
+    
+    	//푸터 고정용 구문 -손민성- 이거 고정안하면 제꺼 컨텍스트 영역 움직일때마다 푸터 같이 움직여서 고정했어요 
+        position: absolute;
+  		bottom: 0;
     }
 
     .footerOuter1{

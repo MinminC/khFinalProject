@@ -124,6 +124,25 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/");
 			
+
+			Member loginUser = memberService.loginMember(m);
+			//System.out.println(loginUser);
+			
+			if(loginUser==null) { //로그인실패 =>에러문구를 requestScope에 담고 에러페이지로 포워딩
+				
+				mv.addObject("errorMsg","에러발생");
+				mv.setViewName("common/errorPage");
+				
+				
+			}else {//로그인 성공 => loginUser를 sessionScope에 담고 메인페이지 url로 재요청
+				
+				session.setAttribute("loginUser", loginUser);
+				System.out.println(loginUser);
+				mv.setViewName("redirect:/");
+			}
+			
+			return mv;
+
 		}else { //로그인실패
 			//mv.addObject("errorMsg","로그인실패").setViewName("common/errorPage");
 			session.setAttribute("alertMsg", "로그인정보를확인해주세요");
@@ -359,6 +378,7 @@ public class MemberController {
 	public String inquiryEnrollForm() {
 		return "user/member/inquiryEnrollForm";
 	}	
+
 	
 	// 관리자 문의 상세 페이지
 	@RequestMapping("inquiryDetail.ad")
@@ -464,4 +484,5 @@ public class MemberController {
 		return mv;
 	}
 	
+
 }
