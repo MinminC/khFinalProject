@@ -62,7 +62,7 @@ public class MemberController {
 			}else {//로그인 성공 => loginUser를 sessionScope에 담고 메인페이지 url로 재요청
 				
 				session.setAttribute("loginUser", loginUser);
-				
+				System.out.println(loginUser);
 				mv.setViewName("redirect:/");
 			}
 			
@@ -95,6 +95,4 @@ public class MemberController {
 	public String myInquiry() {
 		return "user/member/myInquiry";
 	}	
-	
-
 }

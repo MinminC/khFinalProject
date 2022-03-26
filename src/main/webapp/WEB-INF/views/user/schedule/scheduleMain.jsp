@@ -10,17 +10,18 @@
 <link rel="stylesheet" type="text/css" href="resources/css/search.css">
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script>
-	var jb = jQuery.noConflict();
-</script>
+
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 
-	<div class="w3-container w3-teal">
-		<h1>My Car</h1>
+	<div class="w3-container" style="margin-top: 200px">
+		<c:forEach var="moNo" items="${loginUser.moNo}">
+			<div style="display:inline-block; width:200px"><a href="scheduleDetail.sc?moNo=${moNo}"><c:out value="${moNo}"/></a></div>
+		</c:forEach>
 	</div>
+	
 	<div class="w3-container" style="margin-top: 200px">
 		<button
 			onclick="document.getElementById('id01').style.display='block'"

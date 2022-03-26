@@ -20,7 +20,6 @@ public class MemberServiceImpl implements MemberService{
 	public Member loginMember(Member m) {
 		
 		//memberDao.loginMember(sqlSession,m);
-		System.out.println(memberDao.loginMember(sqlSession,m));
 		return memberDao.loginMember(sqlSession,m);
 	}
 
@@ -33,5 +32,6 @@ public class MemberServiceImpl implements MemberService{
 	public int idCheck(String checkId) {
 		return 0;
 	}
+	
 
 }

@@ -65,6 +65,7 @@ public class Member {
 	}
 
 
+
 	public int getUserNo() {
 		return userNo;
 	}
@@ -182,6 +183,10 @@ public class Member {
 	//모임 추가 add 셋터 오버로딩 = >  디폴트 빈 리스트
 	public void setMoNo(String moNo) {
 		this.moNo.add(moNo);
+	}
+	public void setMoNo() {
+		this.moNo.clear();
+		
 	}
 
 

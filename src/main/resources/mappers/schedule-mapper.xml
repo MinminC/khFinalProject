@@ -12,6 +12,47 @@
   		#{departureDate},
   		#{arrivalDate}
   	)
-  
   </insert>
+  <update id="updateScheduleMember" parameterType="hashmap">
+ 		update MEMBER
+ 		set MO_NO = #{moNo}
+ 		where USER_ID = #{addId}
+  </update>
+  <insert id="insertSendMassage" parameterType="hashmap">
+  		INSERT INTO CHATINGLOG
+  		values(
+	  		#{mono},
+	  		#{newmsg},
+	  		sysdate
+  		)
+  </insert>
+  
+  <select id="selectReceiveMsg" parameterType="String" resultType="chatLog">
+  
+  		select mono,chatmsg,chattime
+		from chatinglog
+		where
+		MONO = #{mono}
+		order by chattime asc
+  
+  </select>
+  
+  <select id="selectAccountBook" parameterType="hashmap" resultType="String">
+  
+ 		select user_name
+        from member
+        where 1= mod(instr(mo_no,#{mono}),5);
+  
+  
+  </select>
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
   </mapper>

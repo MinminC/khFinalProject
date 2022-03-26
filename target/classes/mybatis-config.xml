@@ -12,6 +12,7 @@
 		<typeAlias type="com.kh.firstclass.admin.place.model.vo.Place" alias="place" />
 		<typeAlias type="com.kh.firstclass.user.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.firstclass.user.schedule.model.vo.AddSchedule" alias="addSchedule"/>
+		<typeAlias type="com.kh.firstclass.user.schedule.model.vo.chatLog" alias="chatLog"/>
 	</typeAliases>
 
 	<!-- 

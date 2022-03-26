@@ -1,12 +1,7 @@
 package com.kh.firstclass.user.schedule.controller;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import javax.servlet.http.HttpSessionEvent;
-
-import org.springframework.http.HttpRequest;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -32,7 +27,9 @@ public class WebSocketServer extends TextWebSocketHandler {
 		System.out.println("message : " + message);
 		
 		TextMessage newMessage = new TextMessage(message.getPayload());
-
+		
+		
+		
 		for (WebSocketSession ws : users) {
 				ws.sendMessage(newMessage);
 		}
@@ -46,5 +43,6 @@ public class WebSocketServer extends TextWebSocketHandler {
 		System.out.println("session : " + session);
 		System.out.println("status : " + status);
 	}
+
 
 }

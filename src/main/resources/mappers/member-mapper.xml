@@ -39,12 +39,11 @@
  		where	
  				USER_ID=#{userId}
  		and			
- 				USER_PWD=#{userPwd}
- 		and			
  				STATUS='Y'
  		
  	
  	</select>
+ 	
  
  
  
