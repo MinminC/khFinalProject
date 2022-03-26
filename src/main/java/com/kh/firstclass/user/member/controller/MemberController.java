@@ -110,49 +110,31 @@ public class MemberController {
 	}
 
 	//로그인
-	@RequestMapping("login.me")
-	public ModelAndView loginMember(Member m, ModelAndView mv,HttpSession session) {
-		
-		Member loginUser = memberService.loginMember(m);
-		
-		//평문과 암호화된 구문이 일치하면 true반환
+	   @RequestMapping("login.me")
+	   public ModelAndView loginMember(Member m, ModelAndView mv,HttpSession session) {
+	      
+	      Member loginUser = memberService.loginMember(m);
+	      
+	      //평문과 암호화된 구문이 일치하면 true반환
 
-		if(loginUser!=null&&bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+	      if(loginUser!=null&&bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {         
 
-			//로그인성공 
+	         //로그인성공 
 
-			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("redirect:/");
-			
+	         session.setAttribute("loginUser", loginUser);
+	         mv.setViewName("redirect:/");
+	         
+	      }else { //로그인실패
+	         //mv.addObject("errorMsg","로그인실패").setViewName("common/errorPage");
+	         session.setAttribute("alertMsg", "로그인정보를확인해주세요");
+	         mv.setViewName("redirect:/");
+	         
+	      
+	      }
+	      
+	      return mv;
+	   }
 
-			Member loginUser = memberService.loginMember(m);
-			//System.out.println(loginUser);
-			
-			if(loginUser==null) { //로그인실패 =>에러문구를 requestScope에 담고 에러페이지로 포워딩
-				
-				mv.addObject("errorMsg","에러발생");
-				mv.setViewName("common/errorPage");
-				
-				
-			}else {//로그인 성공 => loginUser를 sessionScope에 담고 메인페이지 url로 재요청
-				
-				session.setAttribute("loginUser", loginUser);
-				System.out.println(loginUser);
-				mv.setViewName("redirect:/");
-			}
-			
-			return mv;
-
-		}else { //로그인실패
-			//mv.addObject("errorMsg","로그인실패").setViewName("common/errorPage");
-			session.setAttribute("alertMsg", "로그인정보를확인해주세요");
-			mv.setViewName("redirect:/");
-			
-		
-		}
-		
-		return mv;
-	}
 		
 		//회원가입화면으로 이동
 		@RequestMapping("enrollForm.me")
