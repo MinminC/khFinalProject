@@ -5,23 +5,18 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
-	
 	 
 	 	<!--유의사항: 미리 등록해두려면 해당 클래스가 진짜 존재하고 있는 상태여야함  -->
 	<typeAliases>
 		<typeAlias type="com.kh.firstclass.admin.place.model.vo.Place" alias="place" />
 		<typeAlias type="com.kh.firstclass.user.member.model.vo.Member" alias="member"/>
-
 		<typeAlias type="com.kh.firstclass.user.schedule.model.vo.AddSchedule" alias="addSchedule"/>
 		<typeAlias type="com.kh.firstclass.user.schedule.model.vo.chatLog" alias="chatLog"/>
-
 		<typeAlias type="com.kh.firstclass.common.mail.CertVo" alias="certVo"/>
 		<typeAlias type="com.kh.firstclass.user.member.model.vo.Inquiry" alias="Inquiry"/>
-
 		<typeAlias type="com.kh.firstclass.user.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.firstclass.user.review.model.vo.ReviewPicture" alias="reviewPicture"/>
 		<typeAlias type="com.kh.firstclass.user.notice.model.vo.Notice" alias="notice"/>
-
 	</typeAliases>
 
 	<!-- 
@@ -33,16 +28,10 @@
 	 <mappers>
 		<mapper resource="/mappers/place-mapper.xml" />
 		<mapper resource="mappers/member-mapper.xml"/>
-
 		<mapper resource="/mappers/schedule-mapper.xml" />
-
-
 		<mapper resource="/mappers/review-mapper.xml"/>
-
 		<mapper resource="/mappers/notice-mapper.xml" />
-		
+		<mapper resource="/mappers/search-mapper.xml" />
 		<mapper resource="/mappers/mainpage-mapper.xml" />
-
-
 	 </mappers>
 </configuration>

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,10 @@ public class NoticeController {
 		//중요 공지
 		ArrayList<Notice> list = noticeService.selectImportantNotice();
 		//일반 공지
-		ArrayList<Notice> commons = noticeService.selectNoticeList(selectCategory, pi);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("selectCategory", selectCategory);
+		
+		ArrayList<Notice> commons = noticeService.selectNoticeList(map, pi);
 		//리스트 연결
 		list.addAll(commons);
 		
@@ -52,7 +57,6 @@ public class NoticeController {
 		if(selectCategory != 0)
 			model.addAttribute("selectCategory", selectCategory);
 		
-		System.out.println(list+"K"+pi);
 		return "user/notice/noticeListView";
 	}
 	
@@ -110,11 +114,14 @@ public class NoticeController {
 		int boardLimit = 8;
 		PageInfo pi = getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Notice> list = noticeService.selectNoticeList(selectCategory, pi);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("selectCategory", selectCategory);
+		map.put("admin", "admin");
+		
+		ArrayList<Notice> list = noticeService.selectNoticeList(map, pi);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
-		System.out.println(list+"K"+pi);
 		
 		if(selectCategory != 0)
 			model.addAttribute("selectCategory", selectCategory);
@@ -143,6 +150,7 @@ public class NoticeController {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("type", type);
 		map.put("keyword", keyword);
+		map.put("admin", "admin");
 		
 		int listCount = noticeService.countSearchNotice(map);
 		int currentPage = pageNo;
@@ -205,21 +213,22 @@ public class NoticeController {
 	@ResponseBody
 	@PostMapping(value="delete.no")
 	public int deleteNotice(@RequestParam(value="noticeNo")List<Integer> noticeNo, Model model) {
-		System.out.println(noticeNo);
 		return noticeService.deleteNoticeList(noticeNo);
 	}
 	
 	@ResponseBody
 	@RequestMapping("hideImportant")
-	public void hideImportant(HttpSession session) {
-		System.out.println("숨김");
-		session.setAttribute("important", "hide");
+	public void hideImportant(HttpServletResponse response) {
+		Cookie ck = new Cookie("hideImportantNotice", "hideImportantNotice");
+		ck.setMaxAge(60);//초단위
+		response.addCookie(ck);
 	}
 	
 	@ResponseBody
 	@RequestMapping("openImportant")
-	public void openImportant(HttpSession session) {
-		System.out.println("펼침");
-		session.removeAttribute("important");
+	public void openImportant(HttpServletResponse response) {
+		Cookie ck = new Cookie("hideImportantNotice", "hideImportantNotice");
+		ck.setMaxAge(0);
+		response.addCookie(ck);
 	}
 }

@@ -1,7 +1,7 @@
 package com.kh.firstclass.admin.place.controller;
 
 import static com.kh.firstclass.common.model.vo.PageInfo.getPageInfo;
-import static com.kh.firstclass.common.model.vo.SaveFile.changeName;
+import static com.kh.firstclass.common.model.vo.SaveFile.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kh.firstclass.admin.place.model.service.PlaceService;
 import com.kh.firstclass.admin.place.model.vo.AreaCode;
 import com.kh.firstclass.admin.place.model.vo.Place;
@@ -103,16 +108,27 @@ public class PlaceController {
 		return "admin/place/placeInsertForm";
 	}
 	
+	/**
+	 * 파일 주소로 이미지 저장하는 방식
+	 * @param p
+	 * @param upfile
+	 * @param imgPath
+	 * @param session
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("insert.pl")
-	public String insertPlace(Place p, MultipartFile upfile, HttpSession session, Model model) {
-		//파일이 존재한다면(존재함)
-		
-		if(!upfile.getOriginalFilename().equals("")) {
+	public String insertPlace(Place p, MultipartFile upfile, String imgPath, HttpSession session) throws IOException {
+//		이미지를 주소로 inputStream 사용하여 서버에 저장->이미지 반드시 등록한 후에 넘어가도록
+		//이미지를 서버에 저장 -> 링크 임베드 방식
+		if(upfile.getOriginalFilename().equals("")) {//사진 업로드 안한 경우(링크 방식)
+			String fileName = changeImgName("place", imgPath, session);
+			p.setPicOrigin(fileName);
+			p.setPicChange(fileName);
+		}else {//사진 업로드 방식
 			p.setPicOrigin(upfile.getOriginalFilename());
 			p.setPicChange(changeName("place", upfile, session));
 		}
-		
-		//이미지를 서버에 저장 -> 링크 임베드 방식?
 
 		return placeService.insertPlace(p) > 0?"redirect:list.pl":"common/errorPage";
 	}
@@ -126,7 +142,7 @@ public class PlaceController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="searchOpenData.pl", produces="text/xml; charset=UTF-8")
-	public String searchOpenData(String keyword, @RequestParam(value="pageNo", defaultValue="1") int pageNo) throws IOException{
+	public String searchOpenData(@RequestParam(value="contentTypeId", defaultValue="12") int contentTypeId, String keyword, @RequestParam(value="pageNo", defaultValue="1") int pageNo) throws IOException{
 		
 		//url 완성
 		String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword";
@@ -138,7 +154,7 @@ public class PlaceController {
 		url += "&numOfRows=5";
 		url += "&listYN=Y";
 		url += "&arrange=A";
-		url += "&contentTypeId=12";
+		url += "&contentTypeId="+contentTypeId;
 		url += "&keyword="+URLEncoder.encode(keyword, "UTF-8");
 		
 		//API에 요청하기
@@ -231,17 +247,113 @@ public class PlaceController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="select.pl"/*, produces="application/json; charset=UTF-8"*/)
-	//produces는 json배열로 넘길때는 오류 안나는데 json배열아닌 걸로 넘기면 오류남. 추후에 여러 태그 받게 되는 경우에는 남기기
+	@RequestMapping(value="select.pl", produces="application/json; charset=UTF-8")
 	public ArrayList<Place> selectUserPlaceList(@RequestParam(value="tag", defaultValue="") String tag
-			, @RequestParam(value="area", defaultValue="전체") String area, Model model) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("area", area);
+				, @RequestParam(value="area", defaultValue="전체") String area, Model model) {
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("tag", tag);
-		System.out.println(area+":"+tag);
+		map.put("area", area);
+		
 		ArrayList<Place> list = placeService.selectUserPlaceList(map);
-		System.out.println(list);
 		
 		return list;
+	}
+	
+	/**
+	 * 날씨를 조회하는 AJAX
+	 * Gson 2.8.6버전을 요하므로, 작동이 안된다면 이부분 확인
+	 * timeTable을 넘겨서 시간마다 재로딩한다거나
+	 * 측정 기준 시간을 넘겨서 띄워주기
+	 * @return
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping(value="weather", produces="application/json; charset=UTF-8")
+	public ArrayList<AreaCode> findWeather() throws IOException{
+		ArrayList<AreaCode> area = new ArrayList<>();
+		area.add(new AreaCode("서울", 60, 127));
+		area.add(new AreaCode("인천", 55, 124));
+		area.add(new AreaCode("경기", 60, 121));
+		area.add(new AreaCode("강원", 92, 131));
+		area.add(new AreaCode("충북", 69, 106));
+		area.add(new AreaCode("충남", 68, 100));
+		area.add(new AreaCode("경북", 90, 77));
+		area.add(new AreaCode("경남", 91, 106));
+		area.add(new AreaCode("전북", 63, 89));
+		area.add(new AreaCode("전남", 50, 67));
+		area.add(new AreaCode("제주", 52, 38));
+		//시간 남으면 테이블에 저장하기
+		
+		for(int i=0; i<area.size();i++) {
+			//url 완성
+			String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
+			url += "?serviceKey="+SERVICE_KEY;
+			url += "&pageNo=1&numOfRows=1000&dataType=json";
+			Date today = new Date();
+			Date yesterday = new Date(today.getTime()+(1000*60*60*24*-1));
+			SimpleDateFormat dayFormat = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
+			String now = timeFormat.format(today);
+
+			//예보 시간 -> 3시간 단위
+			String day = dayFormat.format(today);
+			String toHour = "";
+			int[] timeTable = {2, 5, 8, 11, 14, 17, 20, 23};
+			for(int k=0;k<timeTable.length;k++) {
+				String hour = now.substring(0,2);
+				int hourLab = Integer.parseInt(hour)-timeTable[k];
+				if(hour.equals("00") || hour.equals("01")) {	
+					day = dayFormat.format(yesterday);
+					toHour = "23";
+				}
+				if(hourLab == -2|| hourLab == -1 || hourLab == 0) {
+					toHour += timeTable[k];
+					break;
+				}
+			}
+			url += "&base_date="+day;	
+			url += "&base_time="+toHour+"00";
+			url += "&nx="+area.get(i).getLon();
+			url += "&ny="+area.get(i).getLat();
+			
+			//API에 요청하기
+			URL requestUrl = new URL(url);
+			HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+			urlConnection.setRequestMethod("GET");
+			
+			//통로 열기
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+			
+			//받기
+			String responseText = "";
+			String line;
+			while((line = br.readLine()) != null) {
+				responseText += line;
+			}
+			
+			br.close();
+			urlConnection.disconnect();
+
+			JsonObject itemsObj = (((JsonParser.parseString(responseText).getAsJsonObject()).getAsJsonObject("response"))
+									.getAsJsonObject("body")).getAsJsonObject("items");
+			JsonArray itemArr = itemsObj.getAsJsonArray("item");
+			for(int j = 0; j< itemArr.size(); j++) {
+				JsonObject item = itemArr.get(j).getAsJsonObject();
+				String category = item.get("category").getAsString();
+				switch(category) {
+					case "SKY":area.get(i).setSky(item.get("fcstValue").getAsString());
+						break;
+					case "TMN":area.get(i).setTemperatureMin(item.get("fcstValue").getAsString());
+						break;
+					case "TMX":area.get(i).setTemperatureMax(item.get("fcstValue").getAsString());
+						break;
+					case "REH":area.get(i).setHumidity(item.get("fcstValue").getAsString());
+						break;
+					case "PTY":area.get(i).setRain(item.get("fcstValue").getAsString());
+						break;
+				}
+			}
+		}
+		return area;
 	}
 }

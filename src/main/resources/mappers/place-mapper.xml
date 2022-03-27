@@ -42,6 +42,7 @@
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="MODIFY_DATE" property="ModifyDate" />
 		<result column="PLACE_STATUS" property="placeStatus" />
+		<result column="STAR_SCORE" property="starScore" />
 	</resultMap>
 	<select id="countPlaceAll" resultType="_int">
 		SELECT COUNT(PLACE_NO)
@@ -52,6 +53,7 @@
 		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_AREA AS AREA
 			, PLACE_TYPE AS TYPE, PLACE_TAGS
 		FROM VW_PLACE
+		ORDER BY PLACE_NO DESC
 	</select>
 	<select id="selectPlaceDetail" parameterType="_int" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_LON, PLACE_LAT, PLACE_DES, PLACE_TAGS
@@ -88,6 +90,7 @@
 				</otherwise>
 			</choose>
 			LIKE '%'||#{keyword}||'%'
+		ORDER BY PLACE_NO DESC
 	</select>
 	<update id="deletePlace" parameterType="_int">
 		UPDATE PLACE SET PLACE_STATUS = 'N' WHERE PLACE_NO = #{placeNo}
@@ -115,6 +118,7 @@
 	<select id="selectAreaCode" resultMap="areaResultMap">
 		SELECT AREA_NO, SIDO
 		FROM AREA_CODE
+		ORDER BY AREA_NO
 	</select>
 	<resultMap type="com.kh.firstclass.admin.place.model.vo.PlaceType" id="typeResultMap">
 		<result column="TYPE_CODE" property="typeCode" />
@@ -123,19 +127,21 @@
 	<select id="selectPlaceType" resultMap="typeResultMap">
 		SELECT TYPE_CODE, TYPE_CONTENT
 		FROM PLACE_TYPE
+		ORDER BY TYPE_CODE
 	</select>
 	<select id="selectUserPlaceList" parameterType="hashmap" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
-			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE, NVL(STAR_SCORE, 0) AS STAR_SCORE
 		FROM VW_PLACE
 		<where>
-			(PLACE_TAGS LIKE '%'||#{tag}||'%'
-			<!-- tag-area, ""-전체, "ㄷㄹㄹ"-전체, ""-"인천", "ㄷㄹㄹ"-"인천 -->
 			<if test="area != '전체'">
-				AND PLACE_AREA = #{area}
+				PLACE_AREA LIKE '%'||#{area}||'%'
 			</if>
-			)
+			<if test="tag != ''">
+				AND PLACE_TAGS LIKE '%'||#{tag}||'%'
+			</if>
 		</where>
+		ORDER BY PLACE_NO DESC
 	</select>
 	
 	<!-- placeDetailView -->

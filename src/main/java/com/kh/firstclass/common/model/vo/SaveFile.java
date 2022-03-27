@@ -1,15 +1,27 @@
 package com.kh.firstclass.common.model.vo;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.firstclass.admin.place.model.vo.HttpDownloadUtility;
+
 public class SaveFile {
+	
 	/**
 	 * @param folder 파일을 저장할 upfiles 하위 폴더
 	 * @param upFile
@@ -41,5 +53,17 @@ public class SaveFile {
 		}
 		
 		return changeName;
+	}
+	
+	/**
+	 * 사진 주소를 받아서 서버에 저장하는 메소드
+	 * @param folder
+	 * @param imgPath
+	 * @param session
+	 * @throws IOException 
+	 */
+	public static String changeImgName(String folder, String imgPath, HttpSession session) throws IOException {
+		String savePath = session.getServletContext().getRealPath("/resources/upfiles/"+folder+"/");
+		return HttpDownloadUtility.downloadFile(imgPath, savePath);
 	}
 }
