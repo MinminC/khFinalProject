@@ -59,7 +59,7 @@
                         <th>주소</th>
                     </tr>
                 </thead>
-                <tbody><td colspan="2" style="height:400px;"></td></tbody>
+                <tbody><tr><td colspan="2" style="height:400px;"></td></tr></tbody>
             </table>
             <!--pagination-->
             <ul class="pagination"></ul>
@@ -69,7 +69,8 @@
             <div id="selectResult">
                 <input type="text" class="form-control" name="placeName" required><br>
                 <img id="placeImg" class="image" src="" alt="사진없음" style="width:100%; height:400px;">
-                <input type="file" onchange="changeImg(this);" name="upfile" required>
+                <input type="file" name="upfile" onchange="changeImg(this);">
+                <input type="hidden" name="imgPath">
                 <p>
                     위도 : <input type="text" class="form-control" style="width:100px;" name="placeLat" required>
                     경도 : <input type="text" class="form-control" style="width:100px;" name="placeLon" required><br>

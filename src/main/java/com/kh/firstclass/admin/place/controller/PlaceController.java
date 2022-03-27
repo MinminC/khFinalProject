@@ -1,7 +1,7 @@
 package com.kh.firstclass.admin.place.controller;
 
 import static com.kh.firstclass.common.model.vo.PageInfo.getPageInfo;
-import static com.kh.firstclass.common.model.vo.SaveFile.changeName;
+import static com.kh.firstclass.common.model.vo.SaveFile.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -108,16 +108,27 @@ public class PlaceController {
 		return "admin/place/placeInsertForm";
 	}
 	
+	/**
+	 * 파일 주소로 이미지 저장하는 방식
+	 * @param p
+	 * @param upfile
+	 * @param imgPath
+	 * @param session
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("insert.pl")
-	public String insertPlace(Place p, MultipartFile upfile, HttpSession session, Model model) {
-		//파일이 존재한다면(존재함)
-		
-		if(!upfile.getOriginalFilename().equals("")) {
+	public String insertPlace(Place p, MultipartFile upfile, String imgPath, HttpSession session) throws IOException {
+//		이미지를 주소로 inputStream 사용하여 서버에 저장->이미지 반드시 등록한 후에 넘어가도록
+		//이미지를 서버에 저장 -> 링크 임베드 방식
+		if(upfile.getOriginalFilename().equals("")) {//사진 업로드 안한 경우(링크 방식)
+			String fileName = changeImgName("place", imgPath, session);
+			p.setPicOrigin(fileName);
+			p.setPicChange(fileName);
+		}else {//사진 업로드 방식
 			p.setPicOrigin(upfile.getOriginalFilename());
 			p.setPicChange(changeName("place", upfile, session));
 		}
-		
-		//이미지를 서버에 저장 -> 링크 임베드 방식?
 
 		return placeService.insertPlace(p) > 0?"redirect:list.pl":"common/errorPage";
 	}

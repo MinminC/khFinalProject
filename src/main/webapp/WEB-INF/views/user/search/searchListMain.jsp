@@ -314,7 +314,7 @@
 										<div class="search-text">
 												<input type="hidden" class="placeNo" value="${place.placeNo}">
 												<h4>${place.placeName}</h4>
-												<button type="button" class="btn" data-toggle="modal" data-target="#shareUrl"><i class="fa fa-share-alt" style="font-size:36px"></i></button>
+												<button type="button" class="btn shareToBlog" data-toggle="modal" data-target="#shareUrl"><i class="fa fa-share-alt" style="font-size:36px"></i></button>
 												<span>
 													별점 : 
 													<c:choose>
@@ -373,7 +373,7 @@
 												<p>
 													${r.revContent}
 												</p>
-												<button type="button" class="btn" data-toggle="modal" data-target="#shareUrl"><i class="fa fa-share-alt" style="font-size:36px"></i></button>
+												<button type="button" class="btn shareToBlog" data-toggle="modal" data-target="#shareUrl"><i class="fa fa-share-alt" style="font-size:36px"></i></button>
 												<h5>
 													작성일 : <span>${r.createDate}</span>
 													작성자 : <span>${r.userId}</span>
@@ -469,24 +469,32 @@
 	<div class="modal" id="shareUrl">
 		<div class="modal-dialog">
 			<div class="modal-content">
+				<h3>블로그로 공유하기</h3>
 				<!-- Modal body -->
 				<div class="modal-body">
 					<form id="myform">
-						URL:  <input type="text" id="url"><br/>
-						Title:  <input type="text" id="title"><br/>
+						URL:  <input class="form-control" type="text" id="url"><br/>
+						Title:  <input class="form-control" type="text" id="title"><br/>
 					</form>
 				</div>
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" onclick="share()">Share</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-firstclass" onclick="share()">Share</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 	<script>
 		$(function(){
+			$('#wrap').on('click','.shareToBlog', function(){
+				var placeNo = $(this).siblings('input.placeNo').val();
+				var title = $(this).siblings('h4').text();
+				// var hostIndex = location.href.indexOf(location.host)+location.host.length;
+				$('#url').val(location.href.substring(0, location.href.lastIndexOf('/')+1)+'detailView.pl?placeNo='+placeNo);
+				$('#title').val('FirstClass와 함께 '+title+'로 떠나요~');
+			})
+
 			var now = new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');;
 			var yesterday = new Date(+new Date() -24*60*60*1000 + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '');;
 			$('.sideBar>i').html(yesterday+'<br> &nbsp;&nbsp;&nbsp;~ '+now+' 기준');

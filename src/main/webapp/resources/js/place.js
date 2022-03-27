@@ -83,8 +83,17 @@ function checkIntegrity(){
     //내용 삽입
     if(!$('textarea[name=placeDes]').val()){
         alert('내용 넣어요!!!!');
-        return false
+        return false;
     }
+    //사진의 주소를 input 태그에 저장
+    var imgPath = $('#placeImg').prop('src');
+    if(imgPath == 'http://localhost:8112/firstclass/insertForm.pl'){//이미지가 없는 경우 현재 주소 반환됨
+        alert('이미지를 등록해주세요!');
+        return false;
+    }else{
+        $('input[name=imgPath]').val(imgPath);
+    }
+    
     return true;
 }
 

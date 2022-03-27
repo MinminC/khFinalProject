@@ -43,7 +43,6 @@ public class SearchController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("sort", sort);
 		model.addAttribute("ranking", ranking);
-		
 		//키워드가 있으면 조회
 		if(!keyword.equals("")) {
 			//where.equals("Main") -> 전부 조회해아함
@@ -74,7 +73,6 @@ public class SearchController {
 				model.addAttribute("p", p);
 				model.addAttribute("pi", pi);
 				model.addAttribute("totalPlace", listCount);
-				System.out.println(pi);
 			}
 			
 			if(!where.equals("Place")) {
@@ -89,7 +87,6 @@ public class SearchController {
 				model.addAttribute("reviews", reviews);
 				model.addAttribute("pi", pi);
 				model.addAttribute("totalReview", listCount);
-				System.out.println(pi);
 			}
 		}
 		return "user/search/searchListMain";

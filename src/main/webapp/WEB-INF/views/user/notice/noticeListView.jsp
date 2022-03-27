@@ -64,14 +64,19 @@
 					<tr><td>공지사항이 존재하지 않습니다.</td></tr>
 				</c:when>
 				<c:otherwise>
+					<!-- 중요 공지 상단, 중요 표시 -->
 					<c:forEach var="i" items="${list}">
-						<!-- 중요 공지 상단, 중요 표시 -->
-						<c:if test="${i.category eq '중요'}">
-							<tr class="important">
-						</c:if>
+						<tr>
 							<td>${i.noticeNo}</td>
 							<td>${i.category}</td>
-							<td>${i.noticeTitle}</td>
+							<c:choose>
+								<c:when test="${i.category eq '중요'}">
+									<td class="important">${i.noticeTitle}</td>
+								</c:when>
+								<c:otherwise>
+									<td>${i.noticeTitle}</td>
+								</c:otherwise>
+							</c:choose>
 							<td>${i.createDate}</td>
 							<td>${i.views}</td>
 						</tr>
@@ -100,10 +105,11 @@
 		</c:if>
 	</ul>
 </div>
-<c:if test="${cookie.hideImportantNotice != null}">
+<c:if test="${not empty cookie.hideImportantNotice}">
 	<script>
 		$(function(){
 			$('#hide-important').prop('checked', true);
+			hideImportant();
 		})
 	</script>
 </c:if>
@@ -137,7 +143,7 @@
 				hideImportant();
 		})
 		
-		//공지 구분으로 구분되도록 구현
+		//구분으로 카테고리 선택되도록 구현
 		$('.category').click(function(){
 			if($(this).hasClass('open')){
 				$('#category-tab').addClass('isHide');
@@ -163,14 +169,14 @@
 			$.ajax({
 				url: 'hideImportant',
 				success:function(){
-					$('.important').addClass('isHide');
+					$('.important').parent().addClass('isHide');
 				}
 			})
 		}else{
 			$.ajax({
 				url: 'openImportant',
 				success:function(){
-					$('.important').removeClass('isHide');
+					$('.important').parent().removeClass('isHide');
 				}
 			})
 		}

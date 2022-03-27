@@ -53,6 +53,7 @@
 		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_AREA AS AREA
 			, PLACE_TYPE AS TYPE, PLACE_TAGS
 		FROM VW_PLACE
+		ORDER BY PLACE_NO DESC
 	</select>
 	<select id="selectPlaceDetail" parameterType="_int" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_LON, PLACE_LAT, PLACE_DES, PLACE_TAGS
@@ -89,6 +90,7 @@
 				</otherwise>
 			</choose>
 			LIKE '%'||#{keyword}||'%'
+		ORDER BY PLACE_NO DESC
 	</select>
 	<update id="deletePlace" parameterType="_int">
 		UPDATE PLACE SET PLACE_STATUS = 'N' WHERE PLACE_NO = #{placeNo}
@@ -116,6 +118,7 @@
 	<select id="selectAreaCode" resultMap="areaResultMap">
 		SELECT AREA_NO, SIDO
 		FROM AREA_CODE
+		ORDER BY AREA_NO
 	</select>
 	<resultMap type="com.kh.firstclass.admin.place.model.vo.PlaceType" id="typeResultMap">
 		<result column="TYPE_CODE" property="typeCode" />
@@ -124,6 +127,7 @@
 	<select id="selectPlaceType" resultMap="typeResultMap">
 		SELECT TYPE_CODE, TYPE_CONTENT
 		FROM PLACE_TYPE
+		ORDER BY TYPE_CODE
 	</select>
 	<select id="selectUserPlaceList" parameterType="hashmap" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
@@ -137,5 +141,6 @@
 				AND PLACE_TAGS LIKE '%'||#{tag}||'%'
 			</if>
 		</where>
+		ORDER BY PLACE_NO DESC
 	</select>
 </mapper>
