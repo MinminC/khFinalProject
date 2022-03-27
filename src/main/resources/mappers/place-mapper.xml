@@ -143,4 +143,22 @@
 		</where>
 		ORDER BY PLACE_NO DESC
 	</select>
+	
+	<!-- placeDetailView -->
+	<!-- 여행지 정보 조회 -->
+	<select id="placeDetailView" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_TAGS, PLACE_DES, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
+		FROM PLACE
+		WHERE PLACE_STATUS = 'Y' AND PLACE_NO = #{placeNo}
+	</select>
+	
+	<!-- placeCount -->
+	<!-- 여행지 검색 시 카운터 + -->
+	<update id="placeCount" parameterType="_int">
+		UPDATE PLACE
+		SET VIEWS = VIEWS + 1
+		WHERE PLACE_NO = #{placeNo}
+	</update>
+	
+	
 </mapper>

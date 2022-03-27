@@ -32,7 +32,9 @@ public class MemberServiceImpl implements MemberService{
 	private SqlSessionTemplate sqlSession; //기존의 mybatis의 sqlSession을 대체 
 	
 	@Override
+
 	public Member loginMember(Member m) {//로그인
+
 		return memberDao.loginMember(sqlSession,m);
 	}
 
@@ -88,6 +90,7 @@ public class MemberServiceImpl implements MemberService{
 	public int updatePwd(HashMap<String, Object> map) {
 		return memberDao.updatePwd(sqlSession, map);
 	}
+	
 
 	@Override
 	public String searchId(Member m) {

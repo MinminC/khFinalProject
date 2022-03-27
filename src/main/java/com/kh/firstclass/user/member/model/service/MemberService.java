@@ -71,13 +71,13 @@ public interface MemberService {
 	//  문의 내역 조회(select)
 	ArrayList<Inquiry> inquiryList(PageInfo pi, int userNo);
 
+
 	// 회원탈퇴
 	int deleteMember(int userNo);
 
 	// 비밀번호 변경
 	int updatePassword(Member m);
 
-	//
 
 	
 	

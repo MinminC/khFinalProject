@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviewMapper">
+ 	
+ 	<resultMap type="review" id="reviewResultSet">
+ 		<result column="REV_NO" property="revNo"/>
+ 		<result column="USER_ID" property="userId"/>
+ 		<result column="REV_CONTENT" property="revContent"/>
+ 		<result column="STAR_SCORE" property="starScore"/>
+ 		<result column="STATUS" property="status"/>
+ 		<result column="CREATE_DATE" property="createDate"/>
+ 		<result column="USER_NO" property="userNo"/>
+ 		<result column="PLACE_NO" property="placeNo"/>
+ 		<result column="PLACE_NAME" property="placeName"/>
+ 	</resultMap>
+ 	
+ 	 <resultMap type="reviewPicture" id="reviewPictureResultSet">
+ 		<result column="IMG_NO" property="imgNo"/>
+ 		<result column="REV_NO" property="revNo"/>
+ 		<result column="ORIGIN_NAME" property="originName"/>
+ 		<result column="CHANGE_NAME" property="changeName"/>
+ 	</resultMap>
+ 
+ 	<!-- 리뷰 작성(사진 제외 리뷰 나머지 부분)  -->
+ 	<insert id="insertReview" parameterType="review">
+	 	INSERT INTO REVIEW (REV_NO, REV_CONTENT, STAR_SCORE, STATUS, CREATE_DATE, USER_NO, PLACE_NO)
+	 	VALUES (SEQ_REV_NO.NEXTVAL, #{revContent}, #{starScore}, 'Y', SYSDATE, #{userNo}, #{placeNo})
+ 	</insert>
+ 
+ 	<!-- selectReview -->
+ 	<!-- 사진에 리뷰번호를 넘기기위해 select -->
+ 	<select id="selectReview" parameterType="review" resultMap="reviewResultSet">
+ 		SELECT *
+		FROM REVIEW
+		WHERE ROWNUM = 1
+		ORDER BY REV_NO DESC
+ 	</select>
+ 
+ 	<!-- insertReviewPicture -->
+ 	<!-- 사진 정보 DB에 넣기 -->
+ 	<insert id="insertReviewPicture" parameterType="reviewPicture">
+ 		INSERT INTO REVIEW_PICTURE (IMG_NO, REV_NO, ORIGIN_NAME, CHANGE_NAME)
+ 		VALUES (SEQ_IMG_NO.NEXTVAL, #{revNo}, #{originName}, #{changeName})
+ 	</insert>
+ 	
+ 	<!-- selectReview -->
+ 	<!-- 리뷰정보(사진정보 x) 조회하기 -->
+ 	<select id="selectReviewInformation" resultMap="reviewResultSet">
+ 		SELECT USER_ID, REV_CONTENT, CREATE_DATE, STAR_SCORE, REV_NO, R.USER_NO
+		FROM MEMBER M, REVIEW R
+		WHERE M.USER_NO = R.USER_NO AND PLACE_NO = #{placeNo}
+		ORDER BY REV_NO DESC
+ 	</select>
+ 	
+ 	<!-- mySelectReviewInformation -->
+ 	<!-- 나의 리뷰정보(사진정보 x) 조회하기 -->
+ 	<select id="mySelectReviewInformation" resultMap="reviewResultSet">
+ 		SELECT USER_ID, REV_CONTENT, R.CREATE_DATE, STAR_SCORE, REV_NO, R.USER_NO, P.PLACE_NAME
+		FROM MEMBER M, REVIEW R, PLACE P
+		WHERE M.USER_NO = R.USER_NO AND P.PLACE_NO = R.PLACE_NO AND R.USER_NO = #{userNo}
+		ORDER BY REV_NO DESC
+ 	</select>
+ 	
+ 	<!-- pictureReview -->
+ 	<!-- 리뷰 사진 정보 조회하기 -->
+ 	<select id="pictureReview" resultMap="reviewPictureResultSet">
+ 		SELECT R.REV_NO, CHANGE_NAME
+		FROM REVIEW R, REVIEW_PICTURE RP
+		WHERE R.REV_NO = RP.REV_NO AND PLACE_NO = #{placeNo}
+		ORDER BY R.REV_NO DESC
+ 	</select>
+ 	
+ 	<!-- myPictureReview -->
+ 	<!-- 리뷰 사진 정보 조회하기 -->
+ 	<select id="myPictureReview" resultMap="reviewPictureResultSet">
+ 		SELECT R.REV_NO, CHANGE_NAME
+		FROM REVIEW R, REVIEW_PICTURE RP
+		WHERE R.REV_NO = RP.REV_NO AND R.USER_NO = #{userNo}
+		ORDER BY R.REV_NO DESC
+ 	</select>
+ 	
+ 	<!-- deleteReview -->
+ 	<!-- 리뷰 삭제 -->
+ 	<delete id="deleteReview" parameterType="_int">
+ 		DELETE 
+ 		FROM REVIEW
+ 		WHERE REV_NO = #{revNo}
+ 	</delete>
+ 	
+ 	<!-- deleteReviewPicture -->
+ 	<!-- 리뷰 삭제 -->
+ 	<delete id="deleteReviewPicture" parameterType="_int">
+ 		DELETE 
+ 		FROM REVIEW_PICTURE
+ 		WHERE REV_NO = #{revNo}
+ 	</delete>
+ 	
+ 	<!-- selectChangeName -->
+ 	<!-- 리뷰번호로 changeName 가져와서 파일 삭제 -->
+ 	<select id="selectChangeName" resultMap="reviewPictureResultSet">
+ 		SELECT CHANGE_NAME
+ 		FROM REVIEW_PICTURE
+ 		WHERE REV_NO = #{revNo}
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 
+ 
+ 	
+</mapper>

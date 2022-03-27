@@ -110,26 +110,31 @@ public class MemberController {
 	}
 
 	//로그인
-	@RequestMapping("login.me")
-	public ModelAndView loginMember(Member m, ModelAndView mv,HttpSession session) {
-		
-		Member loginUser = memberService.loginMember(m);
-		
-		//평문과 암호화된 구문이 일치하면 true반환
+	   @RequestMapping("login.me")
+	   public ModelAndView loginMember(Member m, ModelAndView mv,HttpSession session) {
+	      
+	      Member loginUser = memberService.loginMember(m);
+	      
+	      //평문과 암호화된 구문이 일치하면 true반환
 
-		if(loginUser!=null&&bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {			
+	      if(loginUser!=null&&bcryptPasswordEncoder.matches(m.getUserPwd(),loginUser.getUserPwd())) {         
 
-			//로그인성공 
+	         //로그인성공 
 
-			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("redirect:/");
-			
-		}else { //로그인실패
-			mv.addObject("errorMsg","로그인실패").setViewName("common/errorPage");
-		}
-		
-		return mv;
-	}
+	         session.setAttribute("loginUser", loginUser);
+	         mv.setViewName("redirect:/");
+	         
+	      }else { //로그인실패
+	         //mv.addObject("errorMsg","로그인실패").setViewName("common/errorPage");
+	         session.setAttribute("alertMsg", "로그인정보를확인해주세요");
+	         mv.setViewName("redirect:/");
+	         
+	      
+	      }
+	      
+	      return mv;
+	   }
+
 		
 		//회원가입화면으로 이동
 		@RequestMapping("enrollForm.me")
@@ -355,6 +360,7 @@ public class MemberController {
 	public String inquiryEnrollForm() {
 		return "user/member/inquiryEnrollForm";
 	}	
+
 	
 	// 관리자 문의 상세 페이지
 	@RequestMapping("inquiryDetail.ad")
@@ -460,4 +466,5 @@ public class MemberController {
 		return mv;
 	}
 	
+
 }
