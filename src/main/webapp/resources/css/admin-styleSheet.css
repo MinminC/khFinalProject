@@ -72,7 +72,7 @@ tbody>tr:hover{
 #detail>tfoot tr:hover{
     background:rgb(250,252,250);
 }
-.btn-firstclass{
+.btn-firstclass, .active>a{
     background:#009688 !important;
     border-color:#009688 !important;
     color:white !important;

@@ -86,24 +86,26 @@
 		</tbody>
 	</table>
 	<!--pagination-->
-	<ul class="pagination">
-		<c:if test="${pi.currentPage != 1}">
-			<li class="page-item firstPage"><a class="page-link" href="list.no?pageNo=${pi.currentPage - 1}">&lt;</a></li>
-		</c:if>
-		<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
-			<c:choose>
-				<c:when test="${pi.currentPage eq i}">
-					<li class="page-item active"><a class="page-link" href="list.no?pageNo=${i}">${i}</a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item"><a class="page-link" href="list.no?pageNo=${i}">${i}</a></li>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-		<c:if test="${pi.currentPage != pi.maxPage}">
-			<li class="page-item endPage"><a class="page-link" href="list.no?pageNo=${pi.currentPage + 1}">&gt;</a></li>
-		</c:if>
-	</ul>
+	<c:if test="${pi.listCount != 0}">
+		<ul class="pagination">
+			<c:if test="${pi.currentPage != 1}">
+				<li class="page-item firstPage"><a class="page-link" href="list.no?pageNo=${pi.currentPage - 1}">&lt;</a></li>
+			</c:if>
+			<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
+				<c:choose>
+					<c:when test="${pi.currentPage eq i}">
+						<li class="page-item active"><a class="page-link" href="list.no?pageNo=${i}">${i}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link" href="list.no?pageNo=${i}">${i}</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:if test="${pi.currentPage != pi.maxPage}">
+				<li class="page-item endPage"><a class="page-link" href="list.no?pageNo=${pi.currentPage + 1}">&gt;</a></li>
+			</c:if>
+		</ul>
+	</c:if>
 </div>
 <c:if test="${not empty cookie.hideImportantNotice}">
 	<script>

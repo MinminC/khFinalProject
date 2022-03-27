@@ -43,6 +43,7 @@ public class SearchController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("sort", sort);
 		model.addAttribute("ranking", ranking);
+		
 		//키워드가 있으면 조회
 		if(!keyword.equals("")) {
 			//where.equals("Main") -> 전부 조회해아함

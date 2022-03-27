@@ -71,8 +71,14 @@
 			<li class="page-item"><a class="page-link" href="listAdmin.no?pageNo=${pi.currentPage - 1}">&lt;</a></li>
 		</c:if>
 		<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
-			<li class="page-item"><a class="page-link" href="listAdmin.no?keyword=${keyword}&pageNo=${i}">${i}</a></li>
-			<!--해당되는 번호에 클래스 active 넣어주기!-->
+			<c:choose>
+					<c:when test="${pi.currentPage eq i}">
+						<li class="page-item active"><a class="page-link" href="listAdmin.no?keyword=${keyword}&pageNo=${i}">${i}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link" href="listAdmin.no?keyword=${keyword}&pageNo=${i}">${i}</a></li>
+					</c:otherwise>
+				</c:choose>
 		</c:forEach>
 		<c:if test="${pi.currentPage lt pi.maxPage}">
 			<li class="page-item endPage"><a class="page-link" href="listAdmin.no?pageNo=${pi.currentPage + 1}">&gt;</a></li>
