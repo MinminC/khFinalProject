@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.firstclass.common.model.vo.PageInfo;
+import com.kh.firstclass.user.member.model.vo.Inquiry;
 import com.kh.firstclass.user.review.model.service.ReviewService;
 import com.kh.firstclass.user.review.model.vo.Review;
 import com.kh.firstclass.user.review.model.vo.ReviewPicture;
@@ -149,5 +152,55 @@ public class ReviewController {
 		result *= reviewService.deleteReview(revNo);
 		return new Gson().toJson(result);
 	}
+	
+	// review.ad
+	// 리뷰관리(관리자)
+	@RequestMapping("review.ad")
+	public ModelAndView reviewManagement(@RequestParam(value="cpage", defaultValue="1") int currentPage, ModelAndView mv, HttpSession session) {
+		
+		int listCount = reviewService.selectListCount();
+		
+		int pageLimit = 10;
+		int boardLimit = 5;
+		
+		PageInfo pi = PageInfo.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+				
+		ArrayList<Review> list = reviewService.selectList(pi);
+		
+		mv.addObject("list",list);
+		mv.addObject("pi", pi);
+		
+		mv.setViewName("admin/review/reviewManagement");
+		
+		return mv;
+		
+	}
+	 
+	// 리뷰 상세 보기(관리자)
+	@RequestMapping("reviewDetail.ad")
+	public ModelAndView reviewDetail(int no, ModelAndView mv) {
+		
+		Review r = reviewService.reviewDetail(no);
+		
+		// 사진 가져오기
+		ArrayList<ReviewPicture> rp = reviewService.reviewPictureDetail(no);
+		mv.addObject("r",r).addObject("rp",rp).setViewName("admin/review/reviewDetail");
+				
+		return mv;
+		
+	}	
+	  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

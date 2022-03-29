@@ -162,13 +162,29 @@
 
     .rv2_3+div{
         width: 100%; 
-        height: auto;
+        height: 850px;
         padding: 10px;
+    
+   		overflow: auto;
+        position: relative;
+        display: flex;
     }    
+    
+    .rv2_3+div::-webkit-scrollbar{
+        width : 1px;
+    }    
+    .rv2_3+div::-webkit-scrollbar-thumb{
+        background-color : #009688;
+        border-radius : 10px;
+    }    
+    
+    .rv2_3+div::-webkit-scrollbar-track{
+    	background-color: white;
+	}
 
     .rv2_3+div img{
-        width: 50%;
-        height: 600px;
+        width: 100%;
+        height: 800px;
         padding: 5px;
     }
     
