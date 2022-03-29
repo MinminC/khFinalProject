@@ -267,7 +267,7 @@
 				location.href='detailView.pl?placeNo='+$(this).children('input').val();
 			})
 			// 날씨 조회
-			/* 잘나오는것 확인 but 조회에 드는 데이터가 많아서 주석처리->실제 작업 시 주석 풀기
+			// 잘나오는것 확인 but 조회에 드는 데이터가 많아서 주석처리->실제 작업 시 주석 풀기
 			$.ajax({
 				url:'weather',
 				success:function(list){
@@ -292,11 +292,11 @@
 										default: value += '<i class="fas fa-sun" />';
 									}
 						}
-						value += ' '+list[i].sido+' '+list[i].temperatureMin+'°C/'+list[i].temperatureMin+'°C '+list[i].humidity+'%&nbsp;&nbsp;&nbsp;&nbsp;';
+						value += ' '+list[i].sido+' '+list[i].temperatureMin+'°C/'+list[i].temperatureMax+'°C '+list[i].humidity+'%&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 					$('marquee').html(value);
 				}
-			})*/
+			})
 		})
 	</script>
 	<script>
@@ -320,14 +320,15 @@
 						result = '검색 결과가 존재하지 않습니다.';
 					}
 					else{
-						var tagSet = new Set();
+						var tagSet = new Set();//중복된 태그를 제거하기위해 set 사용
 						for(var i=0; i<list.length; i++){
 							if(i == 0)
 								result += '<div class="carousel-item active">'
 							else if(i%3 == 0)
 								result += '<div class="carousel-item">'
 									
-							result += '<div><input type="hidden" value="'+list[i].placeNo+'"><img src="'+list[i].filePath+list[i].picChange+'">'
+							result += '<div><input type="hidden" value="'+list[i].placeNo+'"><img src="'
+										+list[i].filePath+list[i].picChange+'">'
 										+'<h4>'+list[i].placeName+'</h4>'
 										+'<span>';
 							var star = list[i].starScore;
@@ -350,11 +351,11 @@
 								tagSet.add(tagArr[j]);
 							}
 						}
-						//tagSet 중에서 랜덤 20개만 노출
-						var tagASet = Array.from(tagSet);
+						//tagSet 중에서 랜덤 10개만 노출
+						var tagASet = Array.from(tagSet);//set을 Array로 다시 변환하여 인덱스를 부여
 						var random = [];
 						var count = 10;
-						while(count>0){//20개 추출
+						while(count>0){//Set에서 10개 추출
 							var ranNum = Math.floor(Math.random()*tagSet.size);
 							if(ranNum == 0 || ranNum == tag)
 								count--;
@@ -363,7 +364,7 @@
 								count--;
 							}
 						}
-						for(var i=0;i<10;i++){
+						for(var i=0;i<10;i++){//뽑은 랜덤 10개의 숫자를 인덱스로하는 값으로 가공
 							var t = tagASet[random[i]];
 							if(t != null)
 								tags +='<li class="btn btn-light">'+tagASet[random[i]]+'</li>';

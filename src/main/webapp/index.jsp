@@ -22,10 +22,9 @@
 		height: 1100px;
 		margin: auto;
 	}
-
-	#tags{
-		width: 100%;
-		height: 10%;
+	#tags li{
+		border:1px solid lightgray !important; 
+		margin:5px;
 	}
 
 	.best5Tilte{
@@ -34,12 +33,8 @@
 	}
 
 	.best5{
-		
 		width: 100%;
 		height: 30%;
-	
-		
-		
 	}
 
 	.mpBoard{
@@ -51,7 +46,6 @@
 		width: 20%;
 		height: 100%;
 		float: left;
-		
 	}
 	
 	.mpBoard>div{
@@ -59,8 +53,6 @@
 		height: 100%;
 		float: left;
 	}
-	
-	
 	
 	 /*슬라이드 이미지 스타일*/
     *{margin:0;padding:0;}
@@ -88,6 +80,9 @@
 		margin-top: 200px;
 	}
 	
+	#tags{
+		text-align: center;
+	}
 </style>
 </head>
 <body>
@@ -106,26 +101,9 @@
 	
 	<div class="outer">
 		<br>
-		<div id="tags"><!-- 여행지 태그 10개, 코스 태그 10개 -->
-			<span class="selected">#제주도</span>
-			<span>#감귤농장</span>
-			<span>#제주도</span>
-			<span>#감귤농장</span>
-			<span>#제주도</span>
-			<span>#감귤농장</span>
-			<span>#제주도</span>
-			<span>#감귤농장</span>
-			<span>#제주도</span>
-			<span>#감귤농장</span>
-			<span>#제주도</span>
-			<span>#감귤농장</span>
-		</div>
-
-
+		<div id="tags"><ul></ul></div>
 		<div class="best5Title"><h4>Best5여행지</h4></div>
-		<div class="best5">
-			
-		</div>
+		<div class="best5"></div>
 		<div class="mpBoard">
 			<div>
 				<br><br>
@@ -139,11 +117,8 @@
 						<th>작성자</th>
 						<th>조회수</th>
 					</tr>
-					</thead>
-					<tbody>
-					</tbody>
-					
-					
+				</thead>
+				<tbody></tbody>
 				</table>
 				</div>
 			<div>
@@ -152,22 +127,18 @@
 		</div>
 	</div>
 		
-	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
 	<script>
 		$(function(){
-			$('#tags').on('click','span',function(){ //tags의 하위요소가 클릭이 되면 
-				if($(this).hasClass('selected')) //클릭한 클래스가 select 클래스면 한번 더 선택되면 선택이 해제될 수 있게 select는 지워준다 
-					$(this).removeClass('selected'); 
-				else
-					$(this).addClass('selected');
-			})
+			// $('#tags').on('click','span',function(){ //tags의 하위요소가 클릭이 되면 
+			// 	if($(this).hasClass('selected')) //클릭한 클래스가 select 클래스면 한번 더 선택되면 선택이 해제될 수 있게 select는 지워준다 
+			// 		$(this).removeClass('selected'); 
+			// 	else
+			// 		$(this).addClass('selected');
+			// })
 		})
 	
-	
-	
-
 		// 슬라이드쇼
         window.onload = function(){
 
@@ -190,26 +161,19 @@
 			x[slideIndex-1].style.display = "block";
            }
        }
-		
 	
 	window.onload = function(){
-		
 		var slideIndex = 1;
 		/*showDivs(slideIndex);*/
 	}
-	
 	
 	function fixedNoticeLoad(){//메인화면 공지사항 띄우기
 		
 		$.ajax({
 			url:"fixedNotice.mp",
 			success: function(list){
-				
 				var	result="";
-				
-					
 					for(var i in list){
-	
 						result+="<tr>"
 						+"<input type='hidden' value='"+list[i].noticeNo+"'>"
 						+"<td>"+ list[i].noticeNo + "</td>"
@@ -217,99 +181,96 @@
 						+"<td>"+ "관리자" + "</td>"
 						+"<td>"+ list[i].views+"</td>"
 						+"</tr>";
-	
 					}
-					
 					$('.w3-table tbody').append(result); //tbody의 자식요소로 집어넣기 
-				
-				
-				
 			},error:function(){
-				
 				console.log("공지사항 로딩 실패");
 			}
-			
-
 		})
-		
-		
 	}
 	
 	function selectBestPlace(){
-		
-		
 		$.ajax({
-			
 			url:"bestPlace.mp",
 			success: function(list){
-				
 				console.log(list);
-				
 				var result="";
-				
 				var num = 1;
-				
+				var tagSet = new Set();
+				var tags = '';
 				for(var i in list){
-				
-				
-				result+=
-					"<div>"
-					+"<table>"
-					+"<tr>" 
-					+"<input type='hidden' value='"+list[i].placeNo+"'>"
-					+"<th>"+"<img src='"+list[i].filePath+"'style='width:250px; height:200px;'>"+"</th>"
-					+"</tr>"
-					+"<tr>"
-					+"<td>"+num+"위"+"<br>"+list[i].placeName+"</td>"
-					+"</tr>"
-					+"</table>"
-					+"</div>"
-					
+					result+=
+						"<div>"
+						+"<table>"
+						+"<tr>" 
+						+"<input type='hidden' value='"+list[i].placeNo+"'>"
+						+"<th>"+"<img src='"+list[i].filePath+"'style='width:250px; height:200px;'>"+"</th>"
+						+"</tr>"
+						+"<tr>"
+						+"<td>"+num+"위"+"<br>"+list[i].placeName+"</td>"
+						+"</tr>"
+						+"</table>"
+						+"</div>";
 					num++;
+
+					var tagArr = list[i].placeTags.split(',');
+							
+					for(var j = 0; j<tagArr.length; j++){
+						tagSet.add(tagArr[j]);
+					}
 				}
-				
+				//tagSet 중에서 랜덤 10개만 노출
+				var tagASet = Array.from(tagSet);//set을 Array로 다시 변환하여 인덱스를 부여
+				var random = [];
+				var count = 10;
+				while(count>0){//Set에서 10개 추출
+					var ranNum = Math.floor(Math.random()*tagSet.size);
+					if(ranNum == 0)
+						count--;
+					if(random.indexOf(ranNum)==-1){
+						random.push(ranNum);
+						count--;
+					}
+				}
+				for(var i=0;i<10;i++){//뽑은 랜덤 10개의 숫자를 인덱스로하는 값으로 가공
+					var t = tagASet[random[i]];
+					if(t != null)
+						tags +='<li class="btn btn-light">'+tagASet[random[i]]+'</li>';
+				}
+				console.log(random);
+				console.log(tags);
 				$('.best5').append(result);
-				
-				
+				$('#tags>ul').html(tags);
+				$('#tags>ul').append('<li class="btn btn-light">...</li>');
 				
 			},error:function(){
 				console.log("best5로딩실패");
 			}
-
 		})
-		
-
 	} 
-	
-	
-	
-	
 	
 	//html문서 다 로딩되면 바로 실행된 메소드
 	$(function(){
-		
 		fixedNoticeLoad();//고정 공지사항 로딩 
 		selectBestPlace();//여행지best5
 		
 		$(document).on('click','.w3-table>tbody>tr',function(){ //클릭하면 공지사항 디테일로 이동 
 			location.href='detail.no?noticeNo='+$(this).children().eq(0).val();
-			console.log($(this).children().eq(0).val());
 		})
 	
 		$(document).on('click','.best5 img' ,function(){ //클릭하면 여행지 디테일로 이동 
 			location.href='detailView.pl?placeNo='+$(this).parent().prev().val();
-			console.log($(this).children().eq(0).val());
 		}) 
-		
+
+		$('#tags').on('click', 'li',function(){
+			var tag = $(this).text();
+			if(tag!='...'){
+				location.href='search?keyword='+tag;
+			}else{
+				location.href='main.pl';
+			}
+		})
 	})
-	
 	</script>
-	
-	
-
-	
-	
-	
-
 </body>
 </html>
