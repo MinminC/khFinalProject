@@ -21,6 +21,10 @@
 		<typeAlias type="com.kh.firstclass.user.review.model.vo.Review" alias="review"/>
 		<typeAlias type="com.kh.firstclass.user.review.model.vo.ReviewPicture" alias="reviewPicture"/>
 		<typeAlias type="com.kh.firstclass.user.notice.model.vo.Notice" alias="notice"/>
+		<typeAlias type="com.kh.firstclass.user.schedule.model.vo.SimpleSchedule" alias="SimpleSchedule"/>
+		<typeAlias type="com.kh.firstclass.user.schedule.model.vo.DetailSchedule" alias="DetailSchedule"/>
+		<typeAlias type="com.kh.firstclass.user.schedule.model.vo.AccountBook" alias="AccountBook"/>
+		
 
 	</typeAliases>
 

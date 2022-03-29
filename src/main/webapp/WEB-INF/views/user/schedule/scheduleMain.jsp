@@ -14,15 +14,17 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	
 
-
-	<div class="w3-container" style="margin-top: 200px">
-		<c:forEach var="moNo" items="${loginUser.moNo}">
-			<div style="display:inline-block; width:200px"><a href="scheduleDetail.sc?moNo=${moNo}"><c:out value="${moNo}"/></a></div>
+	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-center" style="margin-top: 200px;">
+		<c:forEach var="list" items="${list}">
+			<div style="display:inline-block; width:200px">
+			<a href="scheduleDetail.sc?moNo=${list.mo_no}"><c:out value="${list.mo_no}"/><c:out value="${list.mo_title}"/><c:out value="${list.mo_departuredate}"/><c:out value="${list.mo_arrivaldate}"/></a>
+			</div>
 		</c:forEach>
 	</div>
 	
-	<div class="w3-container" style="margin-top: 200px">
+	<div class="w3-container" style="margin-top: 200px;z-index:50;">
 		<button
 			onclick="document.getElementById('id01').style.display='block'"
 			class="w3-button w3-black">모임만들기</button>
@@ -35,8 +37,8 @@
 					class="w3-button w3-display-topright">&times;</span>
 
 				<form action="add.sc" accept-charset="UTF-8" name="addSchedule"
-					method="post">
-					<fieldset style="width: 150">
+					method="post" onsubmit="return addSubmit();">
+					<fieldset style="width:150;z-index:50;margin-top: 200px;">
 						<legend>모임 생성</legend>
 						모임명<input type="text" name="scheduleTitle" required /><br>
 						<br> 출발<input type="date" name="departureDate" required /> <br>
@@ -49,6 +51,23 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	function addSubmit(event){
+		var rv = false;
+		var start = $("input[name=departureDate]").val()	
+		var end = $("input[name=arrivalDate]").val()
+		console.log(start + end);
+		if(start > end){
+			alert("시작날짜가 도착날짜보다 크면안됨둥");
+		}else{
+			rv = true;
+		}
+		return rv;
+	}
+	
+	
+	</script>
+
 
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />

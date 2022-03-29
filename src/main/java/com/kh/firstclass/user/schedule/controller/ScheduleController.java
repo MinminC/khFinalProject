@@ -24,7 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.firstclass.user.member.model.service.MemberService;
 import com.kh.firstclass.user.member.model.vo.Member;
 import com.kh.firstclass.user.schedule.model.service.ScheduleService;
+import com.kh.firstclass.user.schedule.model.vo.AccountBook;
 import com.kh.firstclass.user.schedule.model.vo.AddSchedule;
+import com.kh.firstclass.user.schedule.model.vo.DetailSchedule;
+import com.kh.firstclass.user.schedule.model.vo.SimpleSchedule;
 import com.kh.firstclass.user.schedule.model.vo.chatLog;
 
 @Controller
@@ -44,7 +47,13 @@ public class ScheduleController {
 	@RequestMapping("main.sc")
 	public ModelAndView main(ModelAndView mv, HttpSession session) {
 		Member m = (Member) session.getAttribute("loginUser");
-
+		ArrayList<String> monoList = m.getMoNo();
+		ArrayList<SimpleSchedule> list = new ArrayList<SimpleSchedule>();
+		for(int i =0;i<monoList.size();i++) {
+			SimpleSchedule simpleSchedule = scheduleService.selectScheduleTitle(monoList.get(i));
+			list.add(simpleSchedule);
+		}
+		mv.addObject("list",list);
 		mv.addObject("m", m);
 		mv.setViewName("user/schedule/scheduleMain");
 
@@ -196,5 +205,47 @@ public class ScheduleController {
 		}
 		return list;
 	}
+	
+	@ResponseBody
+	@RequestMapping("selectMember.sc")
+	public List<String> selectMember(@RequestParam("moNo") String mono){
+		List<String> list = scheduleService.selectMember(mono);
+		
+		
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping("selectTime.sc")
+	public List<String> selectTime(@RequestParam("moNo") String mono){
+		List<String> list = scheduleService.selectTime(mono);
+		
+		return list;
+	}
+	
+	@RequestMapping("addDetailSchedule.sc")
+	public String addDetailSchedule(DetailSchedule schedule) {
+		int result = scheduleService.addDetailSchedule(schedule);
+		
+		return "user/schedule/scheduleDetail";
+	}
+	
+	@ResponseBody
+	@RequestMapping("selectAccount.ajax")
+	public List<AccountBook> selectAccount(String mono){
+		List<AccountBook> list = new ArrayList<AccountBook>();
+		list = scheduleService.selectAccount(mono);
+		
+		
+		return list;
+	}
+	@RequestMapping("addAccount.sc")
+	public String addAccount(AccountBook accountBook) {
+		
+		int result = scheduleService.addAccount(accountBook);
+		
+		return "user/schedule/scheduleDetail";
+	}
+	
 
 }
