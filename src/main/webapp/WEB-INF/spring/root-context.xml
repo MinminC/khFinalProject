@@ -34,8 +34,8 @@
 	 <bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> <!-- 자바메일센더객체를 만들었음! -->
 	 	<property name="host" value="smtp.gmail.com"/>
 	 	<property name="port" value="587"/>
-	 	<property name="username" value="hue0395@gmail.com"/>
-	 	<property name ="password" value="rudgnl77^^!"/>
+	 	<property name="username" value="dlgkfn4@naver.com"/>
+	 	<property name ="password" value="1170211dz!?"/>
 	 	<property name ="javaMailProperties">
 	 		<props>
 	 			<prop key="mail.smtp.auth">true</prop>

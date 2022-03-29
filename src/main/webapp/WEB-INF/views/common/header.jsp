@@ -23,8 +23,7 @@
 
 <style>
 div {
-	/* border: 1px solid pink; */
-	box-sizing: border-box;
+	/* box-sizing: border-box; */
 	margin: 0px;
 	padding: 0px;
 }
@@ -34,40 +33,36 @@ div {
 	height: 180px;
 	margin: auto;
 	top: 0px;
+	
+	position: fixed;
+	background-color: white;
+	width: 100%;
+	text-align: center;
 }
 
 .top {
 	width: 100%;
 	height: 80%;
 	display: flex;
+	justify-content: center;
 }
 
 .bottom {
 	width: 100%;
 	height: 20%;
 	display: flex;
-	justify-content: center
-}
-
-.top div {
-	/*display: inline-table;*/
-	display: flex;
-	flex-direction: column;
 	justify-content: center;
 }
 
+.top div {
+	display: flex;
+	flex-direction: column;
+}
+
 .logo {
-	width: 30%;
-	height: 100%;
 	margin-top: 0px;
-}
-
-.search {
-	width: 30%;
-}
-
-.searchBtn {
-	width: 10%;
+	height:330px;
+	width:auto;
 }
 
 .inviteAlert {
@@ -95,10 +90,19 @@ div {
 	font-weight: bold;
 }
 
-.headerOuter {
-	position: fixed;
-	background-color: white;
-	width: 100%;
+.search {
+	width: 600px;
+	padding: 50px;
+	flex-direction:row !important;
+}
+.search>input{
+	height: 40px;
+	width: 400px;
+}
+.searchBtn {
+	width:50px;
+	height:40px;
+	border: 2px solid grey;
 }
 </style>
 <script>
@@ -115,22 +119,22 @@ div {
 		<script>
 			alert("${alertMsg}");
 		</script>
+
 		<c:remove var="alertMsg" scope="session"/> <!-- session에 있는 alertMsg 삭제  -->
 	</c:if>
 
 
 	<div class="headerOuter"  style="z-index:100">
+
 		<div class="top">
 			<div class="logo">
-				<img src="resources/img/reallogo.png" height="330px" onclick="home()">
+				<img src="resources/img/logo_v3.png" onclick="home()">
 			</div>
 			<div class="search">
-				<input class="w3-input w3-border w3-light-grey"
-					style="height: 40px; margin: auto;">
+				<input type="text" class="w3-input w3-border w3-light-grey">
+				<img src="resources/img/searchBtn.PNG" class="searchBtn">
 			</div>
-			<div class="searchBtn">
-				<img src="resources/img/searchBtn.PNG" width="50px" height="40px"
-					style="margin-top: 0px; border: 2px solid grey;">
+			<div>
 			</div>
 			<c:choose>
 				<c:when test="${not empty loginUser}">
@@ -142,7 +146,6 @@ div {
 						<i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i>
 					</div>
 					<div class="mpLogin">
-
 						<label style="margin-top: 70px;"><p>${loginUser.userName}님 환영합니다</p></label>
 						
 						<div>
@@ -159,12 +162,13 @@ div {
 				</c:when>
 				<c:otherwise>
 					<a href="loginForm.me" class="btn btn-info"
-						style="height: 50px; margin-top: 50px; background-color: #12887A;">로그인화면으로</a>
+						style="height: 50px; margin-top: 50px; background-color: #12887A; line-height: 30px;">로그인</a>
 				</c:otherwise>
 			</c:choose>
 		</div>
 
 		<div class="bottom w3-bar w3-border w3-light-grey" align="center">
+
 			<a href="<%=request.getContextPath()%>"class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">홈</a> 
 			<a href="main.sc" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">일정</a>
 			<a href="main.pl" class="w3-bar-item w3-button w3-text-teal"style="font-weight: bold;">여행지</a>
@@ -179,5 +183,6 @@ div {
 		location.href="<%=request.getContextPath()%>";
 	}
 	</script>
+
 </body>
 </html>

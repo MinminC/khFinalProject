@@ -30,13 +30,17 @@
 		WHERE CATEGORY = '중요'
 		ORDER BY NOTICE_NO DESC
 	</select>
-	<select id="selectNoticeList" parameterType="_int" resultMap="noticeResultMap">
+	<select id="selectNoticeList" parameterType="hashmap" resultMap="noticeResultMap">
         SELECT NOTICE_NO, CATEGORY, NOTICE_TITLE, CREATE_DATE, VIEWS
         FROM VW_NOTICE
-        WHERE CATEGORY != '중요'
-        <if test="selectCategory != 0">
-        	AND CATEGORY_NO = #{selectCategory}
-        </if>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+        	<if test="admin == null">
+		        CATEGORY != '중요'
+        	</if>
+	        <if test="selectCategory != 0">
+	        	AND CATEGORY_NO = #{selectCategory}
+	        </if>
+		</trim>
         ORDER BY NOTICE_NO DESC
 	</select>
 	<select id="selectNoticeOne" parameterType="_int" resultMap="noticeResultMap">
@@ -75,17 +79,20 @@
 	<select id="searchNoticeList" parameterType="hashmap" resultMap="noticeResultMap">
 		SELECT NOTICE_NO, CATEGORY, NOTICE_TITLE, CREATE_DATE
 		FROM VW_NOTICE
-		WHERE CATEGORY != '공지'
-		    AND 
-				<choose>
-					<when test="type eq 'title'">
-						NOTICE_TITLE 
-					</when>
-					<otherwise>
-						NOTICE_CONTENT
-					</otherwise>
-				</choose>
-		    	LIKE '%'||#{keyword}||'%'
+		<where>
+			<choose>
+				<when test="type eq 'title'">
+					NOTICE_TITLE 
+				</when>
+				<otherwise>
+					NOTICE_CONTENT
+				</otherwise>
+			</choose>
+			LIKE '%'||#{keyword}||'%'
+				<if test="admin == null">
+					AND CATEGORY != '중요'
+				</if>
+		</where>
 		ORDER BY NOTICE_NO DESC
 	</select>
 	<select id="selectNoticeCategory" resultType="hashmap">
