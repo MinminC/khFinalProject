@@ -98,7 +98,7 @@
 
 	
     .rv2_3+div{
-        height: 850px;
+        height: auto;
         padding: 10px;
         
         overflow: auto;

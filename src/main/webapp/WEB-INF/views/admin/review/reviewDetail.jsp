@@ -78,7 +78,7 @@
    .io4{
    		width : 100%;
    		height : auto;
-   		 overflow: auto;
+   		overflow: auto;
         position: relative;
         display: flex;
    }
@@ -89,9 +89,6 @@
    		height : 800px;
    		padding : 5px;
    }
-   
-  
-    
     
     .io4::-webkit-scrollbar{
         width : 1px;

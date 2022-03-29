@@ -162,7 +162,7 @@
 
     .rv2_3+div{
         width: 100%; 
-        height: 850px;
+        height: auto;
         padding: 10px;
     
    		overflow: auto;
