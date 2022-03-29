@@ -24,33 +24,29 @@
 	<!-- 키워드는 이름과 내용에서만 검색 -->
 		SELECT COUNT(PLACE_NO)
 		FROM PLACE
-			WHERE PLACE_STATUS = 'Y'
-				AND (
-					<foreach collection="keywords" item="key"  open="(" 
-						close=")" separator="OR">
-	                    	PLACE_NAME LIKE '%'||#{key}||'%'
-					</foreach>
+		WHERE PLACE_STATUS = 'Y'
+			AND (
+				<foreach collection="keywords" item="key"  open="(" 
+				close=")" separator="OR">
+                   	PLACE_NAME LIKE '%'||#{key}||'%'
 					OR
-					<foreach collection="keywords" item="key"  open="(" 
-						close=")" separator="OR">
-	                    	PLACE_DES LIKE '%'||#{key}||'%'
-					</foreach>
-					)
+                   	PLACE_DES LIKE '%'||#{key}||'%'
+                   	OR
+                   	PLACE_TAGS LIKE '%'||#{key}||'%'
+				</foreach>
+				)
 	</select>
 	<select id="countReview" parameterType="hashmap" resultType="_int">
 	<!-- 키워드는 이름과 내용에서만 검색 -->
 		SELECT COUNT(REV_NO)
 		FROM VW_REVIEW
-			WHERE 
-				<foreach collection="keywords" item="key"  open="(" 
-					close=")" separator="OR">
-                    	PLACE_NAME LIKE '%'||#{key}||'%'
-				</foreach>
+		WHERE 
+			<foreach collection="keywords" item="key"  open="(" 
+			close=")" separator="OR">
+               	PLACE_NAME LIKE '%'||#{key}||'%'
 				OR
-				<foreach collection="keywords" item="key"  open="(" 
-					close=")" separator="OR">
-                    	REV_CONTENT LIKE '%'||#{key}||'%'
-				</foreach>
+               	REV_CONTENT LIKE '%'||#{key}||'%'
+			</foreach>
 	</select>
 	<select id="selectPlaceOne" parameterType="hashmap" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
@@ -81,11 +77,10 @@
 			<foreach collection="keywords" item="key"  open="(" 
 				close=")" separator="OR">
                    	PLACE_NAME LIKE '%'||#{key}||'%'
-			</foreach>
-			OR
-			<foreach collection="keywords" item="key"  open="(" 
-				close=")" separator="OR">
+					OR
                    	PLACE_DES LIKE '%'||#{key}||'%'
+                   	OR
+                   	PLACE_TAGS LIKE '%'||#{key}||'%'
 			</foreach>
 		ORDER BY
 			<choose>
@@ -136,7 +131,9 @@
 		WHERE 
 			<foreach collection="keywords" item="key"  open="(" 
 				close=")" separator="OR">
-	                  	REV_CONTENT LIKE '%'||#{key}||'%'
+                   	PLACE_NAME LIKE '%'||#{key}||'%'
+					OR
+                   	REV_CONTENT LIKE '%'||#{key}||'%'
 			</foreach>
 		ORDER BY 
 			<choose>

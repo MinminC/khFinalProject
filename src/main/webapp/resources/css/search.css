@@ -1,1 +1,127 @@
 @charset "UTF-8";
+#wrap{
+    width:1200px;
+    height:600px;
+    justify-items:center;
+    margin: 200px auto 50px auto;
+}
+#wrap>div>h3{
+    font-weight: 800;
+    color:#009688;
+}
+.sideBar{
+    display:inline-block;
+    position:absolute;
+    background:rgb(240,240,240);
+    border:1px solid lightgray;
+    border-radius: 5px;
+    width:260px;
+    height:auto;
+    padding:20px;
+    margin-top:60px;
+}
+.sideBar li{
+    margin:5px;
+}
+.btn-firstclass, .active>a{
+    background:#00c5b1 !important;
+    border-color:#00c5b1 !important;
+    color:white !important;
+}
+.sideBar>ul{
+    padding:0 0 0 5px;
+}
+.float-left{
+    width:900px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+.float-left, .sideBar{
+    float:left;
+}
+.float-left>span{
+    color:#00c5b1;
+}
+#search-tab ul, .sideBar ul{
+    list-style: none;
+    padding:0;
+}
+#search-tab ul{
+    text-align: center;
+}
+#search-tab li{
+    display:inline-block;
+}
+#search-tab a{
+    font-size:20px;
+    font-weight: 800;
+    text-decoration: none;
+    color:gray;
+    padding: 0px 20px;
+}
+.sideBar span{
+    display:inline-block;
+    width:20px;
+    background: gray;
+    color:white;
+    border-radius: 5px;
+    text-align: center;
+}
+.now{
+    color: #00c5b1 !important;
+}
+#search-tab li, .search-list img, .search-text{
+    margin:0;
+    padding:0;
+}
+.search-text{
+    padding:10px;
+}
+#place-list .search-text{
+    width:600px;
+}
+#place-list img{
+    width:300px;
+    top:8px;
+    /*외곽에 line-height 속성을 주고 내부를 vertical-align 속성 주면 가운데 위치->p태그까지 영향받음. 사용X*/
+}
+#review-list img{
+    width:auto;
+    height:150px;
+}
+#search-one h3{
+    text-align: center;
+    font-weight: 800;
+    font-size: 30px;
+}
+#search-one{
+    background:rgb(240,240,240);
+    border:1px solid lightgray;
+}
+.float-left a{
+    float:right;
+    text-decoration: none;
+    color:#00c5b1;
+    font-weight: 600;
+}
+.float-left span{
+    color:#00c5b1;
+}
+#place-list img, #place-list .search-text{
+    float:left;
+}
+#search-main .btn{
+    float:right;
+}
+.search-text h4:hover{
+    cursor:pointer;
+    text-decoration:underline;
+}
+.sideBar a{
+    color:#009688;
+    padding-left: 10px;
+}
+.light-bar{
+    border:0;
+    border-top:1px dashed rgb(0,0,0,.1);
+}

@@ -220,7 +220,7 @@ public class NoticeController {
 	@RequestMapping("hideImportant")
 	public void hideImportant(HttpServletResponse response) {
 		Cookie ck = new Cookie("hideImportantNotice", "hideImportantNotice");
-		ck.setMaxAge(60);//초단위
+		ck.setMaxAge(60*60*24);//초단위
 		response.addCookie(ck);
 	}
 	
@@ -228,7 +228,7 @@ public class NoticeController {
 	@RequestMapping("openImportant")
 	public void openImportant(HttpServletResponse response) {
 		Cookie ck = new Cookie("hideImportantNotice", "hideImportantNotice");
-		ck.setMaxAge(0);
+		ck.setMaxAge(0);//유효 시간 0으로 만들어 만료시킴
 		response.addCookie(ck);
 	}
 }

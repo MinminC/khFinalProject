@@ -35,7 +35,7 @@ public class SearchController {
 		//키워드의 띄어쓰기를 모두 분리해서 검색 노출
 		String[] keywords = keyword.split(" ");
 		//WHERE가 MAIN일때만 검색어 테이블에 저장
-		if(where.equals("Main")||(!keyword.equals("")))
+		if(!keyword.equals("") && where.equals("Main"))
 			searchService.insertKeyword(keywords);
 		//검색 ranking
 		ArrayList<String> ranking = searchService.countSearchRanking();
@@ -88,6 +88,7 @@ public class SearchController {
 				model.addAttribute("reviews", reviews);
 				model.addAttribute("pi", pi);
 				model.addAttribute("totalReview", listCount);
+				System.out.println(reviews);
 			}
 		}
 		return "user/search/searchListMain";
