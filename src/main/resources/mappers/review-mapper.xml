@@ -105,17 +105,37 @@
  		WHERE REV_NO = #{revNo}
  	</select>
  	
+ 	<!-- selectListCount -->
+ 	<!-- 리뷰 전체 수(관리자) -->
+ 	<select id="selectListCount" resultType="_int">
+ 		SELECT COUNT(*)
+ 		FROM REVIEW
+ 	</select>
  	
+ 	<!-- selectList -->
+ 	<!-- 리뷰 전체 조회(관리자) -->
+ 	<select id="selectList" resultMap="reviewResultSet">
+ 		SELECT REV_NO, USER_ID, PLACE_NAME, R.CREATE_DATE
+ 		FROM REVIEW R, MEMBER M, PLACE P
+ 		WHERE R.USER_NO = M.USER_NO AND R.PLACE_NO = P.PLACE_NO
+ 		ORDER BY REV_NO DESC
+ 	</select>
  	
+ 	<!-- reviewDetail -->
+ 	<!-- 리뷰 상세 보기(관리자) -->
+ 	<select id="reviewDetail" resultMap="reviewResultSet">
+ 		SELECT PLACE_NAME, USER_ID, R.CREATE_DATE, STAR_SCORE, REV_CONTENT, REV_NO
+		FROM REVIEW R, PLACE P, MEMBER M
+		WHERE R.PLACE_NO = P.PLACE_NO AND R.USER_NO = M.USER_NO AND R.REV_NO = #{no}
+	</select>
  	
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 
+ 	<!-- reviewPictureDetail -->
+	<!-- 리뷰 상세 보기(사진/관리자) -->
+	<select id="reviewPictureDetail" resultMap="reviewPictureResultSet">
+	 	SELECT CHANGE_NAME
+		FROM REVIEW_PICTURE
+		WHERE REV_NO = #{no}
+	</select>
  
  	
 </mapper>

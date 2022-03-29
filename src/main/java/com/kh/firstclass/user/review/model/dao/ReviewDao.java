@@ -2,9 +2,12 @@ package com.kh.firstclass.user.review.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.firstclass.common.model.vo.PageInfo;
+import com.kh.firstclass.user.member.model.vo.Inquiry;
 import com.kh.firstclass.user.review.model.vo.Review;
 import com.kh.firstclass.user.review.model.vo.ReviewPicture;
 
@@ -49,6 +52,29 @@ public class ReviewDao {
 
 	public ArrayList<ReviewPicture> myPictureReview(SqlSessionTemplate sqlSession, int userNo) {
 		return (ArrayList)sqlSession.selectList("reviewMapper.myPictureReview", userNo);
+	}
+
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("reviewMapper.selectListCount");
+	}
+
+	public ArrayList<Review> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit); 
+		
+		return (ArrayList)sqlSession.selectList("reviewMapper.selectList", null, rowBounds);
+		
+	}
+
+	public Review reviewDetail(SqlSessionTemplate sqlSession, int no) {
+		return sqlSession.selectOne("reviewMapper.reviewDetail", no);
+	}
+
+	public ArrayList<ReviewPicture> reviewPictureDetail(SqlSessionTemplate sqlSession, int no) {
+		return (ArrayList)sqlSession.selectList("reviewMapper.reviewPictureDetail", no);
 	}
 	
 }

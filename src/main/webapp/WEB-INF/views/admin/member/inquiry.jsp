@@ -46,9 +46,14 @@
         width: 100%;
         text-align: center;
     }
-    tr{
+    tbody tr{
         width: 100%;
         height: 40px;
+        cursor : pointer;
+    }
+    
+    tbody tr:hover{
+        background-color : lightgray;
     }
     .pagination{
     	text-align: center;
