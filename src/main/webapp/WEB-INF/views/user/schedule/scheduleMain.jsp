@@ -16,9 +16,9 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	
 
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-center" style="margin-top: 200px;">
+	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-center" style="margin-top: 200px; margin-left: auto;margin-right: auto;">
 		<c:forEach var="list" items="${list}">
-			<div style="display:inline-block; width:200px">
+			<div style="display:inline-block; width:200px; height: 200px;margin-top:20px;">
 			<a href="scheduleDetail.sc?moNo=${list.mo_no}"><c:out value="${list.mo_no}"/><c:out value="${list.mo_title}"/><c:out value="${list.mo_departuredate}"/><c:out value="${list.mo_arrivaldate}"/></a>
 			</div>
 		</c:forEach>

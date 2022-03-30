@@ -22,8 +22,8 @@ textarea {
 	resize: none;
 }
 </style>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a43134914ba810cc56c07e82b246c2cf"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a43134914ba810cc56c07e82b246c2cf"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a43134914ba810cc56c07e82b246c2cf&libraries=LIBRARY"></script>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
@@ -66,24 +66,25 @@ textarea {
 								추가할 회원 ID : <input type="text" name="addId"> <input
 									type="hidden" name="mono" value="${moNo}"> <input
 									type="submit" value="확인">
-							</form>
+							</form><br>
 							<form action="addDetailSchedule.sc">
 								<input type="hidden" name="mo_no" value="${moNo}">
 								<h4>주소</h4>
-								활동내용<input type="text" name="activities">
+								활동내용<input type="text" name="activites"><br> 
 								<input type="text" id="sample6_postcode" placeholder="우편번호"
-									name="postNum"> <input type="button"
+									name="postNum"><br><input type="button"
 									onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 								<input type="text" id="sample6_address" placeholder="주소"
 									name="address"><br> <input type="text"
-									id="sample6_detailAddress" placeholder="상세주소" name="detailAddress">
-								<input type="text" id="sample6_extraAddress" placeholder="참고항목"
-									name="aaa"><br><br>
-								여행날짜<input type="date" name="scheduleDate" id="scheduledate"><br><br>
-								여행지 이름<input type="text" name="scheduleTitle">
-								여행지 소개<input type="text" name="introduction">
-								생성하기<input type="submit" value="submit" />
-								초기화<input type="reset" value="reset" />
+									id="sample6_detailAddress" placeholder="상세주소"
+									name="detailAddress"><br><input type="text"
+									id="sample6_extraAddress" placeholder="참고항목" name="aaa"><br>
+								<br> 여행날짜<input type="date" name="scheduleDate"
+									id="scheduledate"><br>
+								<br> 여행지 이름<input type="text" name="scheduleTitle">
+								여행지 소개<input type="text" name="introduction"> 생성하기<input
+									type="submit" value="submit" /> 초기화<input type="reset"
+									value="reset" />
 							</form>
 						</div>
 					</div>
@@ -194,7 +195,7 @@ textarea {
 								}
 							})
 						}
-						
+
 						function formatAMPM(date) {
 							var hours = date.getHours();
 							var minutes = date.getMinutes();
@@ -276,29 +277,45 @@ textarea {
 							}
 						}
 					</script>
-					
+
 					<script>
-						function selectAccount(){
-							$.ajax({
-								url:"selectAccount.ajax",
-								data:{
-									"mono": "${moNo}"
-								},
-								success : function(e){
-									console.log("가계부 긁어오기성공 ");
-									console.log(e);
-								},
-								error : function(){
-									console.log("가계부 긁어오기 실패")	
-								}
-							})
+						function selectAccount() {
+							$
+									.ajax({
+										url : "selectAccount.ajax",
+										data : {
+											"mono" : "${moNo}"
+										},
+										success : function(e) {
+											for (var i = 0; i < e.length; i++) {
+												var node = document
+														.createElement("div");
+												var textnode = document
+														.createTextNode("담당인원 : "
+																+ e[i].user_name
+																+ "지출명목 : "
+																+ e[i].scheduleTitle
+																+ "지출 날짜 : "
+																+ e[i].accountDate
+																+ "지출 금액: "
+																+ e[i].pay);
+												node.appendChild(textnode);
+												document.getElementById(
+														"accountArea")
+														.appendChild(node);
+											}
+											$("#tab3").attr("onclick", false);
+										},
+										error : function() {
+											console.log("가계부 긁어오기 실패")
+										}
+									})
 						}
-					
 					</script>
 					<!--가계부 탭 구역-->
 					<div class="tab-pane fade" id="diary">
-						<div class="w3-container" style="margin-top: 200px; z-index:49;">
-						<h1>긁어올 자리~</h1>
+						<div class="w3-container" style="margin-top: 200px; z-index: 49;">
+							<div id="accountArea"></div>
 						</div>
 						<div class="w3-container" style="margin-top: 200px; z-index: 50;">
 							<button
@@ -313,18 +330,19 @@ textarea {
 										onclick="document.getElementById('id02').style.display='none'"
 										class="w3-button w3-display-topright">&times;</span>
 
-									<form action="addAccount.sc" accept-charset="UTF-8" name="addSchedule"
-										method="post">
+									<form action="addAccount.sc" accept-charset="UTF-8"
+										name="addSchedule" method="post">
 										<fieldset style="width: 150; z-index: 50; margin-top: 200px;">
 											<legend>지출 등록</legend>
 											<div id="selectMember"></div>
-											<input type="hidden" name="mono" value="${moNo}"/>
-											지출 내용<input type="text" name="scheduleTitle" required /><br><br>
-											지출 날짜<input type="date" name="accountDate" id="accountDate" required /><br><br>
-											금액 <input type="number" name="pay" required /><br><br>
-										
-											생성하기<input type="submit" value="submit" />
-											초기화<input type="reset" value="reset" /><br><br>
+											<input type="hidden" name="mo_no" value="${moNo}" /> 지출 내용<input
+												type="text" name="scheduleTitle" required /><br>
+											<br> 지출 날짜<input type="date" name="accountDate"
+												id="accountDate" required /><br>
+											<br> 금액 <input type="number" name="pay" required /><br>
+											<br> 생성하기<input type="submit" value="submit" /> 초기화<input
+												type="reset" value="reset" /><br>
+											<br>
 										</fieldset>
 									</form>
 								</div>
@@ -334,7 +352,7 @@ textarea {
 					<!--지도 탭 구역-->
 					<div class="tab-pane fade" id="maps">
 						<p>카카오맵 표시 구역</p>
-						<div id="map" style="width: 500px; height: 400px;"></div>
+						<div id="map" style="width:100%;height:350px;"></div>
 						<input type="text" placeholder="주소를 입력하세요.">
 					</div>
 				</div>
@@ -342,54 +360,65 @@ textarea {
 		</div>
 	</div>
 	<script>
-		function selectMember(){
-			
+		function selectMember() {
+
+			$
+					.ajax({
+						url : "selectMember.sc",
+						data : {
+							"moNo" : "${moNo}"
+						},
+						success : function(e) {
+							for (var i = 0; i < e.length; i++) {
+								document.getElementById("selectMember").innerHTML += "<input type='checkbox' name='user_name' value='"+e[i]+"'><label>"
+										+ e[i] + "</label>";
+							}
+
+						},
+						error : function() {
+							console.log("실패");
+						}
+					});
 			$.ajax({
-				url : "selectMember.sc",
-				data : {"moNo": "${moNo}"},
-				success : function(e){
-					for(var i =0;i < e.length;i++){
-					document.getElementById("selectMember").innerHTML += "<input type='checkbox' name='username' value='"+e[i]+"'><label>"+e[i]+"</label>";
-					}
-				
+				url : "selectTime.sc",
+				data : {
+					"moNo" : "${moNo}"
 				},
-				error : function(){
-					console.log("실패");
+				success : function(e) {
+					console.log(e);
+					var start = e[0].MO_ARRIVALDATE;
+					var end = e[0].MO_DEPARTUREDATE;
+					document.getElementById("accountDate").setAttribute('max',
+							start);
+					document.getElementById("accountDate").setAttribute('min',
+							end);
+
+				},
+				error : function() {
+					console.log("시간긁어오기실패");
 				}
 			});
-			$.ajax({
-				url : "selectTime.sc",
-			data : {"moNo":"${moNo}"},
-			success : function(e){
-				console.log(e);
-				var start = e[0].MO_ARRIVALDATE;
-				var end = e[0].MO_DEPARTUREDATE;
-				document.getElementById("accountDate").setAttribute('max',start);
-				document.getElementById("accountDate").setAttribute('min',end);
-				
-			},
-			error : function(){
-				console.log("시간긁어오기실패");
-			}
-			});
 		}
-		function selectTime(){
+		function selectTime() {
 			$.ajax({
 				url : "selectTime.sc",
-			data : {"moNo":"${moNo}"},
-			success : function(e){
-				var start = e[0].MO_ARRIVALDATE;
-				var end = e[0].MO_DEPARTUREDATE;
-			
-				document.getElementById("scheduledate").setAttribute('max',start);
-				document.getElementById("scheduledate").setAttribute('min',end);
+				data : {
+					"moNo" : "${moNo}"
 				},
-			error : function(){
-				console.log("시간긁어오기 실패");
-			}
+				success : function(e) {
+					var start = e[0].MO_ARRIVALDATE;
+					var end = e[0].MO_DEPARTUREDATE;
+
+					document.getElementById("scheduledate").setAttribute('max',
+							start);
+					document.getElementById("scheduledate").setAttribute('min',
+							end);
+				},
+				error : function() {
+					console.log("시간긁어오기 실패");
+				}
 			})
 		}
-	
 	</script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -398,14 +427,47 @@ textarea {
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<script>
-		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-		var options = { //지도를 생성할 때 필요한 기본 옵션
-			center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = {
+			center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
 			level : 3
-		//지도의 레벨(확대, 축소 정도)
+		// 지도의 확대 레벨
 		};
 
-		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption);
+
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch(
+						'경기 성남시 분당구 대왕판교로606번길 45',
+						function(result, status) {
+
+							// 정상적으로 검색이 완료됐으면 
+							if (status === kakao.maps.services.Status.OK) {
+
+								var coords = new kakao.maps.LatLng(result[0].y,
+										result[0].x);
+
+								// 결과값으로 받은 위치를 마커로 표시합니다
+								var marker = new kakao.maps.Marker({
+									map : map,
+									position : coords
+								});
+
+								// 인포윈도우로 장소에 대한 설명을 표시합니다
+								var infowindow = new kakao.maps.InfoWindow(
+										{
+											content : '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+										});
+								infowindow.open(map, marker);
+
+								// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+								map.setCenter(coords);
+							}
+						});
 	</script>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
