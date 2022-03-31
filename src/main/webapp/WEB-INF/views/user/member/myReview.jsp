@@ -120,8 +120,8 @@
 	
 
     .rv2_3+div img{
-        width: 1200px;
-        height: 800px;
+        width: auto;
+        height: auto;
         padding: 5px;
         
          

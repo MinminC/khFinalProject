@@ -183,8 +183,8 @@
 	}
 
     .rv2_3+div img{
-        width: 100%;
-        height: 800px;
+        width: auto;
+        height: auto;
         padding: 5px;
     }
     
@@ -277,18 +277,15 @@
                     	for(let j=0; j<list[i].starScore; j++){
 							star += "★";
 						}
-                    	
                         value += 
                         "<div class='rv2'>"
                             +"<div class='rv2_1'>"
                             	+"<img src='resources/upfiles/user/profilePic.png' alt='프로필' class='rounded-circle'>"
 			                    +"<p>"+list[i].userId+"</p>";
-			                    
 								if('${loginUser.userId}' == list[i].userId){
 				                    value += "<pre class='deleteReview'>삭제</pre>"
 				                    		+"<input type='hidden' value='"+list[i].revNo+"'>";
 								}
-			                    
 			            value += 
 			                "</div>"
                             +"<div class='rv2_2'>"
@@ -315,7 +312,6 @@
                                 value = "<img src="+list[i].changeName+">";
                                 $("div[class='"+list[i].revNo+"']").append(value);
                             }
-
                         }
                     })
                     

@@ -85,8 +85,8 @@
    
    .io4 img{
    		float : left;
-   		width : 100%;
-   		height : 800px;
+   		width : auto;
+   		height : auto;
    		padding : 5px;
    }
     
