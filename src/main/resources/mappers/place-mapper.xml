@@ -43,6 +43,7 @@
 		<result column="MODIFY_DATE" property="ModifyDate" />
 		<result column="PLACE_STATUS" property="placeStatus" />
 		<result column="STAR_SCORE" property="starScore" />
+		<result column="VIEWS" property="views" />
 	</resultMap>
 	<select id="countPlaceAll" resultType="_int">
 		SELECT COUNT(PLACE_NO)
@@ -57,10 +58,9 @@
 	</select>
 	<select id="selectPlaceDetail" parameterType="_int" resultMap="placeResultMap">
 		SELECT PLACE_NO, PLACE_NAME, PLACE_ADDRESS, PLACE_LON, PLACE_LAT, PLACE_DES, PLACE_TAGS
-			, AREA_NO AS AREA, TYPE_CODE AS TYPE, FILE_PATH, PIC_ORIGIN, PIC_CHANGE
-		FROM PLACE
-		WHERE PLACE_STATUS = 'Y'
-			AND PLACE_NO = #{placeNo}
+			, PLACE_AREA AS AREA, PLACE_TYPE AS TYPE, FILE_PATH, PIC_ORIGIN, PIC_CHANGE, VIEWS, NVL(STAR_SCORE,0)
+		FROM VW_PLACE
+        WHERE PLACE_NO = #{placeNo}
 	</select>
 	<select id="countPlaceByKeyword" parameterType="hashmap" resultType="_int">
 		SELECT COUNT(PLACE_NO)

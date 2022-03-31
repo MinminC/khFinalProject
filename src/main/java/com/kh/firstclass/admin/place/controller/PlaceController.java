@@ -121,7 +121,7 @@ public class PlaceController {
 	public String insertPlace(Place p, MultipartFile upfile, String imgPath, HttpSession session) throws IOException {
 //		이미지를 주소로 inputStream 사용하여 서버에 저장->이미지 반드시 등록한 후에 넘어가도록
 		//이미지를 서버에 저장 -> 링크 임베드 방식
-		if(upfile.getOriginalFilename().equals("")) {//사진 업로드 안한 경우(링크 방식)
+		if(upfile == null || upfile.getOriginalFilename().equals("")) {//사진 업로드 안한 경우(링크 방식)
 			String fileName = changeImgName("place", imgPath, session);
 			p.setPicOrigin(fileName);
 			p.setPicChange(fileName);

@@ -51,7 +51,7 @@ div{
             <form class="w3-container" action="insert.me" method="post">
                 <br><br>
                 <label class="label"><b>아이디</b></label>
-                <input id="userId" class="w3-input w3-border w3-light-grey" type="text" name="userId" placeholder="영문 소문자/숫자 혼합 6~20자 이내" required><button id = "idCk" style="margin-left:20px;" class="btn btn-info">중복확인</button>
+                <input id="userId" class="w3-input w3-border w3-light-grey" type="text" name="userId" placeholder="영문 소문자/숫자 혼합 6~20자 이내" required><button type="button" id = "idCk" style="margin-left:20px;" class="btn btn-info">중복확인</button>
 				<label id = "idCkResult" class="label" style="color: red;"></label>
                 <br><br>
                 <label class="label"><b>비밀번호</b></label>
@@ -102,125 +102,63 @@ div{
 				<input type="hidden" id="birthBox" name="birth">
 				<br><br>
 				<label class="label"><b>성별</b></label>
-					<br>
-					<input type="radio" name="gender" id="M" value="M" checked><label for="M">남</label>
-					<input type="radio" name="gender" id="F" value="F" style="margin-left: 20px;"><label for="F">여</label>
-					<br><br>
+				<br>
+				<input type="radio" name="gender" id="M" value="M" checked><label for="M">남</label>
+				<input type="radio" name="gender" id="F" value="F" style="margin-left: 20px;"><label for="F">여</label>
+				<br><br>
 				<label class="label"><b>전화번호</b></label>
                 <input class="w3-input w3-border w3-light-grey" type="text" name="phone" placeholder="-를 포함하여 입력해주세요" required>
-					<br><br>
-
+				<br><br>
 				<label class="label"><b>본인확인이메일</b></label>
-                <input id="email" class="w3-input w3-border w3-light-grey" type="text" name="email" placeholder="이메일을 입력해주세요" required><button onclick="sendMail();" style="margin-left:20px;" class="btn btn-info">인증번호 발송</button>
+                <input id="email" class="w3-input w3-border w3-light-grey" type="text" name="email" placeholder="이메일을 입력해주세요" required>
+                <button type="button" onclick="sendMail();" style="margin-left:20px;" class="btn btn-info">인증번호 발송</button>
 				<br><br>
 				<input id ="secret" class="w3-input w3-border w3-light-grey" type="text" name="secret" placeholder="인증번호를 입력해주세요" required>
 				<br>
 				<label id="secretCkResult" for="lable" style="color:red"></label>
 				<br><br>
-            <button id="insetMemBtn" class="w3-button w3-block w3-teal" onclick="birthDay();" disabled>회원가입</button>
-        </form>
+	            <button id="insetMemBtn" class="w3-button w3-block w3-teal" onclick="birthDay();" disabled>회원가입</button>
+	        </form>
         </div>
-        
-        
-          
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-
-   
     <script>
-    
-	//회원가입버튼 눌렀을 때
-	
- 	/*function insert(){
-
-		if($("#idCkResult").text() != '사용가능한 아이디입니다.'){//라벨에 사용가능하다고 뜨지 않으면  
-			alert("아이디중복확인을 해주세요");
-			
-		}else{
-			if($('#userPwd').val() != $('#userPwdCk').val()){//사용자입력한 비밀번호와 비밀번호 확인이 불일치하다면
-				alert("비밀번호를 확인해주세요!");
-				
-			}else{//라벨에 일치하다고 쓰지 않으면 
-				if($('#secretCkResult').text() != "이메일인증완료"){
-					alert("이메일인증번호를 확인해주세요");
-				
-				}else{
-					return true;
-				}
-			}
-		}
-	}*/
-	
-	
-		
-		
-		
-		
-	
-    
-    
     
 		//생년월일 val 추가
 		function birthDay(){
-
-			//insert();
-			
 			var birth =''+$('#year').val()+$('#month').val()+$('#day').val(); //''문자열 넣어주면 문자열로 취급됨
-			
 			$('#birthBox').val(birth);
-
-			console.log(birth);
-		
-			//return false; return false로 버튼 기능을 막아놓음
-			
-			
-			
-			
-
 		}
 
-		
-
+		$(function(){
 			//아이디유효성검사,중복확인
-			$(function(){
-				
-				$("#idCk").click(function(){
-					
-				
+			$("#idCk").click(function(){
 				var $userId= $('#userId').val();
 				var regExp = /^[a-z0-9]{6,20}$/; //영문 소문자 숫자 조합으로 6~20자까지
 				
 				$.ajax({
-						url:"idCheck.me",
-						data:{checkId:$('#userId').val()}, //val로 가져오면 무조건 문자열 
-						success:function(result){
-							if(result=="NNNN"){//사용불가능
-								
-								$("#idCkResult").text("중복된 아이디가 존재합니다.");
+					url:"idCheck.me",
+					data:{checkId:$('#userId').val()}, //val로 가져오면 무조건 문자열 
+					success:function(result){
+						if(result=="NNNN"){//사용불가능
+							$("#idCkResult").text("중복된 아이디가 존재합니다.");
+							$("#userId").focus(); //다시 아이디 입력하도록 유도
+						}else{//사용가능
+							if(regExp.test($userId)){
+								$("#idCkResult").text("사용가능한 아이디입니다.");
+							}else{
+								$("#idCkResult").text("6가지 이상의 영문 혹은 영문과 숫자를 조합");
 								$("#userId").focus(); //다시 아이디 입력하도록 유도
-							}else{//사용가능
-								
-								if(regExp.test($userId)){
-									$("#idCkResult").text("사용가능한 아이디입니다.");
-								}else{
-									$("#idCkResult").text("6가지 이상의 영문 혹은 영문과 숫자를 조합");
-									$("#userId").focus(); //다시 아이디 입력하도록 유도
-									
-								}
 							}
-						},error:function(){
-							console.log("서버통신신패");
 						}
-
-
+					},error:function(){
+						console.log("서버통신신패");
+					}
 				})
-
 			})
-			
 			
 			//비밀번호유효검사
 			$('#userPwd').keyup(function(){
-				
 				var $userPwd =$('#userPwd').val(); //비밀번호
 				var $userPwdCk = $('#userPwdCk').val(); //비밀번호확인
 				
@@ -232,82 +170,56 @@ div{
 				}else{
 					$("#pwdResult").html("");
 				}
-
 			})
 
 			//비밀번호확인
 			$('#userPwdCk').keyup(function(){
-				
 				var $userPwd =$('#userPwd').val(); //비밀번호
 				var $userPwdCk = $('#userPwdCk').val(); //비밀번호확인
-				
 				if($userPwd==$userPwdCk){
 					$('#pwdCkResult').html("비밀번호 일치");
-					
 				}else{
 					$('#pwdCkResult').html("비밀번호을 확인해주세요");
 				}
-				
-				
 			})
-			
-
-		})
-			
-			
-		//이메일 발송
-
-		function sendMail(){
-				
-				$.ajax({
-					
-					url:"sendMail.me",
-					data:{email:$("#email").val()},
-					success:function(result){ 
-						if(result=='0'){
-						alert("이메일발송실패");
-							}else{
-								alert("이메일이발송되었습니다.3분이내 입력해주세요");
-							}
-						},error:function(){
-							
-							console.log("메일발송실패");
-						}
-						
-									
-				
-				})
-				
-				
-			}
 			
 			//이메일 인증번호 확인
 			$('#secret').keyup(function(){
-				
 				$.ajax({
-					
 					url:"check",
 					data:{secret:$('#secret').val()},
 					success:function(result){
 						if(result){
 							$('#secretCkResult').text("이메일인증완료");
-							$('#insetMemBtn').removeAttr('disabled');
-							
+							$('#insetMemBtn').attr('onclick', '').unbind('click').css({'background':gray});
+							$('#email').prop('readonly',true);
+							$('#secret').prop('readonly',true);
 						}else{
 							$('#secretCkResult').text("이메일인증실패");
 						}
 					},error:function(){
 						console.log("서버통신실패");
 					}
-				
-					
-					
 				})
-		
 			})
+		})
 			
-			
-		
+		//이메일 발송
+		function sendMail(){
+			$.ajax({
+				url:"sendMail.me",
+				data:{email:$("#email").val()},
+				success:function(result){ 
+					if(result=='0'){
+						alert("이메일발송실패");
+					}else{
+						alert("이메일이발송되었습니다.3분이내 입력해주세요");
+					}
+				},error:function(){
+					console.log("메일발송실패");
+				}
+			})
+		}
     </script>
 </body>
 </html>
