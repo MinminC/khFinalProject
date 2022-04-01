@@ -184,16 +184,14 @@ div{
 			})
 			
 			//이메일 인증번호 확인
-			$('#secret').keyup(function(){
+			$('#secret').blur(function(){
 				$.ajax({
 					url:"check",
 					data:{secret:$('#secret').val()},
 					success:function(result){
 						if(result){
 							$('#secretCkResult').text("이메일인증완료");
-							$('#insetMemBtn').attr('onclick', '').unbind('click').css({'background':gray});
-							$('#email').prop('readonly',true);
-							$('#secret').prop('readonly',true);
+							$('#insetMemBtn').removeAttr('disabled');
 						}else{
 							$('#secretCkResult').text("이메일인증실패");
 						}

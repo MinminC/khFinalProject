@@ -61,7 +61,6 @@ div {
 
 .logo {
 	margin-top: 0px;
-	height:330px;
 	width:auto;
 }
 

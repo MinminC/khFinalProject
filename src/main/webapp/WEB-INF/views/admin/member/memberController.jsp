@@ -80,8 +80,10 @@ table td{
         <div class="mc2-1">
             <span>회원목록</span>
             <span style="color:blue;">${listCount}명</span>
-            <span>검색결과</span>
-            <span style="color:blue;">${searchCount}명</span>
+            <c:if test="${not empty keyword }">
+	            <span>검색결과</span>
+	            <span style="color:blue;">${searchCount}명</span>
+            </c:if>
             <button id="deleteBtn" class="btn btn-info" style="float: right;">회원탈퇴</button>
         </div>
 
