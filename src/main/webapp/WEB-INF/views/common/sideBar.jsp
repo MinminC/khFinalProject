@@ -23,6 +23,15 @@
 </head>
 <body>
 
+<!-- alertMsg -->
+	<c:if test="${not empty alertMsg }">
+		<script>
+			alert("${alertMsg}");
+		</script>
+
+		<c:remove var="alertMsg" scope="session"/> <!-- session에 있는 alertMsg 삭제  -->
+	</c:if>
+
 <!-- Sidebar -->
 
 <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:200px">
