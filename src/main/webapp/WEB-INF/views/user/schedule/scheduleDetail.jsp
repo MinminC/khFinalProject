@@ -62,7 +62,7 @@ textarea {
 	font-size: 13px;
 }
 
-#address_input {
+#sample6_postcode {
 	display: block;
 	position: relative;
 	width: 110px;
@@ -166,7 +166,7 @@ textarea {
 									</div>
 									<div>
 										<span class="box"> <input type="text"
-											id="address_input" id="sample6_postcode" placeholder="우편번호"
+											id="sample6_postcode" placeholder="우편번호"
 											name="postNum"> <input type="button" id="address_btn"
 											onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
 										</span>
