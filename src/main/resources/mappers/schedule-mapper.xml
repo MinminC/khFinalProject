@@ -78,8 +78,8 @@
   
   		INSERT INTO ACCOUNTBOOK
   		VALUES(
-  		#{mono},
-  		#{username},
+  		#{mo_no},
+  		#{user_name},
   		#{scheduleTitle},
   		#{accountDate},
   		#{pay}
@@ -92,6 +92,15 @@
   		FROM ACCOUNTBOOK
   		WHERE MO_NO = #{mono}
   		ORDER BY ACCOUNTDATE
+  
+  </select>
+  
+  <select id="selectAddress" parameterType="String" resultType="map">
+  
+  		SELECT ADDRESS,SCHEDULETITLE
+  		FROM DETAILSCHEDULE
+  		WHERE MO_NO = #{moNo}
+  		ORDER BY SCHEDULEDATE
   
   </select>
   

@@ -70,4 +70,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return scheduleDao.selectAccount(sqlSession,mono);
 	}
 
+	@Override
+	public List<HashMap> selectAddress(String moNo) {
+		return scheduleDao.selectAddress(sqlSession,moNo);
+	}
 }

@@ -224,10 +224,13 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping("addDetailSchedule.sc")
-	public String addDetailSchedule(DetailSchedule schedule) {
+	public ModelAndView addDetailSchedule(DetailSchedule schedule,ModelAndView mv) {
 		int result = scheduleService.addDetailSchedule(schedule);
+		String mono = schedule.getMo_no();
+		mv.addObject("moNo",mono);
+		mv.setViewName("user/schedule/scheduleDetail");
 		
-		return "user/schedule/scheduleDetail";
+		return mv;
 	}
 	
 	@ResponseBody
@@ -240,12 +243,53 @@ public class ScheduleController {
 		return list;
 	}
 	@RequestMapping("addAccount.sc")
-	public String addAccount(AccountBook accountBook) {
+	public ModelAndView addAccount(AccountBook accountBook,ModelAndView mv) {
+		System.out.println(accountBook);
 		
 		int result = scheduleService.addAccount(accountBook);
+		String mono = accountBook.getMo_no();
+		System.out.println(mono);
+		mv.addObject("moNo",mono);
+		mv.setViewName("user/schedule/scheduleDetail");
 		
-		return "user/schedule/scheduleDetail";
+		
+		return mv;
 	}
+	@ResponseBody
+	@RequestMapping("selectAddress.sc")
+	public List<HashMap> selectAddress(@RequestParam("moNo") String moNo){
+		List<HashMap> list = new ArrayList<HashMap>();
+		
+		list = scheduleService.selectAddress(moNo);
+		
+		System.out.println(list);
+		
+		
+		
+		return list;
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }

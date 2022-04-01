@@ -32,6 +32,8 @@ public interface ScheduleService {
 	int addAccount(AccountBook accountBook);
 
 	List<AccountBook> selectAccount(String mono);
+
+	List<HashMap> selectAddress(String moNo);
 	
 	
 

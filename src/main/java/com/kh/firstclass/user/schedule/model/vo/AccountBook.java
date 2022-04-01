@@ -9,10 +9,10 @@ public class AccountBook {
 	private String pay;
 	
 	
-	public AccountBook(String mono, String username, String scheduleTitle, String accountDate, String pay) {
+	public AccountBook(String mo_no, String user_name, String scheduleTitle, String accountDate, String pay) {
 		super();
-		this.mo_no = mono;
-		this.user_name = username;
+		this.mo_no = mo_no;
+		this.user_name = user_name;
 		this.scheduleTitle = scheduleTitle;
 		this.accountDate = accountDate;
 		this.pay = pay;
@@ -24,23 +24,23 @@ public class AccountBook {
 	}
 
 
-	public String getMono() {
+	public String getMo_no() {
 		return mo_no;
 	}
 
 
-	public void setMono(String mono) {
-		this.mo_no = mono;
+	public void setMo_no(String mo_no) {
+		this.mo_no = mo_no;
 	}
 
 
-	public String getUsername() {
+	public String getUser_name() {
 		return user_name;
 	}
 
 
-	public void setUsername(String username) {
-		this.user_name = username;
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
 
@@ -67,7 +67,7 @@ public class AccountBook {
 	public String getPay() {
 		return pay;
 	}
- 
+
 
 	public void setPay(String pay) {
 		this.pay = pay;
@@ -76,7 +76,7 @@ public class AccountBook {
 
 	@Override
 	public String toString() {
-		return "AccountBook [mono=" + mo_no + ", username=" + user_name + ", scheduleTitle=" + scheduleTitle
+		return "AccountBook [mo_no=" + mo_no + ", user_name=" + user_name + ", scheduleTitle=" + scheduleTitle
 				+ ", accountDate=" + accountDate + ", pay=" + pay + "]";
 	}
 	

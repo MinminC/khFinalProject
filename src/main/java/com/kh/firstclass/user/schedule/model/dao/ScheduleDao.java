@@ -57,4 +57,8 @@ public class ScheduleDao {
 		return sqlSession.selectList("scheduleMapper.selectAccount",mono);
 	}
 
+	public List<HashMap> selectAddress(SqlSessionTemplate sqlSession, String moNo) {
+		return sqlSession.selectList("scheduleMapper.selectAddress",moNo);
+	}
+
 }
