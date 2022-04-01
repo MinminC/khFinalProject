@@ -26,19 +26,16 @@
         display: flex;
     }
     .first{
-        flex:1;
-        width:30%;
+        width:320px;
         box-sizing: border-box;
     }
     .second{
-        flex:1;
         margin: 0px 2%;
-        width:30%;
+        width:320px;
         box-sizing: border-box;
     }
     .third{
-        flex:1;
-        width:30%;
+        width:320px;
         box-sizing: border-box;
     }
     .main>div{
@@ -46,6 +43,10 @@
         text-align: center;
         border: 1px solid black;
         line-height: 110px;
+        cursor : pointer;
+    }
+    .main>div:hover{
+    	background-color : lightgray;
     }
     .main>div>div{
         height: 30px;
@@ -75,9 +76,8 @@
 	    </div>
 	    <br>
 	    <div class="main">
-	        <div class="first" onclick="location.href='mySchedule.me'"><div style="height: 15px;"></div><div><b>나의 일정</b></div><div style="padding-top: 20px; font-size: 16px;">참여한 일정을 확인할 수 있습니다.</div></div>
-	        <div class="second" onclick="location.href='myReview.me'"><div style="height: 15px;"></div><div><b>나의 리뷰</b></div><div style="padding-top: 20px; font-size: 16px;">작성한 리뷰를 확인할 수 있습니다.</div></div>
-	        <div class="third" onclick="location.href='myInquiry.me'"><div style="height: 15px;"></div><div><b>1:1문의</b></div><div style="padding-top: 20px; font-size: 16px;">관리자에게 문의할 수 있습니다.</div></div>
+	        <div class="first" onclick="location.href='myReview.me'"><div style="height: 15px;"></div><div><b>나의 리뷰</b></div><div style="padding-top: 20px; font-size: 16px;">작성한 리뷰를 확인할 수 있습니다.</div></div>
+	        <div class="second" onclick="location.href='myInquiry.me'"><div style="height: 15px;"></div><div><b>1:1문의</b></div><div style="padding-top: 20px; font-size: 16px;">관리자에게 문의할 수 있습니다.</div></div>
 	    </div>
 	</div>
 	
