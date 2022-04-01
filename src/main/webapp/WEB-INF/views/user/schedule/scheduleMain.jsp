@@ -144,6 +144,7 @@
     <div><span id="main_title"style=" border-radius: 15px 15px 0 0; border-bottom: 2px solid rgba(18, 136, 122); padding: 0.5em; background: #c9e7e7">모임 만들기 page</span></div>
    
    <!-- left 영역 시작 -->
+   
    <div class="left">
    		<div id="list"> <!-- 회원 리스트 -->
    		<br>
@@ -214,7 +215,6 @@
       var rv = false;
       var start = $("input[name=departureDate]").val()   
       var end = $("input[name=arrivalDate]").val()
-      console.log(start + end);
       if(start > end){
          alert("시작날짜가 도착날짜보다 크면안됨둥");
       }else{

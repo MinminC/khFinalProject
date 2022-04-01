@@ -397,11 +397,7 @@ textarea {
 	                           "mono" : "${moNo}"
 	                        },
 	                        success : function(e) {
-	                           console.log(e);
-	                           console.log("긁어오기성공");
-
 	                           for (var i = 0; i < e.length; i++) {
-	                              console.log(e[i].chatmsg)
 	                              var node = document
 	                                    .createElement("div");
 	                              var textnode = document
@@ -484,7 +480,6 @@ textarea {
 	                     var text = $("#textarea").val();
 	                     var newmsg = name + ":" + text;
 
-	                     console.log("여기들어오긴하니?");
 
 	                     socket.send(newmsg);
 	                     $("#textarea").val("");

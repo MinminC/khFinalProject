@@ -80,7 +80,6 @@ public class ScheduleController {
 		Member nm = memberService.loginMember(m);
 		nm.setMoNo(Integer.toString(moNo));
 		if (!nm.getMoNo().isEmpty()) {
-			System.out.println("여기까진 들어오시죠?");
 			String premono = "";
 
 			for (int i = 0; i < nm.getMoNo().size(); i++) {
@@ -90,7 +89,6 @@ public class ScheduleController {
 			map.put("moNo", premono);
 			map.put("addId", m.getUserId());
 			
-			System.out.println("map 형태 : " +map);
 
 			scheduleService.updateScheduleMember(map);
 
@@ -172,18 +170,11 @@ public class ScheduleController {
 		return mv;
 	}
 
-	@RequestMapping("addDetailSChedule.sc")
-	public void addDetailSchedule() {
-
-	}
-
 	@ResponseBody
 	@RequestMapping("sendMsg.ajax")
 	public String sendMsg(@RequestParam("newmsg") String newmsg, @RequestParam("mono") String mono) {
 
 		HashMap<String, Object> map = new HashMap<>();
-		System.out.println(newmsg);
-		System.out.println(mono);
 
 		map.put("mono", mono);
 		map.put("newmsg", newmsg);
@@ -195,14 +186,8 @@ public class ScheduleController {
 	@ResponseBody
 	@RequestMapping("receiveMsg.ajax")
 	public List<chatLog> receiveMsg(@RequestParam("mono") String mono) {
-		System.out.println("여기까진 들어오는데");
 
 		List<chatLog> list = scheduleService.selectReceiveMsg(mono);
-		System.out.println("여기까진 들어오는데");
-		System.out.println(list.size());
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).toString());
-		}
 		return list;
 	}
 	
@@ -239,19 +224,15 @@ public class ScheduleController {
 		List<AccountBook> list = new ArrayList<AccountBook>();
 		list = scheduleService.selectAccount(mono);
 		
-		
 		return list;
 	}
 	@RequestMapping("addAccount.sc")
 	public ModelAndView addAccount(AccountBook accountBook,ModelAndView mv) {
-		System.out.println(accountBook);
 		
 		int result = scheduleService.addAccount(accountBook);
 		String mono = accountBook.getMo_no();
-		System.out.println(mono);
 		mv.addObject("moNo",mono);
 		mv.setViewName("user/schedule/scheduleDetail");
-		
 		
 		return mv;
 	}
@@ -261,17 +242,7 @@ public class ScheduleController {
 		List<HashMap> list = new ArrayList<HashMap>();
 		
 		list = scheduleService.selectAddress(moNo);
-		
-		System.out.println(list);
-		
-		
-		
 		return list;
-		
-		
-		
-		
-		
 	}
 	
 	
