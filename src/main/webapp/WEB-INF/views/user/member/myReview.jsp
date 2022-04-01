@@ -96,16 +96,35 @@
         margin-bottom: 0px;
     }
 
+	
     .rv2_3+div{
-        width: 100%; 
         height: auto;
         padding: 10px;
+        
+        overflow: auto;
+        position: relative;
+        display: flex;
     }    
+    
+    .rv2_3+div::-webkit-scrollbar{
+        width : 7px;
+    }    
+    .rv2_3+div::-webkit-scrollbar-thumb{
+        background-color : #009688;
+        border-radius : 10px;
+    }    
+    
+    .rv2_3+div::-webkit-scrollbar-track{
+    	background-color: white;
+	}
+	
 
     .rv2_3+div img{
-        width: 50%;
-        height: 600px;
+        width: auto;
+        height: auto;
         padding: 5px;
+        
+         
     }
 
 	/* 삭제 */
@@ -131,7 +150,6 @@
 	        <br><br>
 	    </div>
 	</div>
-	
 	
 	<script>
 	

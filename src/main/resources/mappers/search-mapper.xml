@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="searchMapper">
+	<resultMap type="place" id="placeResultMap">
+		<result column="PLACE_NO" property="placeNo" />
+		<result column="PLACE_NAME" property="placeName" />
+		<result column="PLACE_ADDRESS" property="placeAddress" />
+		<result column="PLACE_LON" property="placeLon" />
+		<result column="PLACE_LAT" property="placeLat" />
+		<result column="PLACE_DES" property="placeDes" />
+		<result column="PLACE_TAGS" property="placeTags" />
+		<result column="AREA" property="area" />
+		<result column="TYPE" property="typeCode" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="PIC_ORIGIN" property="picOrigin" />
+		<result column="PIC_CHANGE" property="picChange" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="ModifyDate" />
+		<result column="PLACE_STATUS" property="placeStatus" />
+		<result column="STAR_SCORE" property="starScore" />
+	</resultMap>
+	<select id="countPlace" parameterType="hashmap" resultType="_int">
+	<!-- 키워드는 이름과 내용에서만 검색 -->
+		SELECT COUNT(PLACE_NO)
+		FROM PLACE
+		WHERE PLACE_STATUS = 'Y'
+			AND (
+				<foreach collection="keywords" item="key"  open="(" 
+				close=")" separator="OR">
+                   	PLACE_NAME LIKE '%'||#{key}||'%'
+					OR
+                   	PLACE_DES LIKE '%'||#{key}||'%'
+                   	OR
+                   	PLACE_TAGS LIKE '%'||#{key}||'%'
+				</foreach>
+				)
+	</select>
+	<select id="countReview" parameterType="hashmap" resultType="_int">
+	<!-- 키워드는 이름과 내용에서만 검색 -->
+		SELECT COUNT(REV_NO)
+		FROM VW_REVIEW
+		WHERE 
+			<foreach collection="keywords" item="key"  open="(" 
+			close=")" separator="OR">
+               	PLACE_NAME LIKE '%'||#{key}||'%'
+				OR
+               	REV_CONTENT LIKE '%'||#{key}||'%'
+			</foreach>
+	</select>
+	<select id="selectPlaceOne" parameterType="hashmap" resultMap="placeResultMap">
+		SELECT PLACE_NO, PLACE_NAME, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
+		FROM VW_PLACE
+		WHERE PLACE_NAME = #{keyword}
+		ORDER BY
+			<choose>
+				<when test="sort == 'new'">
+					<!-- 최신순 -->
+					PLACE_NO DESC
+				</when>
+				<when test="sort == 'views'">
+					<!-- 인기순 -->
+					VIEWS DESC
+				</when>
+				<otherwise>
+					<!-- 여행지명 순 -->
+					PLACE_NAME
+				</otherwise>
+			</choose>
+	</select>
+	<select id="selectPlaceList" parameterType="hashmap" resultMap="placeResultMap">
+		SELECT PLACE_NO, NVL(STAR_SCORE, 0) AS STAR_SCORE, PLACE_NAME, PLACE_AREA AS AREA
+			, PLACE_TYPE AS TYPE, PLACE_TAGS, PLACE_LON, PLACE_LAT, FILE_PATH, PIC_CHANGE
+		FROM VW_PLACE
+		WHERE 
+			<foreach collection="keywords" item="key"  open="(" 
+				close=")" separator="OR">
+                   	PLACE_NAME LIKE '%'||#{key}||'%'
+					OR
+                   	PLACE_DES LIKE '%'||#{key}||'%'
+                   	OR
+                   	PLACE_TAGS LIKE '%'||#{key}||'%'
+			</foreach>
+		ORDER BY
+			<choose>
+				<when test="sort == 'new'">
+					<!-- 최신순 -->
+					PLACE_NO DESC
+				</when>
+				<when test="sort == 'count'">
+					<!-- 인기 순 -->
+					STAR_SCORE DESC
+				</when>
+				<otherwise>
+					<!-- 여행지명 순 -->
+					PLACE_NAME
+				</otherwise>
+			</choose>
+	</select>
+	<insert id="insertKeyword" parameterType="string">
+		INSERT INTO SEARCH(SEARCH_NO, KEYWORD)
+		VALUES (SEQ_SEARCH_NO.NEXTVAL, #{keyword})
+	</insert>
+	<select id="countSearchRanking" resultType="string">
+		SELECT KEYWORD
+		FROM
+			(SELECT KEYWORD, COUNT(KEYWORD) AS COUNT
+			 FROM 
+				(SELECT KEYWORD, SEARCH_DATE
+				 FROM SEARCH
+				 WHERE SEARCH_DATE > SYSDATE -1)
+			 GROUP BY KEYWORD
+			 ORDER BY COUNT DESC)
+		WHERE ROWNUM &lt; 10
+	</select>
+	<resultMap type="review" id="reviewResultMap">
+		<result column="REV_NO" property="revNo" />
+		<result column="REV_CONTENT" property="revContent" />
+		<result column="STAR_SCORE" property="starScore" />
+		<result column="STATUS" property="status" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="USER_ID" property="userId" />
+		<result column="PLACE_NAME" property="placeName" />
+		<result column="IMG_PATH" property="imagePath" />
+		<result column="PLACE_NO" property="placeNo" />
+	</resultMap>
+	<select id="selectReviewList" parameterType="hashmap" resultMap="reviewResultMap">
+		SELECT REV_NO, REV_CONTENT, STAR_SCORE, CREATE_DATE, USER_ID, PLACE_NO, PLACE_NAME, PLACE_NO
+		FROM VW_REVIEW
+		WHERE 
+			<foreach collection="keywords" item="key"  open="(" 
+				close=")" separator="OR">
+                   	PLACE_NAME LIKE '%'||#{key}||'%'
+					OR
+                   	REV_CONTENT LIKE '%'||#{key}||'%'
+			</foreach>
+		ORDER BY 
+			<choose>
+				<when test="sort == 'new'">
+					<!-- 최신 순 -->
+					REV_NO DESC
+				</when>
+				<when test="sort == 'score'">
+					<!-- 별점 순 -->
+					VIEWS DESC	
+				</when>
+				<otherwise>
+					<!-- 여행지명 순 -->
+					PLACE_NAME
+				</otherwise>
+			</choose>
+	</select>
+	<!-- 승원씨꺼에서 picture 어떤식으로 이름 붙였는지 확인하기 -->
+	<resultMap type="reviewPicture" id="pictureResultMap">
+ 		<result column="IMG_NO" property="imgNo"/>
+ 		<result column="REV_NO" property="revNo"/>
+ 		<result column="ORIGIN_NAME" property="originName"/>
+ 		<result column="CHANGE_NAME" property="changeName"/>
+	</resultMap>
+	<select id="selectPictureList" parameterType="list" resultMap="pictureResultMap">
+		SELECT IMG_NO, REV_NO, ORIGIN_NAME, CHANGE_NAME
+		FROM REVIEW_PICTURE
+		WHERE REV_NO IN 
+		<foreach collection="list" item="key"  open="(" 
+				close=")" separator=",">
+					#{key}
+		</foreach>
+	</select>
+	<select id="selectReviewPicture" parameterType="list" resultMap="pictureResultMap">
+		SELECT IMG_NO, REV_NO, ORIGIN_NAME, CHANGE_NAME
+		FROM REVIEW_PICTURE
+		WHERE REV_NO IN 
+		<foreach collection="list" item="key"  open="(" 
+				close=")" separator=",">
+					#{key}
+		</foreach>
+	</select>
+</mapper>

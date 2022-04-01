@@ -27,8 +27,8 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public ArrayList<Notice> selectNoticeList(int selectCategory, PageInfo pi) {
-		return noticeDao.selectNoticeList(sqlSession, selectCategory, pi);
+	public ArrayList<Notice> selectNoticeList(HashMap<String, Object> map, PageInfo pi) {
+		return noticeDao.selectNoticeList(sqlSession, map, pi);
 	}
 
 	@Override

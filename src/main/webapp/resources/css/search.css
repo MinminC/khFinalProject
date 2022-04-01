@@ -1,142 +1,127 @@
 @charset "UTF-8";
-
-	#wrap{
-		width:1200px;
-		position:relative;
-		top:200px;
-		margin: auto;
-	}
-	#search-main{
-		width:900px;
-		display:inline-block;
-		padding:0;
-		margin:0;
-	}
-	#search-option, #area-option{
-		top:80px;
-	}
-	#tags-option{
-		top:500px;
-	}
-	#search-option, #area-option, #tags-option{
-		display:inline-block;
-		position:absolute;
-		background:rgb(230,230,230);
-		width:280px;
-		height:auto;
-		padding:20px;
-	}
-	#search-tab ul, #area-option ul, #tags-option ul{
-		list-style: none;
-		padding:0;
-	}
-	#search-tab li, #area-option li, #tags-option li{
-		display:inline-block;
-		padding:10px;
-		margin:3px;
-	}
-	#search-tab a{
-		font-size:20px;
-		font-weight: 800;
-		text-decoration: none;
-		color:gray;
-		padding: 0px 20px;
-	}
-	/*지역코드 검색*/
-	#area-option li, #tags-option li{
-		background:gray;
-		color:white;
-		border-radius: 30px;
-	}
-	#tags{
-		padding:20px;
-	}
-	#tags>span{
-		background:rgb(170, 170, 170);
-		color:white;
-		border-radius: 50px;
-		padding:10px;
-		font-size:14px;
-		cursor:pointer;
-	}
-	#search-option ul{
-		list-style:none;
-		padding:0px;
-		font-size:16px;
-	}
-	#search-option span{
-		border-radius: 5px;
-		background:gray;
-		color:white;
-		width:20px;
-		height:20px;
-		margin:10px;
-		display: inline-block;
-		text-align: center;
-	}
-	#place{
-		height:500px;
-	}
-	#course-summary>div{
-		display:inline-block;
-		height:auto;
-		width:280px;
-		border:1px solid gray;
-		padding: 5px;
-		margin:10px;
-	}
-	#course-summary img{
-		width:260px;
-		height:auto;
-	}
-/*추천 코스*/
-#align-bar>div, #align-bar li{
-	display:inline-block;
+#wrap{
+    width:1200px;
+    height:600px;
+    justify-items:center;
+    margin: 200px auto 50px auto;
 }
-#align-bar li{
-	display:inline-block;
+#wrap>div>h3{
+    font-weight: 800;
+    color:#009688;
 }
-#align-bar ul{
-	float:right;
-	font-size: 16px;
-	list-style: none;
-	width:240px;
+.sideBar{
+    display:inline-block;
+    position:absolute;
+    background:rgb(240,240,240);
+    border:1px solid lightgray;
+    border-radius: 5px;
+    width:260px;
+    height:auto;
+    padding:20px;
+    margin-top:60px;
 }
-.course-one{
-	height:200px;
-	position:relative;
+.sideBar li{
+    margin:5px;
 }
-h4{
-	padding:0;
-	margin:0;
+.btn-firstclass, .active>a{
+    background:#00c5b1 !important;
+    border-color:#00c5b1 !important;
+    color:white !important;
 }
-#course-list img, .course-text{
-	height:100%;
-	margin:0;
-	padding:0;
-	display:inline-block;
-	position:absolute;
+.sideBar>ul{
+    padding:0 0 0 5px;
 }
-.course-text{
-	top:0;
-	left:240px;
-	width:660px;
-	padding:10px;
+.float-left{
+    width:900px;
+    margin-left: 10px;
+    margin-right: 20px;
 }
-#course-list img{
-	width:240px;
-	height:180px;
-	top:8px;
-	/*외곽에 line-height 속성을 주고 내부를 vertical-align 속성 주면 가운데 위치->p태그까지 영향받음. 사용X*/
+.float-left, .sideBar{
+    float:left;
 }
-
-.selected{
-	background:green !important;
+.float-left>span{
+    color:#00c5b1;
 }
-.pagination{
-	justify-content: center; 
+#search-tab ul, .sideBar ul{
+    list-style: none;
+    padding:0;
 }
-.now a{
-	color:black;
-	font-weight: 800 !important;
+#search-tab ul{
+    text-align: center;
+}
+#search-tab li{
+    display:inline-block;
+}
+#search-tab a{
+    font-size:20px;
+    font-weight: 800;
+    text-decoration: none;
+    color:gray;
+    padding: 0px 20px;
+}
+.sideBar span{
+    display:inline-block;
+    width:20px;
+    background: gray;
+    color:white;
+    border-radius: 5px;
+    text-align: center;
+}
+.now{
+    color: #00c5b1 !important;
+}
+#search-tab li, .search-list img, .search-text{
+    margin:0;
+    padding:0;
+}
+.search-text{
+    padding:10px;
+}
+#place-list .search-text{
+    width:600px;
+}
+#place-list img{
+    width:300px;
+    top:8px;
+    /*외곽에 line-height 속성을 주고 내부를 vertical-align 속성 주면 가운데 위치->p태그까지 영향받음. 사용X*/
+}
+#review-list img{
+    width:auto;
+    height:150px;
+}
+#search-one h3{
+    text-align: center;
+    font-weight: 800;
+    font-size: 30px;
+}
+#search-one{
+    background:rgb(240,240,240);
+    border:1px solid lightgray;
+}
+.float-left a{
+    float:right;
+    text-decoration: none;
+    color:#00c5b1;
+    font-weight: 600;
+}
+.float-left span{
+    color:#00c5b1;
+}
+#place-list img, #place-list .search-text{
+    float:left;
+}
+#search-main .btn{
+    float:right;
+}
+.search-text h4:hover{
+    cursor:pointer;
+    text-decoration:underline;
+}
+.sideBar a{
+    color:#009688;
+    padding-left: 10px;
+}
+.light-bar{
+    border:0;
+    border-top:1px dashed rgb(0,0,0,.1);
 }

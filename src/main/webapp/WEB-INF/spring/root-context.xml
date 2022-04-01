@@ -7,53 +7,45 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
-	<!-- DB연결 설정 -->
-	<bean class="org.apache.commons.dbcp.BasicDataSource"
-		id="dataSource" destroy-method="close">
-		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url"
-			value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="firstclass" />
-		<property name="password" value="firstclass" />
-	</bean>
-
-	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
-		id="sqlSessionFactory">
-		<property name="configLocation"
-			value="classpath:mybatis-config.xml" />
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<bean class="org.mybatis.spring.SqlSessionTemplate"
-		id="sqlSession">
-		<constructor-arg ref="sqlSessionFactory" />
-	</bean>
-
-	<!-- 파일 업로드 관련 빈 등록 : 파일 업로드 시 용량 무제한 -->
-	<bean
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-		id="multipartResolver">
-		<property name="maxUploadSize" value="100000000" />
-		<property name="maxInMemorySize" value="100000000" />
-	</bean>
-
-	<!-- 이메일 전송도구 bean등록 -->
-	<bean id="sender"
-		class="org.springframework.mail.javamail.JavaMailSenderImpl"> <!-- 자바메일센더객체를 만들었음! -->
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="username" value="dlgkfn346@gmail.com" />
-		<property name="password" value="941006Dz!?" />
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.smtp.auth">true</prop> 
-				<prop key="mail.smtp.starttls.enable">true</prop>
-			</props>
-
-
-		</property>
-		<!-- setter기능 -->
-	</bean>
-
+	 
+	 <!-- DB연결 설정 -->
+	 <bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
+	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+	 	<property name="username" value="firstclass" />
+	 	<property name="password" value="firstclass" />
+	 </bean>
+	  
+	  <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+	  	<property name="configLocation" value="classpath:mybatis-config.xml" />
+	  	<property name="dataSource" ref="dataSource" />
+	  </bean>
+	  	 
+	  <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+	  	<constructor-arg ref="sqlSessionFactory" />
+	  </bean>
+	 
+	 <!-- 파일 업로드 관련 빈 등록 : 파일 업로드 시 용량 무제한 -->
+	 <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	 	<property name="maxUploadSize" value="100000000" />
+	 	<property name="maxInMemorySize" value="100000000" />
+	 </bean>
+	 
+	 <!-- 이메일 전송도구 bean등록 -->
+	 <bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> <!-- 자바메일센더객체를 만들었음! -->
+	 	<property name="host" value="smtp.gmail.com"/>
+	 	<property name="port" value="587"/>
+	 	<property name="username" value="firstclasskhfinal@gmail.com"/>
+	 	<property name ="password" value="#$#$dudi%$#@!"/>
+	 	<property name ="javaMailProperties">
+	 		<props>
+	 			<prop key="mail.smtp.auth">true</prop>
+	 			<prop key="mail.smtp.starttls.enable">true</prop>
+	 		</props>
+	 	
+	 	
+	 	</property>
+	 	<!-- setter기능 -->
+	 </bean>
+	 
 </beans>

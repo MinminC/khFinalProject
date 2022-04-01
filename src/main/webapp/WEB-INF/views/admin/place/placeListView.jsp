@@ -5,43 +5,44 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="resources/css/admin-place.css">
+<title>관리자-여행지 목록</title>
+<link rel="stylesheet" type="text/css" href="resources/css/admin-styleSheet.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/sideBar.jsp"/>
 	<div id="wrap">
-		<div id="tab">
-			<div id="btns">
-				<button class="btn btn-primary" onclick="location.href='insertForm.pl'">등록</button>
-			</div>
-			<div id="search-bar">
-				<form action="search.pl">
-					<select name="type">
-						<option value="name">여행지 명</option>
-						<option value="tag">태그</option>
-					</select>
-					<input type="text" name="keyword">
-					<button class="btn btn-secondary">검색</button>
-				</form>
-			</div>
+		<h1>여행지 관리</h1>
+		<br>
+		<div class="float-left">
+			<button class="btn btn-firstclass" onclick="location.href='insertForm.pl'">등록</button>
 		</div>
+		<div style="float:right;">
+			<form action="search.pl" id="searchForm">
+				<select name="type" class="form-control">
+					<option value="name">여행지 명</option>
+					<option value="tag">태그</option>
+				</select>
+				<input type="search" class="form-control" name="keyword">
+				<button class="btn btn-secondary btn-firstclass">검색</button>
+			</form>
+		</div>
+		<br clear="both">
 		<br>
 		<table class="table" id="placeList">
 			<thead>
 				<tr>
-					<th>번호</th>
-					<th>여행지 명</th>
-					<th>시, 도</th>
-					<th>주소</th>
-					<th>타입</th>
+					<th style="width:80px;">번호</th>
+					<th style="width:200px;">여행지 명</th>
+					<th style="width:80px;">시, 도</th>
+					<th style="width:220px;">주소</th>
+					<th style="width:80px;">타입</th>
 					<th>태그</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:choose>
 					<c:when test="${empty list}">
-						<tr><td>결과가 존재하지 않습니다.</td></tr>
+						<tr><th colspan="6">결과가 존재하지 않습니다.</th></tr>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="i" items="${list}">
@@ -64,10 +65,10 @@
 				<li class="page-item"><a class="page-link" href="list.pl?pageNo=${pi.currentPage - 1}">&lt;</a></li>
 			</c:if>
 			<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
-				<li class="page-item"><a class="page-link" href="list.pl?keyword=${keyword}&pageNo=${i}">${i}</a></li>
+				<li class="page-item"><a class="page-link" href="list.pl?&pageNo=${i}">${i}</a></li>
 				<!--해당되는 번호에 클래스 active 넣어주기!-->
 			</c:forEach>
-			<c:if test="${pi.currentPage != pi.maxPage}">
+			<c:if test="${pi.currentPage lt pi.maxPage}">
 				<li class="page-item endPage"><a class="page-link" href="list.pl?pageNo=${pi.currentPage + 1}">&gt;</a></li>
 			</c:if>
 		</ul>

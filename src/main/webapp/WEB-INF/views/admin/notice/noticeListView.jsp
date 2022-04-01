@@ -6,13 +6,30 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자-공지사항 목록</title>
-<link rel="stylesheet" type="text/css" href="resources/css/admin-notice.css">
+<link rel="stylesheet" type="text/css" href="resources/css/admin-styleSheet.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/sideBar.jsp" />
-<div id="wrap" style="margin-top:200px;">
+<div id="wrap">
+	<h1>공지사항 관리</h1>
+	<br>
+	<div class="float-left">
+		<a href="insertForm.no" class="btn btn-firstclass">등록</a>
+		<button type="button" id="modalBtn" class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제</button>
+	</div>
+	<div style="float:right;">
+		<form action="searchAdmin.no" method="get">
+			<select name="type" class="form-control">
+				<option value="title">제목</option>
+				<option value="content">내용</option>
+			</select>
+			<input type="search" class="form-control" name="keyword">
+			<input type="submit" style="top:0;"class="btn btn-secondary btn-firstclass" value="검색">
+		</form>
+	</div>
+	<br clear="both" />
+	<br>
 	<!-- 중요 공지만 보기 -->
-	
 	<table class="table" id="notice-list">
 		<thead>
 			<tr>
@@ -28,7 +45,7 @@
 		<tbody>
 			<c:choose>
 				<c:when test="${empty list}">
-					<tr><td>공지사항이 존재하지 않습니다.</td></tr>
+					<tr><th colspan="6">공지사항이 존재하지 않습니다.</th></tr>
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="i" items="${list}">
@@ -54,26 +71,19 @@
 			<li class="page-item"><a class="page-link" href="listAdmin.no?pageNo=${pi.currentPage - 1}">&lt;</a></li>
 		</c:if>
 		<c:forEach var="i" begin="${pi.startPage}" end="${pi.endPage}">
-			<li class="page-item"><a class="page-link" href="listAdmin.no?keyword=${keyword}&pageNo=${i}">${i}</a></li>
-			<!--해당되는 번호에 클래스 active 넣어주기!-->
+			<c:choose>
+					<c:when test="${pi.currentPage eq i}">
+						<li class="page-item active"><a class="page-link" href="listAdmin.no?keyword=${keyword}&pageNo=${i}">${i}</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item"><a class="page-link" href="listAdmin.no?keyword=${keyword}&pageNo=${i}">${i}</a></li>
+					</c:otherwise>
+				</c:choose>
 		</c:forEach>
-		<c:if test="${pi.currentPage != pi.maxPage}">
+		<c:if test="${pi.currentPage lt pi.maxPage}">
 			<li class="page-item endPage"><a class="page-link" href="listAdmin.no?pageNo=${pi.currentPage + 1}">&gt;</a></li>
 		</c:if>
 	</ul>
-	<a href="insertForm.no" class="btn btn-secondary">등록</a>
-	<button type="button" id="modalBtn" class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제</button>
-	
-	<div class="notice-search">
-		<form action="searchAdmin.no" method="get">
-			<select name="type">
-				<option value="title">제목</option>
-				<option value="content">내용</option>
-			</select>
-			<input type="search" name="keyword">
-			<input type="submit" value="검색">
-		</form>
-	</div>
 	<c:if test="${not empty keyword}">
 		<script>
 			var $pageArr = $('.pagination a');
@@ -115,18 +125,17 @@
 			var deleteNo = $(this).parent().siblings().eq(0).text();
 			var deleteTitle = $(this).parent().siblings().eq(2).text();
 			
-			if ($(this).prop('checked'))
+			if ($(this).prop('checked')){
 				deleteContent.push({deleteNo, deleteTitle});
+			}
 			else
 				deleteContent.pop({deleteNo, deleteTitle});
 		})
 		$('#modalBtn').click(function(){
 			var result = '';
 			for(var i=0;i<deleteContent.length;i++){
-				console.log(deleteContent[i].deleteTitle);
 				result += '<li>'+deleteContent[i].deleteTitle+'</li>';
 			}
-			console.log(deleteContent.map(a=> a.deleteNo));
 			$('#deleteList').html(result);
 		})
 		//삭제modal-삭제 누르면 delete.no에 리스트로 전달

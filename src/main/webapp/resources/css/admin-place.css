@@ -1,22 +1,26 @@
 @charset "UTF-8";
-
-div{
-	padding:0;
-	box-sizing: border-box;
-	border:1px solid red;
+#wrap{
+    margin-left:200px;	
 }
-body{
-	width:1200px;
-	margin:0;
-	padding:0;
-	position:relative;
+.float-left{
+    float:left
+}
+.float-left>span{
+    color:#00c5b1;
+}
+.float-right{
+    float:right;
+}
+#wrap, #detail{
+    text-align: center;
 }
 #wrap{
-	margin-top:100px;
-	margin-left:200px;
-	width:1000px;
-	padding:0;
+    width:1200px;
+    justify-items:center;
+    margin-left:220px;
+    margin-top:20px;
 }
+
 
 /*본문*/
 #tab>div{
@@ -28,12 +32,8 @@ body{
 #search-bar{
 	float:right; 
 }
-
 .pagination{
 	justify-content: center; 
-}
-#place-detail *{
-	text-align: center;
 }
 #place-detail img{
 	width:500px;

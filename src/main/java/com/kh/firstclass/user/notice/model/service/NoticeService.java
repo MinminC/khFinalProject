@@ -12,7 +12,7 @@ public interface NoticeService {
 
 	int countNoticeAll(int selectCategory);
 
-	ArrayList<Notice> selectNoticeList(int selectCategory, PageInfo pi);
+	ArrayList<Notice> selectNoticeList(HashMap<String, Object> map, PageInfo pi);
 
 	Notice selectNoticeOne(int noticeNo);
 

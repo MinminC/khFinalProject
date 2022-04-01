@@ -1,0 +1,23 @@
+@charset "UTF-8";
+.float-left{
+    float:left
+}
+.float-left>span{
+    color:#00c5b1;
+}
+.float-right{
+    float:right;
+}
+#wrap, #detail{
+    text-align: center;
+}
+#wrap{
+    margin-top:200px;
+    width:1200px;
+    justify-items:center;
+    margin: 200px auto 200px auto;
+}
+#wrap>div>h3{
+    color:#00c5b1;
+    font-weight: 800;
+}

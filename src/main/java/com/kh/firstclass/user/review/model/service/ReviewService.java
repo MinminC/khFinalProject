@@ -3,6 +3,8 @@ package com.kh.firstclass.user.review.model.service;
 import java.util.ArrayList;
 
 import com.google.gson.JsonElement;
+import com.kh.firstclass.common.model.vo.PageInfo;
+import com.kh.firstclass.user.member.model.vo.Inquiry;
 import com.kh.firstclass.user.review.model.vo.Review;
 import com.kh.firstclass.user.review.model.vo.ReviewPicture;
 
@@ -37,6 +39,18 @@ public interface ReviewService {
 
 	// 나의 리뷰 사진 정보 조회하기
 	ArrayList<ReviewPicture> myPictureReview(int userNo);
+
+	// 리뷰 전체 수(관리자)
+	int selectListCount();
+
+	// 리뷰 조회(관리자)
+	ArrayList<Review> selectList(PageInfo pi);
+
+	// 리뷰 상세 보기(관리자)
+	Review reviewDetail(int no);
+
+	// 리뷰 상세 보기(사진/관리자)
+	ArrayList<ReviewPicture> reviewPictureDetail(int no);
 	
 	
 }

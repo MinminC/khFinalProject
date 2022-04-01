@@ -164,11 +164,27 @@
         width: 100%; 
         height: auto;
         padding: 10px;
+    
+   		overflow: auto;
+        position: relative;
+        display: flex;
     }    
+    
+    .rv2_3+div::-webkit-scrollbar{
+        width : 1px;
+    }    
+    .rv2_3+div::-webkit-scrollbar-thumb{
+        background-color : #009688;
+        border-radius : 10px;
+    }    
+    
+    .rv2_3+div::-webkit-scrollbar-track{
+    	background-color: white;
+	}
 
     .rv2_3+div img{
-        width: 50%;
-        height: 600px;
+        width: auto;
+        height: auto;
         padding: 5px;
     }
     
@@ -261,18 +277,15 @@
                     	for(let j=0; j<list[i].starScore; j++){
 							star += "★";
 						}
-                    	
                         value += 
                         "<div class='rv2'>"
                             +"<div class='rv2_1'>"
                             	+"<img src='resources/upfiles/user/profilePic.png' alt='프로필' class='rounded-circle'>"
 			                    +"<p>"+list[i].userId+"</p>";
-			                    
 								if('${loginUser.userId}' == list[i].userId){
 				                    value += "<pre class='deleteReview'>삭제</pre>"
 				                    		+"<input type='hidden' value='"+list[i].revNo+"'>";
 								}
-			                    
 			            value += 
 			                "</div>"
                             +"<div class='rv2_2'>"
@@ -299,7 +312,6 @@
                                 value = "<img src="+list[i].changeName+">";
                                 $("div[class='"+list[i].revNo+"']").append(value);
                             }
-
                         }
                     })
                     
