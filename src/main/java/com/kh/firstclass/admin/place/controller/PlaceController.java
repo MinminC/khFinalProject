@@ -308,15 +308,18 @@ public class PlaceController {
 					toHour = "23";
 				}
 				if(hourLab == -2|| hourLab == -1 || hourLab == 0) {
-					toHour += timeTable[k];
+					if(timeTable[k]<10)
+						toHour += "0"+timeTable[k];
+					else
+						toHour += timeTable[k];
 					break;
 				}
 			}
-			url += "&base_date="+day;	
+			url += "&base_date="+day;
 			url += "&base_time="+toHour+"00";
 			url += "&nx="+area.get(i).getLon();
 			url += "&ny="+area.get(i).getLat();
-			
+			System.out.println(url);
 			//API에 요청하기
 			URL requestUrl = new URL(url);
 			HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -334,9 +337,12 @@ public class PlaceController {
 			
 			br.close();
 			urlConnection.disconnect();
-
-			JsonObject itemsObj = (((JsonParser.parseString(responseText).getAsJsonObject()).getAsJsonObject("response"))
-									.getAsJsonObject("body")).getAsJsonObject("items");
+			System.out.println(1+" "+JsonParser.parseString(responseText));
+			System.out.println(2+" "+JsonParser.parseString(responseText).getAsJsonObject());
+			System.out.println(3+" "+(JsonParser.parseString(responseText).getAsJsonObject()).getAsJsonObject("response"));
+			System.out.println(4+" "+((JsonParser.parseString(responseText).getAsJsonObject()).getAsJsonObject("response")).getAsJsonObject("body"));
+			System.out.println(5+" "+(((JsonParser.parseString(responseText).getAsJsonObject()).getAsJsonObject("response")).getAsJsonObject("body")).getAsJsonObject("items"));
+			JsonObject itemsObj = (((JsonParser.parseString(responseText).getAsJsonObject()).getAsJsonObject("response")).getAsJsonObject("body")).getAsJsonObject("items");
 			JsonArray itemArr = itemsObj.getAsJsonArray("item");
 			for(int j = 0; j< itemArr.size(); j++) {
 				JsonObject item = itemArr.get(j).getAsJsonObject();
