@@ -37,14 +37,73 @@
   
   </select>
   
-  <select id="selectAccountBook" parameterType="hashmap" resultType="String">
+  <select id="selectMember" parameterType="String" resultType="String">
   
  		select user_name
         from member
-        where 1= mod(instr(mo_no,#{mono}),5);
+        where 1= mod(instr(mo_no,#{mono}),5)
   
   
   </select>
+  <select id="selectTime" parameterType="String" resultType="map">
+  
+  		select MO_DEPARTUREDATE,MO_ARRIVALDATE
+  		from SIMPLESCHEDULE
+  		where MO_NO = #{mono}
+  
+  </select>
+  <select id="selectScheduleTitle" parameterType="String" resultType="SimpleSchedule">
+  		
+  		SELECT MO_NO,MO_TITLE,MO_DEPARTUREDATE,MO_ARRIVALDATE
+        from SIMPLESCHEDULE
+        where 1= mod(instr(mo_no,#{mono}),5)
+  
+  </select>
+  <insert id="addDetailSchedule" parameterType="DetailSchedule">
+  		
+  		INSERT INTO DETAILSCHEDULE
+  		VALUES(
+  		#{mo_no},
+  		#{activites},
+  		#{postNum},
+  		#{address},
+  		#{detailAddress},
+  		#{scheduleDate},
+  		#{scheduleTitle},
+  		#{introduction}
+  		)
+  		
+  </insert>
+  <insert id ="addAccount" parameterType="AccountBook">
+  
+  		INSERT INTO ACCOUNTBOOK
+  		VALUES(
+  		#{mo_no},
+  		#{user_name},
+  		#{scheduleTitle},
+  		#{accountDate},
+  		#{pay}
+  		)
+  
+  </insert>
+  <select id="selectAccount" parameterType="String" resultType="AccountBook">
+  
+  		SELECT MO_NO,USER_NAME,SCHEDULETITLE,ACCOUNTDATE,PAY
+  		FROM ACCOUNTBOOK
+  		WHERE MO_NO = #{mono}
+  		ORDER BY ACCOUNTDATE
+  
+  </select>
+  
+  <select id="selectAddress" parameterType="String" resultType="map">
+  
+  		SELECT ADDRESS,SCHEDULETITLE
+  		FROM DETAILSCHEDULE
+  		WHERE MO_NO = #{moNo}
+  		ORDER BY SCHEDULEDATE
+  
+  </select>
+  
  	 
  	 
  	 
