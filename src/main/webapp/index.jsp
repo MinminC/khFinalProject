@@ -89,14 +89,13 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	
 		<br>
-	    <div class="slide">
-	        <ul>
-	           <li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height:500px;"></li>
-	           <li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>
-	           <li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height: 500px;"></li>
-	           <li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>          
-	        </ul>
-	      </div>
+	<div class="slide">
+		<ul>
+			<li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height:500px;"></li>
+			<li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>
+			<li class="mySlides" align="center"><img src="resources/img/jeju.png" style="height: 500px;"></li>
+			<li class="mySlides" align="center"><img src="resources/img/kyeongju.png" style="height: 500px;"></li>          
+		</ul>
 	</div>
 	
 	<div class="outer">

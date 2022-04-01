@@ -343,7 +343,7 @@
 							result += '</span></div>';
 
 							if(i%3 == 2)
-								result += '</div>'
+								result += '</div>';
 
 							var tagArr = list[i].placeTags.split(',');
 							

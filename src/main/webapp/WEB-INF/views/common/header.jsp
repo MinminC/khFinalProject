@@ -71,12 +71,12 @@ div {
 }
 
 .userImg {
-	width: 10%;
+	width: 50px;
 	height: 100%;
 }
 
 .mpLogin {
-	width: 10%;
+	width: 150px;
 	height: 100%;
 }
 
@@ -134,35 +134,26 @@ div {
 				<input type="text" class="w3-input w3-border w3-light-grey">
 				<img src="resources/img/searchBtn.PNG" class="searchBtn">
 			</div>
-			<div>
-			</div>
 			<c:choose>
 				<c:when test="${not empty loginUser}">
-					<div class="inviteAlert">
-						<i class="fa-solid fa-envelope fa-2xl"><span
-							style="font-size: 10px; color: red;">3</span></i>
-					</div>
 					<div class="userImg">
 						<i class="fa-solid fa-user fa-2xl" style="margin: auto;"></i>
 					</div>
-					<div class="mpLogin">
-						<label style="margin-top: 70px;"><p>${loginUser.userName}님 환영합니다</p></label>
-						
-						<div>
-							<a href="logout.me"
-								style="font-size: 15px; text-decoration: none; color: gray;">logout</a>
-						</div>
-						<div style="margin-bottom: 100px;">
-							<a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a>
-							<c:if test="${loginUser!=null&&loginUser.userId=='admin1234'}">
-								<a href="admin.me" style="font-size: 5px; text-decoration: none;">관리자 페이지로 이동</a>
-							</c:if>
-						</div>
+					<div class="mpLogin" style="margin-top:30px;">
+						<label style="margin:0;font-size:12px;">${loginUser.userName}님 환영합니다</label>
+						<a href="logout.me"
+							style="font-size: 15px; text-decoration: none; color: gray;">logout</a>
+						<a href="myPage.me" style="font-size: 15px; text-decoration: none; color: gray;">mypage</a>
+						<c:if test="${loginUser!=null&&loginUser.userId=='admin1234'}">
+						<a href="admin.me" style="font-size: 12px; text-decoration: none;">관리자 페이지로 이동</a>
+						</c:if>
 					</div>
 				</c:when>
 				<c:otherwise>
-					<a href="loginForm.me" class="btn btn-info"
-						style="height: 50px; margin-top: 50px; background-color: #12887A; line-height: 30px;">로그인</a>
+					<div style="padding:50px;">
+						<a href="loginForm.me" class="btn btn-info"
+							style="width:100px; height: 50px; background-color: #12887A; line-height: 30px;">로그인</a>
+					</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
