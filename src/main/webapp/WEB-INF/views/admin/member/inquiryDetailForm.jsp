@@ -104,7 +104,7 @@
     <script>
     $(function(){
 		$('#delete').click(function(){
-			location.href="delete.inq?no="+${i.inqNo};
+			location.href="deleteInquiry.ad?no="+${i.inqNo};
 		})
 		
 		$('#reply').click(function(){

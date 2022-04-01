@@ -415,6 +415,21 @@ public class MemberController {
 		}
 	}
 	
+	// 관리자 문의 삭제
+		@RequestMapping("deleteInquiry.ad")
+		public String adminDeleteInquiry(int no, Model model, String filePath, HttpSession session) {
+
+			int result = memberService.deleteInquiry(no);
+			
+			if(result > 0) {			
+				session.setAttribute("alertMsg", "문의가 삭제되었습니다");
+				return "redirect:inquiry.ad";
+			} else {
+				model.addAttribute("errorMsg", "문의 삭제가 실패했습니다.");
+				return "common/errorPage";
+			}
+		}
+	
 	// 나의 문의 수정
 	@RequestMapping("update.inq")
 	public String updateInquiry(Inquiry i, Model model, HttpSession session) {
