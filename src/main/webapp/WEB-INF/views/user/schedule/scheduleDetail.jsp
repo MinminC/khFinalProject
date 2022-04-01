@@ -204,7 +204,7 @@ textarea {
 									<div>
 										<h6 class="input_title">&nbsp;여행지 소개</h6>
 										<span class="box"> <input type="text"
-											class="inputStyle" name="scheduleTitle">
+											class="inputStyle" name="introduction">
 										</span>
 									</div>
 									<br> <input type="submit" class="btn2" value="submit" />
@@ -272,6 +272,7 @@ textarea {
 						<div id="map" style="width: 100%; height: 350px;"></div>
 						<select name="address" onchange="select_change(this);">
 							<option value="제주특별자치도 제주시 첨단로 242">전체선택</option>
+							<option value="제주특별자치도 제주시 첨단로 200">더미1</option>
 						</select>
 					</div>
 				</div>
