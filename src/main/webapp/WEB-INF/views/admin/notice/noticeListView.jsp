@@ -152,6 +152,7 @@
 					data:{'noticeNo':delList},
 					success:function(){
 						alert('삭제 성공했습니다.');
+						location.href='listAdmin.no';
 					},
 					error:function(){
 						alert('삭제 실패했습니다.');

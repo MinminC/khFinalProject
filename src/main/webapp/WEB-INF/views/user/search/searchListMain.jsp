@@ -120,7 +120,7 @@
 												<td colspan="2"><img src="${p.filePath}${p.picChange}" style="width:450px;"></td>
 												<td colspan="2">
 													<div id="map" style="width:400px;height:300px;"></div>
-													<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=01fd683c4bc8ef3abbe0ed0b33e36889"></script>
+													<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a43134914ba810cc56c07e82b246c2cf"></script>
 													<script>
 														var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 															mapOption = { 
@@ -290,7 +290,7 @@
 														//reviewsNum
 														//reviewsNum.indexof(revNo)//0번째에 append함
 														
-														var value = '<img src="resources/upfiles/review/'+list[i].changeName+'"></div>';
+														var value = '<img src="'+list[i].changeName+'"></div>';
 
 														$('#review-list .search-one').eq(reviewsNum.indexOf(list[i].revNo)).find('.review-image').append(value);
 													}
